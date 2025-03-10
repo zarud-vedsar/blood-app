@@ -2,8 +2,7 @@ import React, { Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  Navigate,
+  Route
 } from "react-router-dom";
 const AdminRoute = lazy(() => import("./site-route/AdminRoute"));
 const DonarRoute = lazy(() => import("./site-route/DonarRoute"));
