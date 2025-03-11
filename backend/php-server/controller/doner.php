@@ -87,7 +87,12 @@ function verifyRegistrationOTP(){
     $user=$action->db->sql("SELECT id,`otp`,`otp_expiry` FROM `zuraud_doner` WHERE `id`='$id'");
     if($user){
         if($user[0]['otp'] == $otp && strtotime($user[0]['otp_expiry']) > time()){
-            $response=$action->db->update('zuraud_doner'," id=".$user[0]['id'],['reg_status'=>1,'otp'=>null,'otp_expiry'=>null]);
+            do{
+                $uniqueId= $action->custom->generateRandomUniqueId('BD');
+                $check=$action->db->sql("SELECT id FROM `zuraud_doner` WHERE `uniqueId`='$uniqueId'");
+            }while($check);
+            
+            $response=$action->db->update('zuraud_doner'," id=".$user[0]['id'],['reg_status'=>1,'otp'=>null,'otp_expiry'=>null,'uniqueId'=>$uniqueId]);
             if($response){
                 echo $action->db->json(200,"OTP verified successfully Login to Continue");
                 http_response_code(200);
