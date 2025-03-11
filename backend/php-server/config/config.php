@@ -465,15 +465,14 @@ class Database
     public function AuthendicateRequest()
     {
         $loguserid = $this->validatePostData('loguserid');
-        $login_type = $this->validatePostData('login_type');
+        // $login_type = $this->validatePostData('login_type');
         $authenticated = false;
-        if ($loguserid && $login_type) {
+        if ($loguserid ) {
             $authenticated = true;
         }
 
         return [
             'loguserid' => $loguserid,
-            'login_type' => $login_type,
             'authenticated' => $authenticated
         ];
     }
