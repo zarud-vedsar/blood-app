@@ -14,7 +14,7 @@ const ProtectedRoute = async ({ element }) => {
   if (!donar) {
     try {
       const bformData = new FormData();
-      bformData.append("data", "setlocation");
+      bformData.append("data", "fetchuserbyid");
 
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
 
