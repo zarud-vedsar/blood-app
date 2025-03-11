@@ -5,10 +5,10 @@ const DonarContext = createContext();
 
 // Provider Component
 export const DonarProvider = ({ children }) => {
-  const [Donar, setDonar] = useState(null); // Store Donar details
+  const [donar, setDonar] = useState(null); // Store Donar details
 
   return (
-    <DonarContext.Provider value={{ Donar, setDonar }}>
+    <DonarContext.Provider value={{ donar, setDonar }}>
       {children}
     </DonarContext.Provider>
   );

@@ -9,12 +9,11 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { useDonar } from "../../../site-components/Donor/ContextApi/DonarContext";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
-
-
 
 const LocationSearch = ({ setFormData }) => {
   const [query, setQuery] = useState("");
@@ -88,7 +87,12 @@ const LocationSearch = ({ setFormData }) => {
     <div>
       <div
         className="form-group basic "
-        style={{ position: "relative", display: "inline-block" , marginBottom:"0px" , paddingBottom:"0px" }}
+        style={{
+          position: "relative",
+          display: "inline-block",
+          marginBottom: "0px",
+          paddingBottom: "0px",
+        }}
       >
         <label className="label">
           Search for a Location <span className="text-danger">*</span>{" "}
@@ -170,7 +174,6 @@ const LocationSearch = ({ setFormData }) => {
 
 const AddressForm = () => {
   const [formData, setFormData] = useState({
-  
     state: null,
     city: null,
     pincode: null,
@@ -181,6 +184,8 @@ const AddressForm = () => {
 
   useEffect(() => console.log(formData), [formData]);
   const navigate = useNavigate();
+  const { donar, setDonar } = useDonar();
+  console.log(donar);
 
   const [errors, setErrors] = useState({});
 
@@ -198,8 +203,6 @@ const AddressForm = () => {
         <form>
           <div className="card">
             <div className="card-body">
-              
-
               <LocationSearch setFormData={setFormData}></LocationSearch>
 
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">
@@ -215,7 +218,8 @@ const AddressForm = () => {
       </div>
 
       <style jsx>{`
-        .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+        .leaflet-touch .leaflet-control-layers,
+        .leaflet-touch .leaflet-bar {
           margin: 0px;
         }
       `}</style>

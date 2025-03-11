@@ -17,7 +17,7 @@ const OTPVerificationPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const { user, setUser } = useUser();
+  const { donar, setDonar } = useDonar();
 
 
   // Countdown Timer
@@ -56,6 +56,7 @@ const OTPVerificationPage = () => {
       console.log(response)
       if (response?.data?.status === 200) {
         navigate("/address");
+        setDonar(response?.data?.data)
       } else {
         toast.error("An error occurred. Please try again.");
       }
