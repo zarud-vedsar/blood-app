@@ -26,7 +26,7 @@ function register(){
 
     $termsAccepted= $action->db->setPostRequiredField('termsAccepted',"Terms and Conditions is required");
 
-    if($termsAccepted != "1"){
+    if($termsAccepted != "true"){
         echo $action->db->json(400,"Please accept terms and conditions",'termsAccepted');
         http_response_code(400);
         return;
