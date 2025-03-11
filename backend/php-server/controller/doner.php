@@ -232,3 +232,18 @@ function verifyResetPasswordOTP(){
     }
 }
 
+function newDonationReq(){
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $id=$AuthendicteRequest['loguserid'];
+    $bloodGroup= $action->db->setPostRequiredField('bloodGroup','Blood Group is required');
+    $patientName= $action->db->setPostRequiredField('patientName','Patient Name is required');
+    $units= $action->db->setPostRequiredField('units','Units is required');
+
+}
+
