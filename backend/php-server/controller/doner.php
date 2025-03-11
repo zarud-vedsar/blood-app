@@ -164,3 +164,71 @@ function fetchuserbyid(){
         return;
     }
 }
+
+function reset_password(){
+    global $action;
+    $phone= $action->db->setPostRequiredField('phone','Phone is required');
+    $password= $action->db->setPostRequiredField('password','Password is required');
+    $cpassword= $action->db->setPostRequiredField('cpassword','Confirm Password is required');
+    if($password != $cpassword){
+        echo $action->db->json(400,"Password and Confirm Password does not match",'cpassword');
+        http_response_code(400);
+        return;
+    }
+    $user=$action->db->sql("SELECT `id` FROM `zuraud_doner` WHERE `phone`='$phone' AND `reg_status`=1");
+    if($user){
+        $otp= $action->custom->generateOTP(4);
+
+        $response=$action->db->update('zuraud_doner'," id=".$user[0]['id'],['otp'=>$otp, 'otp_expiry'=>date('Y-m-d H:i:s',strtotime('+5 minutes'))]);
+        if($response){
+            echo $action->db->json(200,"OTP sent successfully",'',['id'=>$user[0]['id']]);
+            http_response_code(200);
+            return;
+        }else{
+            echo $action->db->json(500,"Internal Server Error");
+            http_response_code(500);
+            return;
+        }
+    }else{
+        echo $action->db->json(400,"Invalid User");
+        http_response_code(400);
+        return;
+    }
+}
+
+function verifyResetPasswordOTP(){
+    global $action;
+    $id= $action->db->setPostRequiredField('id','Id is required');
+    $otp= $action->db->setPostRequiredField('otp','OTP is required');
+    $password= $action->db->setPostRequiredField('password','Password is required');
+    $cpassword= $action->db->setPostRequiredField('cpassword','Confirm Password is required');
+    if($password != $cpassword){
+        echo $action->db->json(400,"Password and Confirm Password does not match",'cpassword');
+        http_response_code(400);
+        return;
+    }
+    $user=$action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`otp`,`otp_expiry` FROM `zuraud_doner` WHERE `id`='$id'");
+    if($user){
+        if($user[0]['otp'] == $otp && strtotime($user[0]['otp_expiry']) > time()){
+            $response=$action->db->update('zuraud_doner'," id=".$user[0]['id'],['password'=>sha1($password),'otp'=>null,'otp_expiry'=>null]);
+            if($response){
+                echo $action->db->json(200,"Password updated successfully Login to Continue",'',$user[0]);
+                http_response_code(200);
+                return;
+            }else{
+                echo $action->db->json(500,"Internal Server Error");
+                http_response_code(500);
+                return;
+            }
+        }else{
+            echo $action->db->json(400,"Invalid OTP");
+            http_response_code(400);
+            return;
+        }
+    }else{
+        echo $action->db->json(400,"Invalid User");
+        http_response_code(400);
+        return;
+    }
+}
+
