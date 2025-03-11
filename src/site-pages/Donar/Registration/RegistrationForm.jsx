@@ -1,5 +1,5 @@
 import React, { useState, useActionState, lazy } from "react";
-import dummyUserImage from "../../../site-components/common/assets/img/user.png";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -38,16 +38,42 @@ const RegistrationForm = () => {
     dob: "",
     gender: null,
     bloodGroup: null,
-    pinCode: "",
-    address: "",
-    city: "",
-    state: "",
-    password: "",
-    cpassword: "",
     termsAccepted: false,
   });
+  const navigate = useNavigate();
+
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    let newErrors = {};
+    if (!formData.name) newErrors.name = "Name is required";
+    if (!formData.email) newErrors.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      newErrors.email = "Invalid email address";
+    if (!formData.phone) newErrors.phone = "Phone is required";
+    else if (!/^\d{10}$/.test(formData.phone))
+      newErrors.phone = "Invalid phone number";
+    if (!formData.dob) newErrors.dob = "Date of Birth is required";
+    if (!formData.gender) newErrors.gender = "Gender is required";
+    if (!formData.bloodGroup) newErrors.bloodGroup = "Blood group is required";
+    if (!formData.termsAccepted)
+      newErrors.termsAccepted = "You must accept the terms";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const [state, formAction] = useActionState(async (prevState, formData) => {
+    navigate('/otp-verification')
+    if (!validateForm()) return prevState;
+
+    try {
+      const bformData = new FormData();
+      Object.keys(formData).forEach((key) => {
+        bformData.append(`${key}`, formData[key]);
+      });
+    } catch (error) {
+    } finally {
+    }
     console.log("Submitting Form: ", formData);
     return { success: true };
   }, {});
@@ -56,40 +82,13 @@ const RegistrationForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleCheckboxChange = (e) => {
-    setFormData({ ...formData, termsAccepted: e.target.checked });
-  };
-
   return (
     <>
-                  <HeaderWithBack title={'Personal Detail'} />
-
-      <div className="pb-5 pt-5">
-        <form className="pb-5" action={formAction}>
+      <HeaderWithBack title={"Personal Detail"} />
+      <div className="am-content">
+        <form action={formAction}>
           <div className="card">
             <div className="card-body">
-
-              {/* Image Upload */}
-              {/* <div className="form-group">
-                <div className="mx-auto am-userImageDiv">
-                  <div
-                    id="am-avtar_previiew_image"
-                    className="mx-auto"
-                    style={{ backgroundImage: `url(${dummyUserImage})` }}
-                  ></div>
-                  <label htmlFor="avatar-input" className="am-file-label">
-                    <ion-icon name="camera-outline"></ion-icon>
-                  </label>
-                  <input
-                    type="file"
-                    className="form-control am-file-input"
-                    name="avatar_user"
-                    id="avatar-input"
-                  />
-                </div>
-              </div> */}
-
-              {/* Name Input */}
               <div className="form-group basic">
                 <label className="label" htmlFor="name">
                   Name <span className="text-danger">*</span>
@@ -103,9 +102,11 @@ const RegistrationForm = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                 />
+                {errors.name && (
+                  <span className="text-danger">{errors.name}</span>
+                )}
               </div>
 
-              {/* Email Input */}
               <div className="form-group basic">
                 <label className="label" htmlFor="email">
                   Email <span className="text-danger">*</span>
@@ -119,9 +120,11 @@ const RegistrationForm = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                 />
+                {errors.email && (
+                  <span className="text-danger">{errors.email}</span>
+                )}
               </div>
 
-              {/* Phone Input */}
               <div className="form-group basic">
                 <label className="label" htmlFor="phone">
                   Phone <span className="text-danger">*</span>
@@ -135,9 +138,11 @@ const RegistrationForm = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                 />
+                {errors.phone && (
+                  <span className="text-danger">{errors.phone}</span>
+                )}
               </div>
 
-              {/* Date of Birth */}
               <div className="form-group basic">
                 <label className="label" htmlFor="dob">
                   Date Of Birth <span className="text-danger">*</span>
@@ -150,11 +155,13 @@ const RegistrationForm = () => {
                   value={formData.dob}
                   onChange={handleInputChange}
                 />
+                {errors.dob && (
+                  <span className="text-danger">{errors.dob}</span>
+                )}
               </div>
 
-              {/* Gender Select */}
               <div className="form-group basic">
-                <label className="label">Gender</label>
+                <label className="label">Gender <span className="text-danger">*</span> </label>
                 <Select
                   options={genderOptions}
                   placeholder="Select Your Gender"
@@ -164,9 +171,11 @@ const RegistrationForm = () => {
                     setFormData({ ...formData, gender: selected })
                   }
                 />
+                {errors.gender && (
+                  <span className="text-danger">{errors.gender}</span>
+                )}
               </div>
 
-              {/* Blood Group Select */}
               <div className="form-group basic">
                 <label className="label">
                   Blood Group <span className="text-danger">*</span>
@@ -180,71 +189,12 @@ const RegistrationForm = () => {
                     setFormData({ ...formData, bloodGroup: selected })
                   }
                 />
+                {errors.bloodGroup && (
+                  <span className="text-danger">{errors.bloodGroup}</span>
+                )}
               </div>
 
-              {/* Address Inputs */}
-              {/* <div className="form-group basic">
-                <label className="label" htmlFor="pinCode">
-                  Pin Code <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="number"
-                  className="form-control"
-                  name="pinCode"
-                  id="pinCode"
-                  placeholder="Enter Pin Code"
-                  value={formData.pinCode}
-                  onChange={handleInputChange}
-                />
-              </div> */}
-
-              {/* <div className="form-group basic">
-                <label className="label" htmlFor="address">
-                  Address <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="address"
-                  id="address"
-                  placeholder="Enter Address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                />
-              </div> */}
-
-              {/* <div className="form-group basic">
-                <label className="label" htmlFor="city">
-                  City <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="city"
-                  id="city"
-                  placeholder="Enter City"
-                  value={formData.city}
-                  onChange={handleInputChange}
-                />
-              </div> */}
-
-              {/* <div className="form-group basic">
-                <label className="label" htmlFor="state">
-                  State <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="state"
-                  id="state"
-                  placeholder="Enter State"
-                  value={formData.state}
-                  onChange={handleInputChange}
-                />
-              </div> */}
-
-              {/* Password Inputs */}
-              {/* <div className="form-group basic">
+              <div className="form-group basic">
                 <label className="label" htmlFor="password">
                   Password <span className="text-danger">*</span>
                 </label>
@@ -257,9 +207,9 @@ const RegistrationForm = () => {
                   value={formData.password}
                   onChange={handleInputChange}
                 />
-              </div> */}
+              </div>
 
-              {/* <div className="form-group basic">
+              <div className="form-group basic">
                 <label className="label" htmlFor="cpassword">
                   Confirm Password <span className="text-danger">*</span>
                 </label>
@@ -272,28 +222,36 @@ const RegistrationForm = () => {
                   value={formData.cpassword}
                   onChange={handleInputChange}
                 />
-              </div> */}
+              </div>
 
-              {/* Terms & Conditions Checkbox */}
               <div className="form-group basic">
                 <label className="label">
                   <input
                     type="checkbox"
-                    style={{ marginRight: "10px" }}
                     checked={formData.termsAccepted}
-                    onChange={handleCheckboxChange}
+                    onChange={() =>
+                      setFormData({
+                        ...formData,
+                        termsAccepted: !formData.termsAccepted,
+                      })
+                    }
+                    style={{ marginRight: "5px" }}
                   />
                   I agree to the{" "}
                   <a href="/terms" target="_blank">
                     Terms and Conditions
                   </a>
                 </label>
+                {errors.termsAccepted && (
+                  <span className="text-danger">{errors.termsAccepted}</span>
+                )}
               </div>
 
-              {/* Submit Button */}
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">
                 <button type="submit" className="btn btn-dark btn-block btn-lg">
-                  <span className="fontsize-normal">Save</span>
+                  <span className="fontsize-normal" disabled={state.pending}>
+                    Next
+                  </span>
                 </button>
               </div>
             </div>

@@ -4,6 +4,8 @@
 import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import  '../site-components/Donor/css/custom.css';
+import OTPverificationPage from "../site-pages/Donar/Registration/OTPverificationPage";
+import AddressForm from "../site-pages/Donar/Registration/AddressForm";
 const Login = lazy(() => import("../site-pages/Donar/Registration/Login"));
 const RegistrationForm = lazy(() => import("../site-pages/Donar/Registration/RegistrationForm"));
 const LandingPage = lazy(() => import("../site-pages/Donar/Registration/LandingPage"));
@@ -16,6 +18,8 @@ function DonorRoute() {
       <Route path="/info" element={<LandingPage />} />
       <Route path="/register" element={<RegistrationForm />} />
       <Route path="/login" element={<RegistrationForm />} />
+      <Route path="/otp-verification" element={<OTPverificationPage />} />
+      <Route path="/address" element={<AddressForm />} />
     </Routes>
     </Suspense>
   );
