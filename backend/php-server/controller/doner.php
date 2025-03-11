@@ -88,7 +88,7 @@ function verifyRegistrationOTP(){
     if($user){
         if($user[0]['otp'] == $otp && strtotime($user[0]['otp_expiry']) > time()){
             do{
-                $uniqueId= $action->custom->generateRandomUniqueId('BD');
+                $uniqueId= 'BD'.time();
                 $check=$action->db->sql("SELECT id FROM `zuraud_doner` WHERE `uniqueId`='$uniqueId'");
             }while($check);
             
@@ -111,5 +111,9 @@ function verifyRegistrationOTP(){
         echo $action->db->json(400,"Invalid User");
         http_response_code(400);
         return;
+    }
+
+    function login(){
+
     }
 }
