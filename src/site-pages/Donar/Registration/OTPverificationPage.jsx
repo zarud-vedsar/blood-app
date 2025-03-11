@@ -57,7 +57,7 @@ const OTPVerificationPage = () => {
       console.log(response)
       if (response?.data?.status === 200) {
         setDonar(response?.data?.data)
-        secureLocalStorage.setItem("uid",response?.data?.data?.id)
+        secureLocalStorage.setItem("loguserid",response?.data?.data?.id)
         setTimeout(() => {
           navigate("/address");
         }, 300);
