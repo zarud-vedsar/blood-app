@@ -117,3 +117,35 @@ function verifyRegistrationOTP(){
 
     }
 }
+
+function setlocation(){
+    // address,latitude,longitude,pincode,state,city
+
+    global $action;
+
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+
+    $address= $action->db->validatePostData('address')?: '';
+    $latitude= $action->db->validatePostData('latitude')?: '';
+    $longitude= $action->db->validatePostData('longitude')?: '';
+    $pincode= $action->db->setPostRequiredField('pincode','Pincode is required');
+    $state= $action->db->validatePostData('state')?: '';
+    $city= $action->db->validatePostData('city')?: '';
+    $id=$AuthendicteRequest['loguserid'];
+
+    $update= $action->db->update('zuraud_doner'," id=".$id,['address'=>$address,'latitude'=>$latitude,'longitude'=>$longitude,'pincode'=>$pincode,'state'=>$state,'city'=>$city]);
+    if($update){
+        echo $action->db->json(200,"Location updated successfully");
+        http_response_code(200);
+        return;
+    }else{
+        echo $action->db->json(500,"Internal Server Error");
+        http_response_code(500);
+        return;
+    }
+}
