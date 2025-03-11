@@ -1,6 +1,9 @@
+import axios from "axios";
 import React, { useState, useEffect, lazy } from "react";
 import OtpInput from "react-otp-input";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDonar } from "../../../site-components/Donor/ContextApi/DonarContext";
+import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -14,6 +17,8 @@ const OTPVerificationPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const { user, setUser } = useUser();
+
 
   // Countdown Timer
   useEffect(() => {
@@ -43,11 +48,12 @@ const OTPVerificationPage = () => {
     }
     try {
       const bformData = new FormData();
-      bformData.append("data", "ver");
+      bformData.append("data", "verifyRegistrationOTP");
       bformData.append("otp", otp);
-      bformData.append("otp", id);
+      bformData.append("id", id);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
+      console.log(response)
       if (response?.data?.status === 200) {
         navigate("/address");
       } else {
