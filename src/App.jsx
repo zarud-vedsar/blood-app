@@ -2,8 +2,7 @@ import React, { Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  Navigate,
+  Route
 } from "react-router-dom";
 import './site-components/common/assets/css/style.css';
 import './site-components/common/assets/css/ionicons.min.css';
