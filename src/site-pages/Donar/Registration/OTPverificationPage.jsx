@@ -37,13 +37,13 @@ const OTPVerificationPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (otp.length !== 6) {
-      setError("OTP must be 6 digits");
-      return;
+    if (otp.length !== 4) {
+      setError("OTP must be 4 digits");
+      return setLoading(false);
     }
     try {
       const bformData = new FormData();
-      bformData.append("data", "register");
+      bformData.append("data", "ver");
       bformData.append("otp", otp);
       bformData.append("otp", id);
 
