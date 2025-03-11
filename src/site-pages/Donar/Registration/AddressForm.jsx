@@ -10,6 +10,8 @@ import {
 import "leaflet/dist/leaflet.css";
 import { useDonar } from "../../../site-components/Donor/ContextApi/DonarContext";
 import secureLocalStorage from "react-secure-storage";
+import axios from "axios";
+import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -195,7 +197,7 @@ const AddressForm = () => {
     }
     try {
       const bformData = new FormData();
-      bformData.append("data", "");
+      bformData.append("data", "setlocation");
 
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
       
@@ -209,7 +211,7 @@ const AddressForm = () => {
 
         setDonar((prev)=>({...prev,...formData}));
         setTimeout(() => {
-          navigate("/home");
+          navigate("/dashboard");
         }, 300);
 
       } else {

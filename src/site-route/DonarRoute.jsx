@@ -5,6 +5,7 @@ import OTPverificationPage from "../site-pages/Donar/Registration/OTPverificatio
 import AddressForm from "../site-pages/Donar/Registration/AddressForm";
 import { DonarProvider } from "../site-components/Donor/ContextApi/DonarContext";
 import ProtectedRoute from "../site-pages/Donar/ProtectRoute";
+import Dashboard from "../site-pages/Donar/Dashboard";
 const Login = lazy(() => import("../site-pages/Donar/Registration/Login"));
 const RegistrationForm = lazy(() =>
   import("../site-pages/Donar/Registration/RegistrationForm")
@@ -29,6 +30,10 @@ function DonorRoute() {
           <Route
             path="/address"
             element={<ProtectedRoute element={<AddressForm />} />}
+          />
+          <Route
+            path="/dashboard"
+            element={<ProtectedRoute element={<Dashboard />} />}
           />
         </Routes>
       </Suspense>
