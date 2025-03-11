@@ -85,7 +85,10 @@ const RegistrationForm = () => {
       });
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
-        navigate(`/otp-verification/${response?.data?.data?.id}`);
+        setTimeout(() => {
+          navigate(`/otp-verification/${response?.data?.data?.id}`);
+        }, 300);
+        
       } else {
         toast.error("An error occurred. Please try again.");
       }

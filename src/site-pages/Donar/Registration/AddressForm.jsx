@@ -1,6 +1,5 @@
 import React, { useState, useActionState, lazy, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Select from "react-select";
 import {
   MapContainer,
   TileLayer,
@@ -10,7 +9,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useDonar } from "../../../site-components/Donor/ContextApi/DonarContext";
-
+import secureLocalStorage from "react-secure-storage";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -184,34 +183,77 @@ const AddressForm = () => {
 
   useEffect(() => console.log(formData), [formData]);
   const navigate = useNavigate();
+  const [loading , setLoading] = useState();
   const { donar, setDonar } = useDonar();
-  console.log(donar);
 
-  const [errors, setErrors] = useState({});
+  const handleSubmit = async(e) =>{
+    e.preventDefault();
+    setLoading(true);
+    if (!formData?.pincode) {
+      console.log("Please pick valid location")
+      return setLoading(false);
+    }
+    try {
+      const bformData = new FormData();
+      bformData.append("data", "");
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+      bformData.append("loguserid", secureLocalStorage.getItem("uid"));
+      
+      Object.keys(formData).forEach((key) => {
+        bformData.append(`${key}`, formData[key]);
+      });
 
-  const [state, formAction] = useActionState(async (prevState, formData) => {},
-  {});
+      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
+      console.log(response)
+      if (response?.data?.status === 200) {
+
+        setDonar((prev)=>({...prev,...formData}));
+        setTimeout(() => {
+          navigate("/home");
+        }, 300);
+
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
+    } catch (error) {
+      console.log(error);
+      const status = error.response?.data?.status;
+      if (status === 400 || status === 500 || status === 401) {
+        toast.error(error.response.data.msg || "A server error occurred.");
+      } else {
+        toast.error(
+          "An error occurred. Please check your connection or try again."
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <>
       <HeaderWithBack title={"Address"} />
       <div className="am-content">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="card">
             <div className="card-body">
               <LocationSearch setFormData={setFormData}></LocationSearch>
 
+
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">
-                <button type="submit" className="btn btn-dark btn-block btn-lg">
-                  <span className="fontsize-normal" disabled={state.pending}>
-                    Submit
-                  </span>
-                </button>
-              </div>
+            <button
+              type="submit"
+              className="btn btn-dark btn-block btn-lg"
+              disabled={loading}
+            >
+              {loading ? (
+                "Loading..."
+              ) : (
+                <span className="fontsize-normal"> Submit</span>
+              )}
+            </button>
+          </div>
+              
             </div>
           </div>
         </form>
