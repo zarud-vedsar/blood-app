@@ -152,7 +152,7 @@ function setlocation(){
 
 function fetchuserbyid(){
     global $action;
-    $id= $action->db->setPostRequiredField('id','Id is required');
+    $id= $action->db->setPostRequiredField('loguserid','Id is required');
     $user=$action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$id' AND `reg_status`=1");
     if($user){
         echo $action->db->json(200,"User fetched successfully",'',$user[0]);
