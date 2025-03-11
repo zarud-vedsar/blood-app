@@ -80,7 +80,7 @@ function register(){
     
 }
 
-function verifyOTP(){
+function verifyRegistrationOTP(){
     global $action;
     $id= $action->db->setPostRequiredField('id','Id is required');
     $otp= $action->db->setPostRequiredField('otp','OTP is required');
