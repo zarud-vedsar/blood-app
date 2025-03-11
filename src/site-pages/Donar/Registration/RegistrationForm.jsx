@@ -1,6 +1,8 @@
+import axios from "axios";
 import React, { useState, useActionState, lazy } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -62,21 +64,48 @@ const RegistrationForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const [state, formAction] = useActionState(async (prevState, formData) => {
-    navigate('/otp-verification')
-    if (!validateForm()) return prevState;
+  const [state, formAction, isPending] = useActionState(
+    async (prevState, formData) => {
+      if (!validateForm()) return prevState;
 
-    try {
-      const bformData = new FormData();
-      Object.keys(formData).forEach((key) => {
-        bformData.append(`${key}`, formData[key]);
-      });
-    } catch (error) {
-    } finally {
-    }
-    console.log("Submitting Form: ", formData);
-    return { success: true };
-  }, {});
+      try {
+        const bformData = new FormData();
+        Object.keys(formData).forEach((key) => {
+          bformData.append(`${key}`, formData[key]);
+        });
+        const response = await axios.post(`${PHP_API_URL}`, formData);
+        console.log(response);
+      //   if (response) {
+        
+      //   navigate("/otp-verification");
+
+      // } else if (response.data?.status === 201) {
+      //   setSeconds(60);
+      //   setResendOtp(false);
+      //   setVerified(false);
+      //   toast.success("OTP Sent");
+      // } else {
+      //   toast.error("An error occurred. Please try again.");
+      // }
+
+      } catch (error) {
+        console.log(error);
+        const status = error.response?.data?.status;
+        if (status === 400 || status === 500 || status === 401) {
+          toast.error(error.response.data.msg || "A server error occurred.");
+        } else {
+          toast.error(
+            "An error occurred. Please check your connection or try again."
+          );
+        }
+      } finally {
+      }
+      console.log("Submitting Form: ", formData);
+
+      return { success: true };
+    },
+    {}
+  );
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -161,7 +190,9 @@ const RegistrationForm = () => {
               </div>
 
               <div className="form-group basic">
-                <label className="label">Gender <span className="text-danger">*</span> </label>
+                <label className="label">
+                  Gender <span className="text-danger">*</span>{" "}
+                </label>
                 <Select
                   options={genderOptions}
                   placeholder="Select Your Gender"
@@ -246,10 +277,10 @@ const RegistrationForm = () => {
                   <span className="text-danger">{errors.termsAccepted}</span>
                 )}
               </div>
-
+              {console.log(state)}
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">
                 <button type="submit" className="btn btn-dark btn-block btn-lg">
-                  <span className="fontsize-normal" disabled={state.pending}>
+                  <span className="fontsize-normal" disabled={isPending}>
                     Next
                   </span>
                 </button>
