@@ -64,16 +64,17 @@ const RegistrationForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const [state, formAction, isPending] = useActionState(
-    async (prevState, formData) => {
+   const handleSubmit= async (e) => {
+    e.preventDefault();
       if (!validateForm()) return prevState;
 
       try {
         const bformData = new FormData();
+        bformData.append("data","register");
         Object.keys(formData).forEach((key) => {
           bformData.append(`${key}`, formData[key]);
         });
-        const response = await axios.post(`${PHP_API_URL}`, formData);
+        const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
         console.log(response);
       //   if (response) {
         
@@ -91,21 +92,20 @@ const RegistrationForm = () => {
       } catch (error) {
         console.log(error);
         const status = error.response?.data?.status;
-        if (status === 400 || status === 500 || status === 401) {
-          toast.error(error.response.data.msg || "A server error occurred.");
-        } else {
-          toast.error(
-            "An error occurred. Please check your connection or try again."
-          );
-        }
+        // if (status === 400 || status === 500 || status === 401) {
+        //   toast.error(error.response.data.msg || "A server error occurred.");
+        // } else {
+        //   toast.error(
+        //     "An error occurred. Please check your connection or try again."
+        //   );
+        // }
       } finally {
       }
       console.log("Submitting Form: ", formData);
 
       return { success: true };
-    },
-    {}
-  );
+    }
+    
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -115,7 +115,7 @@ const RegistrationForm = () => {
     <>
       <HeaderWithBack title={"Personal Detail"} />
       <div className="am-content">
-        <form action={formAction}>
+        <form onSubmit={handleSubmit}>
           <div className="card">
             <div className="card-body">
               <div className="form-group basic">
@@ -199,7 +199,7 @@ const RegistrationForm = () => {
                   isSearchable
                   value={formData.gender}
                   onChange={(selected) =>
-                    setFormData({ ...formData, gender: selected })
+                    setFormData({ ...formData, gender: selected.value })
                   }
                 />
                 {errors.gender && (
@@ -217,7 +217,7 @@ const RegistrationForm = () => {
                   isSearchable
                   value={formData.bloodGroup}
                   onChange={(selected) =>
-                    setFormData({ ...formData, bloodGroup: selected })
+                    setFormData({ ...formData, bloodGroup: selected.value })
                   }
                 />
                 {errors.bloodGroup && (
@@ -277,10 +277,9 @@ const RegistrationForm = () => {
                   <span className="text-danger">{errors.termsAccepted}</span>
                 )}
               </div>
-              {console.log(state)}
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">
                 <button type="submit" className="btn btn-dark btn-block btn-lg">
-                  <span className="fontsize-normal" disabled={isPending}>
+                  <span className="fontsize-normal" >
                     Next
                   </span>
                 </button>
