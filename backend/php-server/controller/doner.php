@@ -79,3 +79,32 @@ function register(){
     }
     
 }
+
+function verifyOTP(){
+    global $action;
+    $id= $action->db->setPostRequiredField('id','Id is required');
+    $otp= $action->db->setPostRequiredField('otp','OTP is required');
+    $user=$action->db->sql("SELECT id,`otp`,`otp_expiry` FROM `zuraud_doner` WHERE `id`='$id'");
+    if($user){
+        if($user[0]['otp'] == $otp && strtotime($user[0]['otp_expiry']) > time()){
+            $response=$action->db->update('zuraud_doner'," id=".$user[0]['id'],['reg_status'=>1,'otp'=>null,'otp_expiry'=>null]);
+            if($response){
+                echo $action->db->json(200,"OTP verified successfully Login to Continue");
+                http_response_code(200);
+                return;
+            }else{
+                echo $action->db->json(500,"Internal Server Error");
+                http_response_code(500);
+                return;
+            }
+        }else{
+            echo $action->db->json(400,"Invalid OTP");
+            http_response_code(400);
+            return;
+        }
+    }else{
+        echo $action->db->json(400,"Invalid User");
+        http_response_code(400);
+        return;
+    }
+}
