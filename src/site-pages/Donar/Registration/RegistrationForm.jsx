@@ -64,48 +64,38 @@ const RegistrationForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-   const handleSubmit= async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-      if (!validateForm()) return prevState;
+    if (!validateForm()) return prevState;
 
-      try {
-        const bformData = new FormData();
-        bformData.append("data","register");
-        Object.keys(formData).forEach((key) => {
-          bformData.append(`${key}`, formData[key]);
-        });
-        const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-        console.log(response);
-      //   if (response) {
-        
-      //   navigate("/otp-verification");
-
-      // } else if (response.data?.status === 201) {
-      //   setSeconds(60);
-      //   setResendOtp(false);
-      //   setVerified(false);
-      //   toast.success("OTP Sent");
-      // } else {
-      //   toast.error("An error occurred. Please try again.");
-      // }
-
-      } catch (error) {
-        console.log(error);
-        const status = error.response?.data?.status;
-        // if (status === 400 || status === 500 || status === 401) {
-        //   toast.error(error.response.data.msg || "A server error occurred.");
-        // } else {
-        //   toast.error(
-        //     "An error occurred. Please check your connection or try again."
-        //   );
-        // }
-      } finally {
+    try {
+      const bformData = new FormData();
+      bformData.append("data", "register");
+      Object.keys(formData).forEach((key) => {
+        bformData.append(`${key}`, formData[key]);
+      });
+      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
+      if (response?.data?.status === 200) {
+        navigate(`/otp-verification/${response?.data?.data?.id}`);
+      } else {
+        toast.error("An error occurred. Please try again.");
       }
-      console.log("Submitting Form: ", formData);
-
-      return { success: true };
+    } catch (error) {
+      console.log(error);
+      const status = error.response?.data?.status;
+      if (status === 400 || status === 500 || status === 401) {
+        toast.error(error.response.data.msg || "A server error occurred.");
+      } else {
+        toast.error(
+          "An error occurred. Please check your connection or try again."
+        );
+      }
+    } finally {
     }
-    
+    console.log("Submitting Form: ", formData);
+
+    return { success: true };
+  };
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -279,9 +269,7 @@ const RegistrationForm = () => {
               </div>
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">
                 <button type="submit" className="btn btn-dark btn-block btn-lg">
-                  <span className="fontsize-normal" >
-                    Next
-                  </span>
+                  <span className="fontsize-normal">Next</span>
                 </button>
               </div>
             </div>
