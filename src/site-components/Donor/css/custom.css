@@ -1,0 +1,48 @@
+:root {
+  --am-primary-red: #e20014;
+  --am-primary-white: rgb(255, 255, 255);
+}
+.am-userImageDiv {
+  width: 110px;
+  height: 100px;
+  position: relative;
+}
+
+#am-avtar_previiew_image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-size: 100% 100% !important;
+  background-position: center;
+}
+
+.am-file-input {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  background-color: var(--am-primary-red);
+  right: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.am-file-label {
+  display: grid;
+  place-content: center;
+  background-color: var(--am-primary-red);
+  border: none;
+  outline: none;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  right: 0;
+  font-size: 16px;
+  border-radius: 50%;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}

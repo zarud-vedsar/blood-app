@@ -4,9 +4,12 @@ const Login = lazy(() => import("../site-pages/Donar/Registration/Login"));
 
 function AdminRoute() {
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <Routes>
+
       <Route path="/" element={<Login />} />
     </Routes>
+    </Suspense>
   );
 }
 
