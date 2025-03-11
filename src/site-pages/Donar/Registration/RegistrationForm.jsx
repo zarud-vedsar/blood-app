@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useActionState, lazy } from "react";
+import React, { useState, lazy } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
@@ -38,12 +38,14 @@ const RegistrationForm = () => {
     email: "",
     phone: "",
     dob: "",
-    gender: null,
-    bloodGroup: null,
+    gender: "",
+    bloodGroup: "",
     termsAccepted: false,
+    password: "",
+    cpassword: "",
   });
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
@@ -60,13 +62,20 @@ const RegistrationForm = () => {
     if (!formData.bloodGroup) newErrors.bloodGroup = "Blood group is required";
     if (!formData.termsAccepted)
       newErrors.termsAccepted = "You must accept the terms";
+    if (!formData.password) newErrors.password = "Password is required.";
+    if (!formData.cpassword)
+      newErrors.cpassword = "Confirm password is required.";
+    if (formData.password !== formData.cpassword)
+      newErrors.cpassword = "Confirm password must be same as password.";
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return prevState;
+    setLoading(true);
+    if (!validateForm()) return setLoading(false);
 
     try {
       const bformData = new FormData();
@@ -91,10 +100,8 @@ const RegistrationForm = () => {
         );
       }
     } finally {
+      setLoading(false);
     }
-    console.log("Submitting Form: ", formData);
-
-    return { success: true };
   };
 
   const handleInputChange = (e) => {
@@ -228,6 +235,9 @@ const RegistrationForm = () => {
                   value={formData.password}
                   onChange={handleInputChange}
                 />
+                {errors.password && (
+                  <span className="text-danger">{errors.password}</span>
+                )}
               </div>
 
               <div className="form-group basic">
@@ -243,6 +253,9 @@ const RegistrationForm = () => {
                   value={formData.cpassword}
                   onChange={handleInputChange}
                 />
+                {errors.cpassword && (
+                  <span className="text-danger">{errors.cpassword}</span>
+                )}
               </div>
 
               <div className="form-group basic">
@@ -268,8 +281,16 @@ const RegistrationForm = () => {
                 )}
               </div>
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">
-                <button type="submit" className="btn btn-dark btn-block btn-lg">
-                  <span className="fontsize-normal">Next</span>
+                <button
+                  type="submit"
+                  className="btn btn-dark btn-block btn-lg"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    "Loading..."
+                  ) : (
+                    <span className="fontsize-normal">Next</span>
+                  )}
                 </button>
               </div>
             </div>

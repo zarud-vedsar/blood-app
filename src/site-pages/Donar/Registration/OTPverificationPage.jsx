@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy } from "react";
 import OtpInput from "react-otp-input";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -12,6 +12,8 @@ const OTPVerificationPage = () => {
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
 
   // Countdown Timer
   useEffect(() => {
@@ -32,14 +34,38 @@ const OTPVerificationPage = () => {
   };
 
   // Handle Submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/address')
+    setLoading(true);
     if (otp.length !== 6) {
       setError("OTP must be 6 digits");
       return;
     }
-    console.log("Verifying OTP:", otp);
+    try {
+      const bformData = new FormData();
+      bformData.append("data", "register");
+      bformData.append("otp", otp);
+      bformData.append("otp", id);
+
+      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
+      if (response?.data?.status === 200) {
+        navigate("/address");
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
+    } catch (error) {
+      console.log(error);
+      const status = error.response?.data?.status;
+      if (status === 400 || status === 500 || status === 401) {
+        toast.error(error.response.data.msg || "A server error occurred.");
+      } else {
+        toast.error(
+          "An error occurred. Please check your connection or try again."
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Handle Resend OTP
@@ -55,21 +81,23 @@ const OTPVerificationPage = () => {
     <>
       <HeaderWithBack title="OTP Verification" />
       <div className="am-content">
-        <form className="otp-form" onSubmit={handleSubmit}>
+        <form className="otp-form " onSubmit={handleSubmit}>
           <h3 className="otp-title">Enter OTP</h3>
-
-          <OtpInput
-            value={otp}
-            onChange={handleOtpChange}
-            numInputs={6}
-             inputType="number"
-            inputMode="numeric"
-            renderSeparator={<span >-</span>}
-             pattern="[0-9]*"
-            renderInput={(props) => <input {...props} className="otp-input" />}
-          />
-          {error && <span className="text-danger">{error}</span>}
-
+          <div className="d-flex justify-content-center">
+            <OtpInput
+              value={otp}
+              onChange={handleOtpChange}
+              numInputs={4}
+              inputType="number"
+              inputMode="numeric"
+              renderSeparator={<span>-</span>}
+              pattern="[0-9]*"
+              renderInput={(props) => (
+                <input {...props} className="otp-input" />
+              )}
+            />
+            {error && <span className="text-danger">{error}</span>}
+          </div>
           <div className="timer-container">
             {isResendDisabled ? (
               <span className="text-dark">Resend OTP in {timer}s</span>
@@ -85,10 +113,18 @@ const OTPVerificationPage = () => {
           </div>
 
           <div className="form-button-group transparent d-flex justify-content-center align-items-center">
-                <button type="submit" className="btn btn-dark btn-block btn-lg">
-                  Verify OTP
-                </button>
-              </div>
+            <button
+              type="submit"
+              className="btn btn-dark btn-block btn-lg"
+              disabled={loading}
+            >
+              {loading ? (
+                "Loading..."
+              ) : (
+                <span className="fontsize-normal">Verify OTP</span>
+              )}
+            </button>
+          </div>
         </form>
       </div>
       <style jsx>
@@ -106,7 +142,6 @@ const OTPVerificationPage = () => {
             padding: 30px;
             border-radius: 12px;
             text-align: center;
-            width: 350px;
           }
 
           .otp-title {
@@ -115,6 +150,7 @@ const OTPVerificationPage = () => {
           }
 
           .otp-input {
+          
             width: 35px !important;
             height: 40px;
             font-size: 24px;

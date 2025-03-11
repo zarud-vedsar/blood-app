@@ -18,7 +18,7 @@ function DonorRoute() {
       <Route path="/info" element={<LandingPage />} />
       <Route path="/register" element={<RegistrationForm />} />
       <Route path="/login" element={<RegistrationForm />} />
-      <Route path="/otp-verification" element={<OTPverificationPage />} />
+      <Route path="/otp-verification/:id" element={<OTPverificationPage />} />
       <Route path="/address" element={<AddressForm />} />
     </Routes>
     </Suspense>
