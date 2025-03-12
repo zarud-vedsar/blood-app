@@ -3,6 +3,7 @@ import React, { useState, lazy, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
+
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -136,7 +137,7 @@ const RegistrationForm = () => {
 
   return (
     <>
-      <HeaderWithBack title={"Personal Detail"} />
+      <HeaderWithBack title={"Registration"} />
       <div className="am-content">
         <form onSubmit={handleSubmit}>
           <div className="card">
@@ -311,8 +312,8 @@ const RegistrationForm = () => {
                     Terms and Conditions
                   </a>
                 </label>
-                {errors.termsAccepted && (
-                  <span className="text-danger">{errors.termsAccepted}</span>
+                {error.termsAccepted && (
+                  <span className="text-danger">{error.termsAccepted}</span>
                 )}
               </div>
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">

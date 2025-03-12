@@ -31,6 +31,11 @@ const LandingPage = () => {
             <Link className="btn rounded am-ctm-btn mt-2 " to="/register">
               Register
             </Link>
+            
+          </div>
+          <div className="mt-1">
+            Already register ? <Link to="/login"> Login</Link>
+            
           </div>
         </div>
       </div>

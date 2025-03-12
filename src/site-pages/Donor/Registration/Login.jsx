@@ -4,26 +4,30 @@ import IsDonorLoggedIn from "../IsDonorLoggedIn";
 import pwd from "../../../site-components/common/assets/img/patient-doctor.jpg";
 import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
+import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
+import secureLocalStorage from "react-secure-storage";
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ phone: "", password: "" });
-
+  const { donor, setDonor } = useDonor();
   const [error, setError] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const markError = (name, msg) => {
     setError({ name: name, msg: msg });
   };
 
-  //   useEffect(() => {
-  //     if (IsDonorLoggedIn()) {
-  //       navigate('/dashboard');
-  //     }
-  //   }, []);
+  useEffect(() => {
+    if (IsDonorLoggedIn()) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setIsSubmit(true);
+
     if (!formData.phone) {
       markError("phone", "Phone is required");
       return setIsSubmit(false);
@@ -32,20 +36,25 @@ const Login = () => {
       markError("phone", "Phone number must be exactly 10 digits");
       return setIsSubmit(false);
     }
-    if (!formData.cpassword) {
-      markError("cpassword", "Confirm password is required.");
+
+    if (!formData.password) {
+      markError("password", "Confirm password is required.");
       return setIsSubmit(false);
     }
+
     markError("", "");
 
     try {
       const bformData = new FormData();
-      bformData.append("data", "register");
+      bformData.append("data", "login");
       bformData.append("phone", formData?.phone);
       bformData.append("password", formData?.password);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
+        setDonor(response?.data?.data);
+        secureLocalStorage.setItem("loguserid", response?.data?.data?.id);
+
         setTimeout(() => {
           navigate(`/dashboard`);
         }, 300);
@@ -72,7 +81,7 @@ const Login = () => {
 
     if (name === "phone") {
       if (!/^\d{0,10}$/.test(value)) {
-        return; 
+        return;
       }
     }
 
@@ -83,8 +92,7 @@ const Login = () => {
     <>
       <div>
         <div className=" text-center id-login-top-img">
-          <img src={pwd} className="" style={{ height: "100px" }} alt="Login" />
-          <h1 className="text-white fs-14">Welcome Back!</h1>
+          <h1 className="text-dark fs-14">Welcome Back!</h1>
         </div>
 
         <div className="section mb-5 p-2">
@@ -128,7 +136,7 @@ const Login = () => {
               </div>
             </div>
 
-            <div className="form-button-group transparent d-flex justify-content-center align-items-center">
+            <div className="form-button-group transparent d-flex   flex-column justify-content-center align-items-center">
               <button
                 type="submit"
                 className="btn btn-dark btn-block btn-lg"
@@ -140,7 +148,12 @@ const Login = () => {
                   <span className="fontsize-normal">Login</span>
                 )}
               </button>
+               <div className="mt-1 mb-2">
+                          Don't have an account ? <Link to="/register"> Register</Link>
+                          
+                        </div>
             </div>
+            
           </form>
         </div>
       </div>
