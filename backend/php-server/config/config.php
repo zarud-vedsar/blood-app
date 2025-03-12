@@ -305,7 +305,7 @@ class Database
         $columns = array_keys($data);
         $placeholders = ':' . implode(', :', $columns);
         $sql = "INSERT INTO " . $table_name . " (" . implode(",", $columns) . ") VALUES (" . $placeholders . ")";
-      	$debugSql = $sql; //debugging
+      	// $debugSql = $sql; //debugging
         
         try {
             $stmt = $this->conn->prepare($sql);
@@ -319,6 +319,7 @@ class Database
             //  $debugSql = str_replace(':' . $column, $this->conn->quote($value), $debugSql);
             }
           	// print_r($debugSql);
+            // die;
             $stmt->execute();
             return $this->conn->lastInsertId();
         } catch (PDOException $e) {
