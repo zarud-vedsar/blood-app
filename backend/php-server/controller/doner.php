@@ -331,7 +331,7 @@ function fetchMyDonationReq()
         return;
     }
     $user_id = $AuthendicteRequest['loguserid'];
-    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_donation_request` WHERE `user_id`='$user_id'");
+    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city`,`status` FROM `zuraud_donation_request` WHERE `user_id`='$user_id'");
     if ($donationReq) {
         echo $action->db->json(200, "Donation Request fetched successfully", '', $donationReq);
         http_response_code(200);
