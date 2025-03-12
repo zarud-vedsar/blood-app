@@ -108,7 +108,6 @@ const RegistrationForm = () => {
         toast.error("An error occurred. Please try again.");
       }
     } catch (error) {
-      console.log(error);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
         toast.error(error.response.data.msg || "A server error occurred.");

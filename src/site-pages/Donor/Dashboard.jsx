@@ -75,8 +75,7 @@ const navigate = useNavigate();
 
                 {/* Dropdowns */}
                 {[
-                  { key: "blood request", icon: "person-outline", label: "Blood Request", links: [{ link: "/blood-donation-request/add-new", text: "New Request" }, { href: "/blood-donation-request/request-list", text: "Request List" }] },
-                  { key: "stage", icon: "car-outline", label: "Stages", links: [{ href: "./stage1.php", text: "Stage 1" }, { href: "./stage2.php", text: "Stage 2" }, { href: "./stage3.php", text: "Stage 3" }, { href: "./stage4.php", text: "Stage 4" }, { href: "./stage5.php", text: "Stage 5" }, { href: "./stage6.php", text: "Stage 6" }] },
+                  { key: "blood request", icon: "person-outline", label: "Blood Request", links: [{ link: "/blood-donation-request/add-new", text: "New Request" }, { link: "/blood-donation-request/request-list", text: "Request List" }] },
                 ].map(({ key, icon, label, links }) => (
                   <div key={key}>
                     <div className={`am-dropdown ${dropdowns[key] ? "active" : ""}`} onClick={() => toggleDropdown(key)}>

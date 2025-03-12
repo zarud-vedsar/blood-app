@@ -74,7 +74,6 @@ const AddressForm = () => {
         response?.data[0]?.Status === "Success" &&
         response?.data[0]?.PostOffice[0]?.Country === "India"
       ) {
-        console.log(response);
         setFormData((prev) => ({
           ...prev,
           state: response?.data[0]?.PostOffice[0]?.State,
@@ -87,7 +86,6 @@ const AddressForm = () => {
         toast.error("An error occurred. Please try again.");
       }
     } catch (error) {
-      console.log(error);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
         toast.error(error.response.data.msg || "A server error occurred.");
@@ -144,7 +142,6 @@ const AddressForm = () => {
       });
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
       if (response?.data?.status === 200) {
         setDonor((prev) => ({ ...prev, ...formData }));
         setTimeout(() => {
@@ -154,7 +151,6 @@ const AddressForm = () => {
         toast.error("An error occurred. Please try again.");
       }
     } catch (error) {
-      console.log(error);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
         toast.error(error.response.data.msg || "A server error occurred.");

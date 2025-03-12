@@ -8065,6 +8065,13 @@ body.dark-mode .cookies-box {
   font-size: 18px;
 }
 
+.dropdown-option{
+  position: absolute;
+  inset: 0px 0px auto auto;
+  margin: 0px;
+  transform: translate3d(-0.199997px, 36px, 0px);
+}
+
 .am-dropdown {
   cursor: pointer;
   padding: 8px 12px;
