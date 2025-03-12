@@ -62,13 +62,13 @@ const BloodRequestList = () => {
             </span>
           </button>
         </div>
-        <div className="pageTitle w-75">Employee List</div>
+        <div className="pageTitle w-75">Blood Request List</div>
         <div className="right right-0">
-          <a href="./add-employee.php">
+          <Link to="/blood-donation-request/add-new">
             <button className="btn btn-light px-0 me-1">
               <ion-icon name="add-outline"></ion-icon>
             </button>
-          </a>
+          </Link>
         </div>
       </div>
       {/* * App Header */}
@@ -84,12 +84,15 @@ const BloodRequestList = () => {
             {donationRequestList.map((request, index) => (
               <li key={index}>
                 <div className="item d-flex justify-content-between px-0">
-                  <a
-                    href={`./employee.php?staff_id=${request.staff_id}`}
+                  <Link
+                    to={`/blood-donation-request/edit/${request.id}`}
                     className="text-dark"
                   >
-                    <div className="d-flex">
-                      <div>
+                    <div className="d-flex ">
+                      <div
+                        className="d-flex justify-content-center align-items-center "
+                        style={{ marginRight: "10px" }}
+                      >
                         <div className="blood-drop">{request?.bloodGroup}</div>
                       </div>
                       <div className="in px-2">
@@ -102,11 +105,13 @@ const BloodRequestList = () => {
                           <p className="f-16 mb-0">
                             {formatDate(request?.requiredDate)}
                           </p>
-                          <p className="f-16 text-danger mb-0">Critical</p>
+                          {request?.criticalStatus===1 && (
+                            <p className="f-16 text-danger mb-0">Critical</p>
+                          )}
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </Link>
 
                   {/* Dropdown Button */}
                   <div className="d-flex align-items-center dropdown">
@@ -128,9 +133,7 @@ const BloodRequestList = () => {
                       }`}
                     >
                       <div className="dropdown-item p-0">
-                        <Link
-                          to={`/blood-donation-request/edit/${request.id}`}
-                        >
+                        <Link to={`/blood-donation-request/edit/${request.id}`}>
                           <button className="btn btn-light edit-emp">
                             <ion-icon name="create-outline"></ion-icon>
                           </button>
@@ -208,8 +211,6 @@ const BloodRequestList = () => {
             border-radius: 50%;
             opacity: 0.8;
           }
-
-          
         `}
       </style>
     </div>
