@@ -17,7 +17,7 @@ const ProtectedRoute = ({ element }) => {
 
   const isUserLoggedIn = async () => {
     if (!loguserid || isNaN(loguserid) || loguserid <= 0) {
-      return;
+      return   setLoading(false);;
     }
 
     if (donor) {
@@ -43,6 +43,8 @@ const ProtectedRoute = ({ element }) => {
         toast.error("An error occurred. Please try again.");
       }
     } catch (error) {
+      setLoading(false);
+
       console.log(error);
       toast.error("An error occurred. Please check your connection.");
     } finally {
