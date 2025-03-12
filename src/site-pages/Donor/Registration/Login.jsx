@@ -148,7 +148,7 @@ const Login = () => {
                 )}
               </button>
                <div className="mt-1 mb-2">
-                          Don't have an account ? <Link to="/register"> Register</Link>
+                          Don't have an account ? <Link to="/info"> Register</Link>
                           
                         </div>
             </div>

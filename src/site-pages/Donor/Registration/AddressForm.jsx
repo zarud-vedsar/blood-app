@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
 import secureLocalStorage from "react-secure-storage";
 import axios from "axios";
-import { PHP_API_URL } from "../../../site-components/Helper/Constant";
+import { PHP_API_URL, PINCODE_URL } from "../../../site-components/Helper/Constant";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
 
 const HeaderWithBack = lazy(() =>
@@ -23,10 +23,11 @@ const AddressForm = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setFormData({
+          setFormData((prev)=>({
+            ...prev,
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
-          });
+          }));
         },
         (err) => {
           console.log(err.message);
@@ -67,7 +68,7 @@ const AddressForm = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://api.postalpincode.in/pincode/${e.target.value}`
+        `${PINCODE_URL}/${e.target.value}`
       );
       if (
         response?.data[0]?.Status === "Success" &&

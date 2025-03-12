@@ -4,29 +4,13 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
+import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
 
-const bloodGroups = [
-  { value: "A+", label: "A+" },
-  { value: "A-", label: "A-" },
-  { value: "B+", label: "B+" },
-  { value: "B-", label: "B-" },
-  { value: "AB+", label: "AB+" },
-  { value: "AB-", label: "AB-" },
-  { value: "O+", label: "O+" },
-  { value: "O-", label: "O-" },
-  { value: "A1+", label: "A1+" },
-  { value: "A1-", label: "A1-" },
-  { value: "A2+", label: "A2+" },
-  { value: "A2-", label: "A2-" },
-  { value: "A1B+", label: "A1B+" },
-  { value: "A1B-", label: "A1B-" },
-  { value: "A2B+", label: "A2B+" },
-  { value: "A2B-", label: "A2B-" },
-];
+
 
 const genderOptions = [
   { value: "male", label: "Male" },
@@ -139,8 +123,17 @@ const RegistrationForm = () => {
   };
 
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === "phone") {
+      if (!/^\d{0,10}$/.test(value)) {
+        return;
+      }
+    }
+
+    setFormData({ ...formData, [name]: value });
   };
+
 
   return (
     <>

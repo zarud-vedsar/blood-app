@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useDonor } from "../../site-components/Donor/ContextApi/DonorContext";
 import userImg from "../../site-components/common/assets/img/user.png";
+import  secureLocalStorage  from  "react-secure-storage";
+import { Link, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const { donor } = useDonor();
   const [sidebar, setSidebar] = useState(false);
-
+const navigate = useNavigate();
   const [dropdowns, setDropdowns] = useState({
     employee: false,
     spare: false,
@@ -21,6 +23,12 @@ const Dashboard = () => {
       [key]: !prev[key],
     }));
   };
+  const logout =()=>{
+    secureLocalStorage.clear();
+    setTimeout(() => {
+      navigate('/info')
+    }, 300);
+  }
 
   return (
     <>
@@ -67,7 +75,7 @@ const Dashboard = () => {
 
                 {/* Dropdowns */}
                 {[
-                  { key: "employee", icon: "person-outline", label: "Employee", links: [{ href: "./add-employee.php", text: "New Employee" }, { href: "./employee-list.php", text: "Employees" }] },
+                  { key: "blood request", icon: "person-outline", label: "Blood Request", links: [{ link: "/blood-donation-request/add-new", text: "New Request" }, { href: "/blood-donation-request/request-list", text: "Request List" }] },
                   { key: "stage", icon: "car-outline", label: "Stages", links: [{ href: "./stage1.php", text: "Stage 1" }, { href: "./stage2.php", text: "Stage 2" }, { href: "./stage3.php", text: "Stage 3" }, { href: "./stage4.php", text: "Stage 4" }, { href: "./stage5.php", text: "Stage 5" }, { href: "./stage6.php", text: "Stage 6" }] },
                 ].map(({ key, icon, label, links }) => (
                   <div key={key}>
@@ -79,7 +87,7 @@ const Dashboard = () => {
                     </div>
                     <div className="am-dropdown-content" style={{ display: dropdowns[key] ? "block" : "none" }}>
                       {links.map((link, index) => (
-                        <a key={index} href={link.href}>{link.text}</a>
+                        <Link key={index} to={link.link}>{link.text}</Link>
                       ))}
                     </div>
                   </div>
@@ -88,7 +96,7 @@ const Dashboard = () => {
                 {/* Logout Button */}
                 <div className="d-flex align-items-center id-side-logout-wrapper">
                   <ion-icon name="log-out-outline"></ion-icon>
-                  <button className="id-side-logout-btn px-2" onClick={() => console.log("Logging out...")}>
+                  <button className="id-side-logout-btn px-2" onClick={logout}>
                     Logout
                   </button>
                 </div>
