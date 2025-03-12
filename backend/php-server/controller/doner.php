@@ -298,8 +298,8 @@ function newDonationReq()
     if (empty($id)) {
         $response = $action->db->insert('zuraud_donation_request', ['user_id' => $user_id, 'bloodGroup' => $bloodGroup, 'patientName' => $patientName, 'attendeePhone' => $attendeePhone, 'unit' => $unit, 'requiredDate' => $requiredDate, 'additionalNote' => $additionalNote, 'criticalStatus' => $criticalStatus, 'address' => $address, 'latitude' => $latitude, 'longitude' => $longitude, 'pincode' => $pincode, 'state' => $state, 'city' => $city]);
         if ($response) {
-            echo $action->db->json(200, "Donation Request added successfully");
-            http_response_code(200);
+            echo $action->db->json(201, "Donation Request added successfully");
+            http_response_code(201);
             return;
         } else {
             echo $action->db->json(500, "Internal Server Error");
