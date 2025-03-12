@@ -97,18 +97,27 @@ const BloodRequestList = () => {
                       </div>
                       <div className="in px-2">
                         <div>
-                          <header className="f-16">
-                            {request?.patientName}
-                          </header>
+                          <p className="request-header">
+                            {request?.patientName} {request?.criticalStatus === 1 && (
+                            <p className="badge badge-danger mb-0">Critical</p>
+                          )}
+                          </p>
                           <header className="f-14">{`${request.unit} Units (Blood)`}</header>
                           <footer className="f-14 ">{`${request?.city} , ${request?.state}`}</footer>
                           <p className="f-16 mb-0">
                             {formatDate(request?.requiredDate)}
                           </p>
-                          {request?.criticalStatus===1 && (
-                            <p className="f-16 text-danger mb-0">Critical</p>
+                         
+                          {request?.status === 0 && (
+                            <p className="f-16 text-warning mb-0">Pending</p>
+                          )}
+                          {request?.status === 1 && (
+                            <p className="f-16 text-success mb-0">Recevied</p>
                           )}
                         </div>
+                      </div>
+                      <div>
+                      
                       </div>
                     </div>
                   </Link>
@@ -156,7 +165,7 @@ const BloodRequestList = () => {
         </section>
       </div>
 
-      <style jsx>
+      <style>
         {`
           .image-listview > li:after {
             left: 0;
@@ -211,6 +220,11 @@ const BloodRequestList = () => {
             border-radius: 50%;
             opacity: 0.8;
           }
+            .request-header{
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom:3px;
+            }
         `}
       </style>
     </div>
