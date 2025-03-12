@@ -119,7 +119,7 @@ function login(){
     global $action;
     $phone= $action->db->setPostRequiredField('phone','Phone is required');
     $password= $action->db->setPostRequiredField('password','Password is required');
-    $user=$action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup` FROM `zuraud_doner` WHERE `phone`='$phone' AND `password`='".sha1($password)."' AND `reg_status`=1");
+    $user=$action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `phone`='$phone' AND `password`='".sha1($password)."' AND `reg_status`=1");
     if($user){
         echo $action->db->json(200,"Login successfully",'',$user[0]);
         http_response_code(200);
@@ -320,6 +320,74 @@ function fetchDonationReqforMe(){
         echo $action->db->json(200,"Donation Request fetched successfully",'',$donationReq);
         http_response_code(200);
         return;
+    }else{
+        echo $action->db->json(400,"No Donation Request found");
+        http_response_code(400);
+        return;
+    }
+}
+
+function view_MyDonationReqById(){
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $user_id=$AuthendicteRequest['loguserid'];
+    $id= $action->db->setPostRequiredField('id','Request Id is required');
+    $donationReq=$action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city`,`status`,`doner`,`request_date`,`approve_date` FROM `zuraud_donation_request` WHERE `user_id`='$user_id' AND `id`='$id'");
+    if($donationReq){
+        $potentialdoner=$action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `bloodGroup`='".$donationReq[0]['bloodGroup']."' AND (`state`='".$donationReq[0]['state']."' OR `city`='".$donationReq[0]['city']."' OR `pincode`='".$donationReq[0]['pincode']."') AND `id`!='$user_id' AND `reg_status`=1")?: [];
+        $doner=$action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='".$donationReq[0]['doner']."' AND `reg_status`=1")?: [];
+        echo $action->db->json(200,"Donation Request fetched successfully",'',['requestDetail'=>$donationReq[0],'potentialDoner'=>$potentialdoner,'doner'=>$doner]);
+        http_response_code(200);
+        return;
+    }else{
+        echo $action->db->json(400,"No Donation Request found");
+        http_response_code(400);
+        return;
+    }
+}
+
+function acceptDonationReq(){
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $user_id=$AuthendicteRequest['loguserid'];
+    $id= $action->db->setPostRequiredField('id','Request Id is required');
+    $donationReq=$action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city`,`status`,`doner`,`request_date`,`approve_date` FROM `zuraud_donation_request` WHERE `user_id`!='$user_id' AND `id`='$id'");
+    if($donationReq){
+        $doner=$action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$user_id' AND `reg_status`=1")?: [];
+        if(!$doner){
+            echo $action->db->json(400,"Invalid User");
+            http_response_code(400);
+            return;
+        }
+
+        if($donationReq[0]['pincode']==$doner[0]['pincode'] || $donationReq[0]['state']==$doner[0]['state'] || $donationReq[0]['city']==$doner[0]['city']){
+            $response=$action->db->update('zuraud_donation_request'," id=".$donationReq[0]['id'],['status'=>1,'doner'=>$user_id,'approve_date'=>date('Y-m-d H:i:s')]);
+            if($response){
+                echo $action->db->json(200,"Donation Request accepted successfully");
+                http_response_code(200);
+                return;
+            }else{
+                echo $action->db->json(500,"Internal Server Error");
+                http_response_code(500);
+                return;
+            }
+        }
+        else{
+            echo $action->db->json(400,"Donation Request not in your location");
+            http_response_code(400);
+            return;
+        }
+        
     }else{
         echo $action->db->json(400,"No Donation Request found");
         http_response_code(400);
