@@ -262,7 +262,7 @@ function verifyResetPasswordOTP()
         return;
     }
 }
- 
+
 function newDonationReq()
 {
     global $action;
@@ -280,22 +280,44 @@ function newDonationReq()
     $requiredDate = $action->db->setPostRequiredField('requiredDate', 'Required Date is required');
     $additionalNote = $action->db->validatePostData('additionalNote') ?: '';
     $criticalStatus = $action->db->setPostRequiredField('criticalStatus', 'Critical Status is required');
+    $criticalStatus = $criticalStatus == "true" ? 1 : 0;
     $address = $action->db->setPostRequiredField('address', 'Address is required');
     $latitude = $action->db->setPostRequiredField('latitude', 'Latitude is required');
     $longitude = $action->db->setPostRequiredField('longitude', 'Longitude is required');
     $pincode = $action->db->setPostRequiredField('pincode', 'Pincode is required');
     $state = $action->db->setPostRequiredField('state', 'State is required');
     $city = $action->db->setPostRequiredField('city', 'City is required');
+    $tearmsAccepted = $action->db->setPostRequiredField('termsAccepted', 'Terms and Conditions is required');
+    $id = $action->db->validatePostData('id') ?: '';
+    if ($tearmsAccepted != "true") {
+        echo $action->db->json(400, "Please accept terms and conditions", 'tearmsAccepted');
+        http_response_code(400);
+        return;
+    }
 
-    $response = $action->db->insert('zuraud_donation_request', ['user_id' => $user_id, 'bloodGroup' => $bloodGroup, 'patientName' => $patientName, 'attendeePhone' => $attendeePhone, 'unit' => $unit, 'requiredDate' => $requiredDate, 'additionalNote' => $additionalNote, 'criticalStatus' => $criticalStatus, 'address' => $address, 'latitude' => $latitude, 'longitude' => $longitude, 'pincode' => $pincode, 'state' => $state, 'city' => $city]);
-    if ($response) {
-        echo $action->db->json(200, "Donation Request added successfully");
-        http_response_code(200);
-        return;
-    } else {
-        echo $action->db->json(500, "Internal Server Error");
-        http_response_code(500);
-        return;
+    if (empty($id)) {
+        $response = $action->db->insert('zuraud_donation_request', ['user_id' => $user_id, 'bloodGroup' => $bloodGroup, 'patientName' => $patientName, 'attendeePhone' => $attendeePhone, 'unit' => $unit, 'requiredDate' => $requiredDate, 'additionalNote' => $additionalNote, 'criticalStatus' => $criticalStatus, 'address' => $address, 'latitude' => $latitude, 'longitude' => $longitude, 'pincode' => $pincode, 'state' => $state, 'city' => $city]);
+        if ($response) {
+            echo $action->db->json(200, "Donation Request added successfully");
+            http_response_code(200);
+            return;
+        } else {
+            echo $action->db->json(500, "Internal Server Error");
+            http_response_code(500);
+            return;
+        }
+    }
+    else{
+        $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['bloodGroup' => $bloodGroup, 'patientName' => $patientName, 'attendeePhone' => $attendeePhone, 'unit' => $unit, 'requiredDate' => $requiredDate, 'additionalNote' => $additionalNote, 'criticalStatus' => $criticalStatus, 'address' => $address, 'latitude' => $latitude, 'longitude' => $longitude, 'pincode' => $pincode, 'state' => $state, 'city' => $city]);
+        if ($response) {
+            echo $action->db->json(200, "Donation Request updated successfully");
+            http_response_code(200);
+            return;
+        } else {
+            echo $action->db->json(500, "Internal Server Error");
+            http_response_code(500);
+            return;
+        }
     }
 }
 
