@@ -286,7 +286,12 @@ function newDonationReq()
     $pincode = $action->db->setPostRequiredField('pincode', 'Pincode is required');
     $state = $action->db->setPostRequiredField('state', 'State is required');
     $city = $action->db->setPostRequiredField('city', 'City is required');
-
+    $tearmsAccepted = $action->db->setPostRequiredField('tearmsAccepted', 'Terms and Conditions is required');
+    if ($tearmsAccepted != "true") {
+        echo $action->db->json(400, "Please accept terms and conditions", 'tearmsAccepted');
+        http_response_code(400);
+        return;
+    }
     $response = $action->db->insert('zuraud_donation_request', ['user_id' => $user_id, 'bloodGroup' => $bloodGroup, 'patientName' => $patientName, 'attendeePhone' => $attendeePhone, 'unit' => $unit, 'requiredDate' => $requiredDate, 'additionalNote' => $additionalNote, 'criticalStatus' => $criticalStatus, 'address' => $address, 'latitude' => $latitude, 'longitude' => $longitude, 'pincode' => $pincode, 'state' => $state, 'city' => $city]);
     if ($response) {
         echo $action->db->json(200, "Donation Request added successfully");
