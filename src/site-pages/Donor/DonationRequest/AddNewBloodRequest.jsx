@@ -225,9 +225,13 @@ const AddNewBloodRequest = () => {
         bformData.append(`${key}`, formData[key]);
       });
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      if (response?.data?.status === 200) {
+      if (response?.data?.status === 201 || response?.data?.status === 200) {
         setFormData(initializeForm);
+        if(response?.data?.status === 200){
+          window.history.back();
+        }
         getLocation();
+
       } else {
         toast.error("An error occurred. Please try again.");
       }
