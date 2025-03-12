@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
-import pwd from "../../../site-components/common/assets/img/patient-doctor.jpg";
 import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";

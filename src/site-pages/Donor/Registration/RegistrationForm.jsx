@@ -3,6 +3,7 @@ import React, { useState, lazy, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
+import IsDonorLoggedIn from "../IsDonorLoggedIn";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -53,6 +54,12 @@ const RegistrationForm = () => {
   const markError = (name , msg)=>{
     setError({"name":name,"msg":msg});
   }
+
+  useEffect(() => {
+    if (IsDonorLoggedIn()) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
