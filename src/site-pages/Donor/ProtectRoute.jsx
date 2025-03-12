@@ -45,7 +45,6 @@ const ProtectedRoute = ({ element }) => {
     } catch (error) {
       setLoading(false);
 
-      console.log(error);
       toast.error("An error occurred. Please check your connection.");
     } finally {
       setLoading(false);

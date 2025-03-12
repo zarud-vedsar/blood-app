@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, lazy, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import { PHP_API_URL, PINCODE_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
@@ -10,6 +10,7 @@ const HeaderWithBack = lazy(() =>
 );
 
 const AddNewBloodRequest = () => {
+  const {id} = useParams();
   const initializeForm = {
     loguserid: secureLocalStorage.getItem("loguserid"),
     patientName: "",
@@ -57,7 +58,6 @@ const AddNewBloodRequest = () => {
         response?.data[0]?.Status === "Success" &&
         response?.data[0]?.PostOffice[0]?.Country === "India"
       ) {
-        console.log(response);
         setFormData((prev) => ({
           ...prev,
           state: response?.data[0]?.PostOffice[0]?.State,
@@ -70,7 +70,6 @@ const AddNewBloodRequest = () => {
         toast.error("An error occurred. Please try again.");
       }
     } catch (error) {
-      console.log(error);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
         toast.error(error.response.data.msg || "A server error occurred.");
@@ -104,12 +103,63 @@ const AddNewBloodRequest = () => {
       console.log("Geolocation is not supported by this browser.");
     }
   };
+ 
   useEffect(() => getLocation(), []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const bformData = new FormData();
+        bformData.append("data", "view_MyDonationReqById");
+        bformData.append("loguserid", secureLocalStorage.getItem("loguserid") || "");
+        bformData.append("id", id);
+  
+        const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
+        console.log(response?.data?.data?.requestDetail);
+  
+        if (response?.data?.status === 200) {
+          console.log(response?.data?.data?.requestDetail);
+
+          const data = response?.data?.data?.requestDetail;
+          setFormData((prev)=>({
+              ...prev,
+              id:id,
+              patientName:data?.patientName,
+              attendeePhone: data?.attendeePhone,
+              unit: data?.unit,
+              requiredDate: data?.requiredDate,
+              bloodGroup: data?.bloodGroup,
+              additionalNote: data?.additionalNote,
+              criticalStatus: data?.criticalStatus === 1 ? true : false,
+              state: data?.state,
+              city: data?.city,
+              pincode: data?.pincode,
+              address: data?.address,
+             
+          }))
+          toast.error("An error occurred. Please try again.");
+        }
+      } catch (error) {
+        const status = error.response?.data?.status;
+        if ([400, 401, 500].includes(status)) {
+          toast.error(error.response?.data?.msg || "A server error occurred.");
+        } else {
+          toast.error("An error occurred. Please check your connection or try again.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchData(); // Call the async function
+  }, [id]); // Only runs when `id` changes
+  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    console.log(formData);
 
     if (!formData.patientName) {
       markError("patientName", "Name is required");
@@ -175,14 +225,17 @@ const AddNewBloodRequest = () => {
         bformData.append(`${key}`, formData[key]);
       });
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      if (response?.data?.status === 200) {
+      if (response?.data?.status === 201 || response?.data?.status === 200) {
         setFormData(initializeForm);
+        if(response?.data?.status === 200){
+          window.history.back();
+        }
         getLocation();
+
       } else {
         toast.error("An error occurred. Please try again.");
       }
     } catch (error) {
-      console.log(error);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
         toast.error(error.response.data.msg || "A server error occurred.");
@@ -439,8 +492,8 @@ const AddNewBloodRequest = () => {
                     Terms and Conditions
                   </a>
                 </label>
-                {error.termsAccepted && (
-                  <span className="text-danger">{error.termsAccepted}</span>
+                {error.name === "termsAccepted"&& (
+                  <span className="text-danger">{error.msg}</span>
                 )}
               </div>
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">

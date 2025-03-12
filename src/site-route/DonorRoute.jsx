@@ -42,6 +42,10 @@ function DonorRoute() {
             element={<ProtectedRoute element={< AddNewBloodRequest/>} />}
           />
           <Route
+            path="/blood-donation-request/edit/:id"
+            element={<ProtectedRoute element={< AddNewBloodRequest/>} />}
+          />
+          <Route
             path="/blood-donation-request/request-list"
             element={<ProtectedRoute element={< BloodRequestList/>} />}
           />

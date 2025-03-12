@@ -54,7 +54,6 @@ const OTPVerificationPage = () => {
       bformData.append("id", id);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response)
       if (response?.data?.status === 200) {
         setDonor(response?.data?.data)
         secureLocalStorage.setItem("loguserid",response?.data?.data?.id)
@@ -65,7 +64,6 @@ const OTPVerificationPage = () => {
         toast.error("An error occurred. Please try again.");
       }
     } catch (error) {
-      console.log(error);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
         toast.error(error.response.data.msg || "A server error occurred.");
@@ -85,7 +83,6 @@ const OTPVerificationPage = () => {
     setIsResendDisabled(true);
     setOtp("");
     setError("");
-    console.log("Resending OTP...");
   };
 
   return (
