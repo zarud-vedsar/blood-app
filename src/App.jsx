@@ -8,14 +8,14 @@ import './site-components/common/assets/css/style.css';
 import './site-components/common/assets/css/ionicons.min.css';
 
 const AdminRoute = lazy(() => import("./site-route/AdminRoute"));
-const DonarRoute = lazy(() => import("./site-route/DonarRoute"));
+const DonorRoute = lazy(() => import("./site-route/DonorRoute"));
 
 function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/*" element={<DonarRoute />}></Route>
+          <Route path="/*" element={<DonorRoute />}></Route>
           <Route path="/admin" element={<AdminRoute />}></Route>
         </Routes>
       </Router>

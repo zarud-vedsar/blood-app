@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import pwd from "../../../site-components/common/assets/img/patient-doctor.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import IsDonorLoggedIn from "../IsDonorLoggedIn";
 const LandingPage = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (IsDonorLoggedIn()) {
+      navigate('/dashboard');
+    }
+  }, []);
+
   return (
     <>
       <div className="body">

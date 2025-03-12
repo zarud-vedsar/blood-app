@@ -1,35 +1,35 @@
 import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "../site-components/Donor/css/custom.css";
-import OTPverificationPage from "../site-pages/Donar/Registration/OTPverificationPage";
-import AddressForm from "../site-pages/Donar/Registration/AddressForm";
-import { DonarProvider } from "../site-components/Donor/ContextApi/DonarContext";
-import ProtectedRoute from "../site-pages/Donar/ProtectRoute";
-import Dashboard from "../site-pages/Donar/Dashboard";
-const Login = lazy(() => import("../site-pages/Donar/Registration/Login"));
+import OTPverificationPage from "../site-pages/Donor/Registration/OTPverificationPage";
+import AddressForm from "../site-pages/Donor/Registration/AddressForm";
+import { DonorProvider } from "../site-components/Donor/ContextApi/DonorContext";
+import ProtectedRoute from "../site-pages/Donor/ProtectRoute";
+import Dashboard from "../site-pages/Donor/Dashboard";
+const Login = lazy(() => import("../site-pages/Donor/Registration/Login"));
 const RegistrationForm = lazy(() =>
-  import("../site-pages/Donar/Registration/RegistrationForm")
+  import("../site-pages/Donor/Registration/RegistrationForm")
 );
 const LandingPage = lazy(() =>
-  import("../site-pages/Donar/Registration/LandingPage")
+  import("../site-pages/Donor/Registration/LandingPage")
 );
 
 function DonorRoute() {
   return (
-    <DonarProvider>
+    <DonorProvider>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
           <Route path="/" element={<Navigate to="info" />} />
           <Route path="/info" element={<LandingPage />} />
           <Route path="/register" element={<RegistrationForm />} />
-          <Route path="/login" element={<RegistrationForm />} />
+          <Route path="/login" element={<Login />} />
           <Route
             path="/otp-verification/:id"
             element={<OTPverificationPage />}
           />
           <Route
             path="/address"
-            element={<ProtectedRoute element={<AddressForm />} />}
+            element={<AddressForm/>}
           />
           <Route
             path="/dashboard"
@@ -37,7 +37,7 @@ function DonorRoute() {
           />
         </Routes>
       </Suspense>
-    </DonarProvider>
+    </DonorProvider>
   );
 }
 

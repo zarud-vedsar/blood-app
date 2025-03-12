@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-const Login = lazy(() => import("../site-pages/Donar/Registration/Login"));
+const Login = lazy(() => import("../site-pages/Donor/Registration/Login"));
 
 function AdminRoute() {
   return (

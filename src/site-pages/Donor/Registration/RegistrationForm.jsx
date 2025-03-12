@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, lazy } from "react";
+import React, { useState, lazy, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
@@ -44,38 +44,62 @@ const RegistrationForm = () => {
     password: "",
     cpassword: "",
   });
+
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [error, setError] = useState({});
 
-  const validateForm = () => {
-    let newErrors = {};
-    if (!formData.name) newErrors.name = "Name is required";
-    if (!formData.email) newErrors.email = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-      newErrors.email = "Invalid email address";
-    if (!formData.phone) newErrors.phone = "Phone is required";
-    else if (!/^\d{10}$/.test(formData.phone))
-      newErrors.phone = "Invalid phone number";
-    if (!formData.dob) newErrors.dob = "Date of Birth is required";
-    if (!formData.gender) newErrors.gender = "Gender is required";
-    if (!formData.bloodGroup) newErrors.bloodGroup = "Blood group is required";
-    if (!formData.termsAccepted)
-      newErrors.termsAccepted = "You must accept the terms";
-    if (!formData.password) newErrors.password = "Password is required.";
-    if (!formData.cpassword)
-      newErrors.cpassword = "Confirm password is required.";
-    if (formData.password !== formData.cpassword)
-      newErrors.cpassword = "Confirm password must be same as password.";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const markError = (name , msg)=>{
+    setError({"name":name,"msg":msg});
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    if (!validateForm()) return setLoading(false);
+    setIsSubmit(true);
+    if (!formData.name)
+      {
+        markError("name","Name is required");
+        return setIsSubmit(false);
+      } 
+      
+    if (!formData.email) {
+      markError("email" , "Email is required");
+      return setIsSubmit(false);
+    }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)){
+        markError("email" , "Invalid email address");
+        return setIsSubmit(false);
+      }
+        if (!formData.phone){ markError("phone" , "Phone is required");
+          return setIsSubmit(false);
+        };
+        if (!/^\d{10}$/.test(formData.phone)) {
+          markError("phone", "Phone number must be exactly 10 digits");
+          return setIsSubmit(false);
+        }
+        if (!formData.dob){ markError("dob", "Date of Birth is required") ;
+          return setIsSubmit(false);
+        };
+        if (!formData.gender) { markError("gender", "Gender is required");
+          return setIsSubmit(false);
+        };
+        if (!formData.bloodGroup) {markError("bloodGroup" , "Blood group is required");
+          return setIsSubmit(false);
+        };
+        if (!formData.termsAccepted){
+          markError("termsAccepted" , "You must accept the terms");
+          return setIsSubmit(false);};
+          if (!formData.password){ markError("password" , "Password is required.");
+            return setIsSubmit(false);
+          };
+          if (!formData.cpassword){
+            markError("cpassword" , "Confirm password is required.");
+            return setIsSubmit(false);};
+            
+    if (formData.password !== formData.cpassword){
+      markError("cpassword" , "Confirm password must be same as password.");
+      return setIsSubmit(false);}; 
+      markError("",'')
 
     try {
       const bformData = new FormData();
@@ -88,7 +112,6 @@ const RegistrationForm = () => {
         setTimeout(() => {
           navigate(`/otp-verification/${response?.data?.data?.id}`);
         }, 300);
-        
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -103,7 +126,7 @@ const RegistrationForm = () => {
         );
       }
     } finally {
-      setLoading(false);
+      setIsSubmit(false);
     }
   };
 
@@ -131,8 +154,8 @@ const RegistrationForm = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                 />
-                {errors.name && (
-                  <span className="text-danger">{errors.name}</span>
+                {error.name === "name" && (
+                  <span className="text-danger">{error.msg}</span>
                 )}
               </div>
 
@@ -149,8 +172,8 @@ const RegistrationForm = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                 />
-                {errors.email && (
-                  <span className="text-danger">{errors.email}</span>
+                {error.name ==="email" && (
+                  <span className="text-danger">{error.msg}</span>
                 )}
               </div>
 
@@ -167,8 +190,8 @@ const RegistrationForm = () => {
                   value={formData.phone}
                   onChange={handleInputChange}
                 />
-                {errors.phone && (
-                  <span className="text-danger">{errors.phone}</span>
+                {error.name === "phone" && (
+                  <span className="text-danger">{error.msg}</span>
                 )}
               </div>
 
@@ -184,8 +207,8 @@ const RegistrationForm = () => {
                   value={formData.dob}
                   onChange={handleInputChange}
                 />
-                {errors.dob && (
-                  <span className="text-danger">{errors.dob}</span>
+                {error.name === "dob" && (
+                  <span className="text-danger">{error.msg}</span>
                 )}
               </div>
 
@@ -197,13 +220,18 @@ const RegistrationForm = () => {
                   options={genderOptions}
                   placeholder="Select Your Gender"
                   isSearchable
-                  value={formData.gender}
+                  value={
+                    genderOptions.find(
+                      (gender) => gender.value === formData.gender
+                    ) || null
+                  }
                   onChange={(selected) =>
                     setFormData({ ...formData, gender: selected.value })
                   }
                 />
-                {errors.gender && (
-                  <span className="text-danger">{errors.gender}</span>
+
+                {error.name === "gender" && (
+                  <span className="text-danger">{error.msg}</span>
                 )}
               </div>
 
@@ -215,13 +243,17 @@ const RegistrationForm = () => {
                   options={bloodGroups}
                   placeholder="Select Blood Group"
                   isSearchable
-                  value={formData.bloodGroup}
+                  value={
+                    bloodGroups.find(
+                      (blood) => blood.value === formData.bloodGroup
+                    ) || null
+                  }
                   onChange={(selected) =>
                     setFormData({ ...formData, bloodGroup: selected.value })
                   }
                 />
-                {errors.bloodGroup && (
-                  <span className="text-danger">{errors.bloodGroup}</span>
+                {error.name === "bloodGroup" && (
+                  <span className="text-danger">{error.msg}</span>
                 )}
               </div>
 
@@ -238,8 +270,8 @@ const RegistrationForm = () => {
                   value={formData.password}
                   onChange={handleInputChange}
                 />
-                {errors.password && (
-                  <span className="text-danger">{errors.password}</span>
+                {error.name === "password" && (
+                  <span className="text-danger">{error.msg}</span>
                 )}
               </div>
 
@@ -256,8 +288,8 @@ const RegistrationForm = () => {
                   value={formData.cpassword}
                   onChange={handleInputChange}
                 />
-                {errors.cpassword && (
-                  <span className="text-danger">{errors.cpassword}</span>
+                {error.name === "cpassword" && (
+                  <span className="text-danger">{error.msg}</span>
                 )}
               </div>
 
@@ -287,10 +319,10 @@ const RegistrationForm = () => {
                 <button
                   type="submit"
                   className="btn btn-dark btn-block btn-lg"
-                  disabled={loading}
+                  disabled={isSubmit}
                 >
-                  {loading ? (
-                    "Loading..."
+                  {isSubmit ? (
+                    "Submitting..."
                   ) : (
                     <span className="fontsize-normal">Next</span>
                   )}

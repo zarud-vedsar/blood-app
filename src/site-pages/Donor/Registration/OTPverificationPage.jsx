@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect, lazy } from "react";
 import OtpInput from "react-otp-input";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDonar } from "../../../site-components/Donor/ContextApi/DonarContext";
+import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import  secureLocalStorage  from  "react-secure-storage";
 
@@ -18,7 +18,7 @@ const OTPVerificationPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const { donar, setDonar } = useDonar();
+  const { donor, setDonor } = useDonor();
 
 
   // Countdown Timer
@@ -56,7 +56,7 @@ const OTPVerificationPage = () => {
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       console.log(response)
       if (response?.data?.status === 200) {
-        setDonar(response?.data?.data)
+        setDonor(response?.data?.data)
         secureLocalStorage.setItem("loguserid",response?.data?.data?.id)
         setTimeout(() => {
           navigate("/address");
