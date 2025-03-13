@@ -8,10 +8,46 @@ import Slider from "../../../site-components/Donor/components/Slider";
 const BloodRequestList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
 
   const toggleDropdown = (index) => {
     setOpenDropdownIndex(openDropdownIndex === index ? null : index);
+  };
+
+  const deleteRequest = async (id) => {
+    setIsSubmit(true);
+    try {
+      const bformData = new FormData();
+      bformData.append("data", "deleteDonationReq");
+      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
+      bformData.append("id", id);
+
+      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
+      console.log(response);
+      setTimeout(() => {
+        window.location.reload();
+    }, 300);
+      if (response?.data?.status === 200) {
+        setTimeout(() => {
+            window.location.reload();
+        }, 300);
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
+    } catch (error) {
+      
+      const status = error.response?.data?.status;
+      if (status === 400 || status === 500 || status === 401) {
+        toast.error(error.response.data.msg || "A server error occurred.");
+      } else {
+        toast.error(
+          "An error occurred. Please check your connection or try again."
+        );
+      }
+    } finally {
+        setIsSubmit(false);
+    }
   };
 
   const fetchDonationRequestList = async () => {
@@ -70,7 +106,7 @@ const BloodRequestList = () => {
         <section className="section px-2 pt-2 pb-5 mb-5">
           {loading && <div className="loader-fetch">Loading...</div>}
           {!loading && donationRequestList.length === 0 && (
-            <p>No data found.</p>
+            <p className="text-center">No data found.</p>
           )}
 
           <ul className="listview image-listview" id="set_fecthed_data">
@@ -144,8 +180,8 @@ const BloodRequestList = () => {
                       </div>
                       <div className="dropdown-item p-0">
                         <button
-                          className="btn btn-light text-danger delete-spare"
-                          data-delid={request.staff_id}
+                        className="btn btn-light text-danger delete-spare"
+                          onClick={()=>deleteRequest(request.id)}
                         >
                           <ion-icon name="trash-outline"></ion-icon>
                         </button>
