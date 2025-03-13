@@ -355,7 +355,9 @@ function fetchDonationReqforMe()
     $user_id = $AuthendicteRequest['loguserid'];
 
     $user = $action->db->sql("SELECT `id`,`bloodGroup`,`latitude`,`longitude`, `pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$user_id' AND `reg_status`=1");
+    
     $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_donation_request` WHERE `bloodGroup`='" . $user[0]['bloodGroup'] . "' AND (`state`='" . $user[0]['state'] . "' OR `city`='" . $user[0]['city'] . "' OR `pincode`='" . $user[0]['pincode'] . "') AND `user_id`!='$user_id' AND `status`=0 AND `requiredDate` > '" . date('Y-m-d H:i:s', strtotime('-7 days')) . "'");
+   
     if ($donationReq) {
         echo $action->db->json(200, "Donation Request fetched successfully", '', $donationReq);
         http_response_code(200);

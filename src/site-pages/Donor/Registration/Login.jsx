@@ -146,6 +146,10 @@ const Login = () => {
                   <span className="fontsize-normal">Login</span>
                 )}
               </button>
+               <div className="mt-1 ">
+                          <Link to="/forget"> Forget Password </Link>
+                          
+                        </div>
                <div className="mt-1 mb-2">
                           Don't have an account ? <Link to="/info"> Register</Link>
                           

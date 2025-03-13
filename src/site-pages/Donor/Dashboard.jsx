@@ -38,10 +38,10 @@ const navigate = useNavigate();
         </div>
         <div className="right">
           <button
-            className="headerButton border d-flex justify-content-center align-items-center f-16 span-grid"
+            className="headerButton  d-flex justify-content-center align-items-center f-16 span-grid btn"
             onClick={() => setSidebar(!sidebar)}
           >
-            <ion-icon name="grid-outline"></ion-icon>
+            <ion-icon name="grid-outline" ></ion-icon>
           </button>
         </div>
       </div>
@@ -76,6 +76,7 @@ const navigate = useNavigate();
                 {/* Dropdowns */}
                 {[
                   { key: "blood request", icon: "person-outline", label: "Blood Request", links: [{ link: "/blood-donation-request/add-new", text: "New Request" }, { link: "/blood-donation-request/request-list", text: "Request List" }] },
+                  { key: "donation list", icon: "person-outline", label: "Donation Request", links: [{ link: "/blood-donation/list", text: "Donation List" }, { link: "/blood-donation/history", text: "Donation History" }] },
                 ].map(({ key, icon, label, links }) => (
                   <div key={key}>
                     <div className={`am-dropdown ${dropdowns[key] ? "active" : ""}`} onClick={() => toggleDropdown(key)}>
@@ -95,7 +96,7 @@ const navigate = useNavigate();
                 {/* Logout Button */}
                 <div className="d-flex align-items-center id-side-logout-wrapper">
                   <ion-icon name="log-out-outline"></ion-icon>
-                  <button className="id-side-logout-btn px-2" onClick={logout}>
+                  <button className="btn id-side-logout-btn px-2" onClick={logout}>
                     Logout
                   </button>
                 </div>

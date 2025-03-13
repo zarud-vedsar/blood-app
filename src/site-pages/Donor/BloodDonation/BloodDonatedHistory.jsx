@@ -2,22 +2,50 @@ import React, { useEffect, useState } from "react";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "../../../site-components/Helper/HelperFunction";
-const BloodRequestList = () => {
+const BloodDonatedHistory = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
+  const [isSubmit, setIsSubmit] = useState(false);
+    const navigate = useNavigate();
 
-  const toggleDropdown = (index) => {
-    setOpenDropdownIndex(openDropdownIndex === index ? null : index);
+  const acceptRequest = async (id) => {
+    setIsSubmit(true);
+    try {
+      const bformData = new FormData();
+      bformData.append("data", "acceptDonationReq");
+      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
+      bformData.append("id", id);
+
+      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
+      console.log(response);
+
+      if (response?.data?.status === 200) {
+        setTimeout(() => {
+            navigate("/")
+        }, 300);
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
+    } catch (error) {
+      const status = error.response?.data?.status;
+      if (status === 400 || status === 500 || status === 401) {
+        toast.error(error.response.data.msg || "A server error occurred.");
+      } else {
+        toast.error(
+          "An error occurred. Please check your connection or try again."
+        );
+      }
+    } finally {
+        setIsSubmit(false);
+    }
   };
-
   const fetchDonationRequestList = async () => {
     setLoading(true);
     try {
       const bformData = new FormData();
-      bformData.append("data", "fetchMyDonationReq");
+      bformData.append("data", "fetchDonationReqforMe");
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
@@ -98,16 +126,19 @@ const BloodRequestList = () => {
                       <div className="in px-2">
                         <div>
                           <p className="request-header">
-                            {request?.patientName} {request?.criticalStatus === 1 && (
-                            <p className="badge badge-danger mb-0">Critical</p>
-                          )}
+                            {request?.patientName}{" "}
+                            {request?.criticalStatus === 1 && (
+                              <p className="badge badge-danger mb-0">
+                                Critical
+                              </p>
+                            )}
                           </p>
                           <header className="f-14">{`${request.unit} Units (Blood)`}</header>
                           <footer className="f-14 ">{`${request?.city} , ${request?.state}`}</footer>
                           <p className="f-16 mb-0">
                             {formatDate(request?.requiredDate)}
                           </p>
-                         
+
                           {request?.status === 0 && (
                             <p className="f-16 text-warning mb-0">Pending</p>
                           )}
@@ -116,50 +147,13 @@ const BloodRequestList = () => {
                           )}
                         </div>
                       </div>
-                      <div>
-                      
-                      </div>
+                      <div></div>
                     </div>
                   </Link>
 
-                  {/* Dropdown Button */}
-                  {request.status === 0 &&
-                  <div className="d-flex align-items-center dropdown">
-                    <button
-                      data-bs-toggle="dropdown"
-                      className="ms-1"
-                      onClick={() => toggleDropdown(index)}
-                    >
-                      <ion-icon
-                        name="ellipsis-vertical-outline"
-                        className="fontsize-headingLarge mt-1"
-                      ></ion-icon>
-                    </button>
-
-                    {/* Dropdown Menu (Only Open for Selected Index) */}
-                    <div
-                      className={`dropdown-menu dropdown-menu-end w-fit p-0 dropdown-option ${
-                        openDropdownIndex === index ? "show" : ""
-                      }`}
-                    >
-                      <div className="dropdown-item p-0">
-                        <Link to={`/blood-donation-request/edit/${request.id}`}>
-                          <button className="btn btn-light edit-emp">
-                            <ion-icon name="create-outline"></ion-icon>
-                          </button>
-                        </Link>
-                      </div>
-                      <div className="dropdown-item p-0">
-                        <button
-                          className="btn btn-light text-danger delete-spare"
-                          data-delid={request.staff_id}
-                        >
-                          <ion-icon name="trash-outline"></ion-icon>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                }   
+                  <button className="btn" onClick={() => acceptRequest(request?.id)}>
+                    <ion-icon name="heart" color="danger"></ion-icon>
+                  </button>
                 </div>
               </li>
             ))}
@@ -233,4 +227,5 @@ const BloodRequestList = () => {
   );
 };
 
-export default BloodRequestList;
+export default BloodDonatedHistory;
+

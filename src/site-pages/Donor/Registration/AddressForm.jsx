@@ -4,7 +4,6 @@ import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext
 import secureLocalStorage from "react-secure-storage";
 import axios from "axios";
 import { PHP_API_URL, PINCODE_URL } from "../../../site-components/Helper/Constant";
-import IsDonorLoggedIn from "../IsDonorLoggedIn";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -49,11 +48,7 @@ const AddressForm = () => {
     setError({ name: name, msg: msg });
   };
 
-  useEffect(() => {
-    if (IsDonorLoggedIn()) {
-      navigate("/dashboard");
-    }
-  }, []);
+
 
   const searchPincode = async (e) => {
     
