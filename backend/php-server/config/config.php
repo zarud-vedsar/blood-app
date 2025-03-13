@@ -323,7 +323,7 @@ class Database
         $columns = array_keys($data);
         $placeholders = ':' . implode(', :', $columns);
         $sql = "INSERT INTO " . $table_name . " (" . implode(",", $columns) . ") VALUES (" . $placeholders . ")";
-      	// $debugSql = $sql; //debugging
+      	$debugSql = $sql; //debugging
         
         try {
             $stmt = $this->conn->prepare($sql);

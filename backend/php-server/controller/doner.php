@@ -417,7 +417,12 @@ function acceptDonationReq()
 
             $response = $action->db->update('zuraud_donation_request', " id=" . $donationReq[0]['id'], ['status' => 1, 'doner' => $user_id, 'approve_date' => date('Y-m-d H:i:s')]);
             if ($response) {
-                $insert = $action->db->insert('approved_donations', ['user_id' => $user_id, '	req_id' => $id, 'acceptance_date' => date('Y-m-d')]);
+                
+                $insert = $action->db->insert('approved_donations',
+                 ['user_id' => $user_id,
+                  'req_id' => $id, 
+                  'acceptance_date' => "'".date('Y-m-d')."'"]);
+                // die;
                 if ($insert) {
                     echo $action->db->json(200, "Donation Request accepted successfully");
                     http_response_code(200);
