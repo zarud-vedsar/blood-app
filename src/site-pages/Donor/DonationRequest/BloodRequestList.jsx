@@ -127,7 +127,7 @@ const BloodRequestList = () => {
                   <div className="d-flex align-items-center dropdown">
                     <button
                       data-bs-toggle="dropdown"
-                      className="ms-1"
+                      className="ms-1 btn"
                       onClick={() => toggleDropdown(index)}
                     >
                       <ion-icon

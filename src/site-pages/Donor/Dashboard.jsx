@@ -67,11 +67,11 @@ const navigate = useNavigate();
 
               {/* Sidebar Menu */}
               <div className="am-sidebar am-open" id="sidebar">
-                <a href="./home.php" className="am-dropdown active">
+                <Link to="/dashboard" className="am-dropdown active">
                   <span>
-                    <ion-icon name="home-outline"></ion-icon> Home
+                    <ion-icon name="home-outline"></ion-icon> Dashboard
                   </span>
-                </a>
+                </Link>
 
                 {/* Dropdowns */}
                 {[

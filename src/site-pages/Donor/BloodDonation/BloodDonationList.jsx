@@ -23,7 +23,7 @@ const BloodDonationList = () => {
 
       if (response?.data?.status === 200) {
         setTimeout(() => {
-            navigate("/")
+            navigate("/blood-donation/history")
         }, 300);
       } else {
         toast.error("An error occurred. Please try again.");

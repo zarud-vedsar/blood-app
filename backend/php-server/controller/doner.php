@@ -415,9 +415,11 @@ function acceptDonationReq()
         }
 
         if ($donationReq[0]['pincode'] == $doner[0]['pincode'] || $donationReq[0]['state'] == $doner[0]['state'] || $donationReq[0]['city'] == $doner[0]['city']) {
+            
             $response = $action->db->update('zuraud_donation_request', " id=" . $donationReq[0]['id'], ['status' => 1, 'doner' => $user_id, 'approve_date' => date('Y-m-d H:i:s')]);
             if ($response) {
                 $action->db->insert('approved_donations',['user_id'=>$user_id,'	req_id'=>$id,'acceptance_date'=>date('Y-m-d')]);
+                
                 echo $action->db->json(200, "Donation Request accepted successfully");
                 http_response_code(200);
                 return;
