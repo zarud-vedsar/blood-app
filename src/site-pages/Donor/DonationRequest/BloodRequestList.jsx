@@ -4,6 +4,7 @@ import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
 import { Link } from "react-router-dom";
 import { formatDate } from "../../../site-components/Helper/HelperFunction";
+import Slider from "../../../site-components/Donor/components/Slider";
 const BloodRequestList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -52,15 +53,7 @@ const BloodRequestList = () => {
       {/* App Header */}
       <div className="appHeader">
         <div className="left left-0">
-          <button
-            className="headerButton"
-            data-bs-toggle="modal"
-            data-bs-target="#sidebarPanel"
-          >
-            <span className="border d-flex justify-content-center align-items-center f-16 span-grid">
-              <ion-icon name="grid-outline"></ion-icon>
-            </span>
-          </button>
+          <Slider/>
         </div>
         <div className="pageTitle w-75">Blood Request List</div>
         <div className="right right-0">
@@ -99,7 +92,7 @@ const BloodRequestList = () => {
                         <div>
                           <p className="request-header">
                             {request?.patientName} {request?.criticalStatus === 1 && (
-                            <p className="badge badge-danger mb-0">Critical</p>
+                            <span className="badge badge-danger mb-0">Critical</span>
                           )}
                           </p>
                           <header className="f-14">{`${request.unit} Units (Blood)`}</header>

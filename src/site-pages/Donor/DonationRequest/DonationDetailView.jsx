@@ -280,7 +280,7 @@ const DonationDetailView = () => {
               <div class="col-auto fw-16 fw-600">
                 {bloodDonationRequestDetail?.requestDetail?.patientName}{" "}
                 {bloodDonationRequestDetail?.requestDetail?.criticalStatus && (
-                  <p className="badge badge-danger mb-0">Critical</p>
+                  <span className="badge badge-danger mb-0">Critical</span>
                 )}
               </div>
             </div>

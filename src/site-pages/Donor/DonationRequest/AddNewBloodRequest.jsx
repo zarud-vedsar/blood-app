@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useState, lazy, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import { PHP_API_URL, PINCODE_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
+import { goBack } from "../../../site-components/Helper/HelperFunction";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -262,8 +263,26 @@ const AddNewBloodRequest = () => {
  
   return (
     <>
-      <HeaderWithBack title={"Request for blood"} />
-      <div className="am-content">
+
+    
+    <div className="appHeader">
+        <div className="left left-0">
+        <a href="#" class="headerButton " onClick={goBack}>
+                <ion-icon name="arrow-back-outline" role="img" class="md hydrated"
+                    aria-label="arrow back outline"></ion-icon>
+            </a>
+        </div>
+        <div className="pageTitle w-75">Request for blood</div>
+        <div className="right ">
+          <Link to="/blood-donation-request/request-list">
+            <button className="btn btn-light px-0 me-1">
+            </button><ion-icon name="list"></ion-icon>
+          </Link>
+        </div>
+      </div>
+
+      <div id="appCapsule">
+        <section className="section px-2 pt-2 pb-5 mb-5">
         <form onSubmit={handleSubmit}>
           <div className="card">
             <div className="card-body">
@@ -512,6 +531,7 @@ const AddNewBloodRequest = () => {
             </div>
           </div>
         </form>
+        </section>
       </div>
     </>
   );
