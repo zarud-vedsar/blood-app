@@ -196,6 +196,22 @@ class Database
         }
     }
 
+    public function deleteTableRow($tableName, $rowId)
+    {
+        
+        $sql= $this->sql("DELETE FROM $tableName WHERE id = $rowId");
+        if($sql){
+            
+            return true;
+        }
+        else{
+            
+            return false;
+        }
+                
+    }
+    /*----
+
     /**
      * Delete a file if it exists.
      * 
@@ -248,6 +264,8 @@ class Database
             return false;
         }
     }
+
+   
 
     /**
      * Execute an SQL query with custom conditions (SELECT).
