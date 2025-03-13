@@ -421,7 +421,7 @@ function acceptDonationReq()
                 $insert = $action->db->insert('approved_donations',
                  ['user_id' => $user_id,
                   'req_id' => $id, 
-                  'acceptance_date' => "'".date('Y-m-d')."'"]);
+                  'acceptance_date' => date('Y-m-d')]);
                 // die;
                 if ($insert) {
                     echo $action->db->json(200, "Donation Request accepted successfully");
