@@ -199,7 +199,7 @@ class Database
     public function deleteTableRow($tableName, $rowId)
     {
         
-        $sql= $this->sql("DELETE FROM $tableName WHERE id = $rowId");
+        $sql= $this->sql("DELETE FROM $tableName WHERE id = '$rowId' ");
         if($sql){
             
             return true;
