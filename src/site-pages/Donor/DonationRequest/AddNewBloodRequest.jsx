@@ -282,7 +282,7 @@ const AddNewBloodRequest = () => {
       </div>
 
       <div id="appCapsule">
-        <section className="section px-2 pt-2 pb-5 mb-5">
+        <section className="section px-2  pb-5 mb-5">
         <form onSubmit={handleSubmit}>
           <div className="card">
             <div className="card-body">

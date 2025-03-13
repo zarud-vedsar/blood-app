@@ -266,6 +266,41 @@ const DonationDetailView = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const deleteRequest = async (id) => {
+    setIsSubmit(true);
+    try {
+      const bformData = new FormData();
+      bformData.append("data", "deleteDonationReq");
+      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
+      bformData.append("id", id);
+
+      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
+      console.log(response);
+      setTimeout(() => {
+        window.location.reload();
+    }, 300);
+      if (response?.data?.status === 200) {
+        setTimeout(() => {
+            window.location.reload();
+        }, 300);
+      } else {
+        toast.error("An error occurred. Please try again.");
+      }
+    } catch (error) {
+      
+      const status = error.response?.data?.status;
+      if (status === 400 || status === 500 || status === 401) {
+        toast.error(error.response.data.msg || "A server error occurred.");
+      } else {
+        toast.error(
+          "An error occurred. Please check your connection or try again."
+        );
+      }
+    } finally {
+        setIsSubmit(false);
+    }
+  };
+
   return (
     <>
       <HeaderWithBack title={"Request for blood"} />
@@ -358,11 +393,11 @@ const DonationDetailView = () => {
                 </Link>
 
                 <button
-                  className="btn btn-light text-danger delete-spare"
-                  data-delid={bloodDonationRequestDetail?.requestDetail?.staff_id}
-                >
-                  <ion-icon name="trash-outline"></ion-icon>
-                </button>
+                        className="btn btn-light text-danger delete-spare"
+                          onClick={()=>deleteRequest(bloodDonationRequestDetail?.requestDetail?.id)}
+                        >
+                          <ion-icon name="trash-outline"></ion-icon>
+                        </button>
               </div> : <div className="bg-success d-block w-100 p-1 text-center">
                 Received
                 </div>}
