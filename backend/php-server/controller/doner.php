@@ -306,8 +306,7 @@ function newDonationReq()
             http_response_code(500);
             return;
         }
-    }
-    else{
+    } else {
         $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['bloodGroup' => $bloodGroup, 'patientName' => $patientName, 'attendeePhone' => $attendeePhone, 'unit' => $unit, 'requiredDate' => $requiredDate, 'additionalNote' => $additionalNote, 'criticalStatus' => $criticalStatus, 'address' => $address, 'latitude' => $latitude, 'longitude' => $longitude, 'pincode' => $pincode, 'state' => $state, 'city' => $city]);
         if ($response) {
             echo $action->db->json(200, "Donation Request updated successfully");
@@ -355,9 +354,9 @@ function fetchDonationReqforMe()
     $user_id = $AuthendicteRequest['loguserid'];
 
     $user = $action->db->sql("SELECT `id`,`bloodGroup`,`latitude`,`longitude`, `pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$user_id' AND `reg_status`=1");
-    
+
     $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_donation_request` WHERE `bloodGroup`='" . $user[0]['bloodGroup'] . "' AND (`state`='" . $user[0]['state'] . "' OR `city`='" . $user[0]['city'] . "' OR `pincode`='" . $user[0]['pincode'] . "') AND `user_id`!='$user_id' AND `status`=0 AND `requiredDate` > '" . date('Y-m-d H:i:s', strtotime('-7 days')) . "'");
-   
+
     if ($donationReq) {
         echo $action->db->json(200, "Donation Request fetched successfully", '', $donationReq);
         http_response_code(200);
@@ -415,14 +414,15 @@ function acceptDonationReq()
         }
 
         if ($donationReq[0]['pincode'] == $doner[0]['pincode'] || $donationReq[0]['state'] == $doner[0]['state'] || $donationReq[0]['city'] == $doner[0]['city']) {
-            
+
             $response = $action->db->update('zuraud_donation_request', " id=" . $donationReq[0]['id'], ['status' => 1, 'doner' => $user_id, 'approve_date' => date('Y-m-d H:i:s')]);
             if ($response) {
-                $insert=$action->db->insert('approved_donations',['user_id'=>$user_id,'	req_id'=>$id,'acceptance_date'=>date('Y-m-d')]);
-                if($insert){echo $action->db->json(200, "Donation Request accepted successfully");
-                http_response_code(200);
-                return;}
-                else{
+                $insert = $action->db->insert('approved_donations', ['user_id' => $user_id, '	req_id' => $id, 'acceptance_date' => date('Y-m-d')]);
+                if ($insert) {
+                    echo $action->db->json(200, "Donation Request accepted successfully");
+                    http_response_code(200);
+                    return;
+                } else {
                     echo $action->db->json(500, "Internal Server Error");
                     http_response_code(500);
                     return;
@@ -444,7 +444,8 @@ function acceptDonationReq()
     }
 }
 
-function deleteDonationReq(){
+function deleteDonationReq()
+{
     global $action;
     $AuthendicteRequest = $action->db->AuthendicateRequest();
     if (!$AuthendicteRequest['authenticated']) {
@@ -454,7 +455,7 @@ function deleteDonationReq(){
     }
     $user_id = $AuthendicteRequest['loguserid'];
     $id = $action->db->setPostRequiredField('id', 'Request Id is required');
-   
+
     $response = $action->db->deleteTableRow('zuraud_donation_request', $id);
     if ($response) {
         echo $action->db->json(200, "Donation Request deleted successfully");
@@ -465,10 +466,10 @@ function deleteDonationReq(){
         http_response_code(500);
         return;
     }
-
 }
 
-function confirmDonation(){
+function confirmDonation()
+{
     global $action;
     $AuthendicteRequest = $action->db->AuthendicateRequest();
     if (!$AuthendicteRequest['authenticated']) {
@@ -478,7 +479,7 @@ function confirmDonation(){
     }
     $user_id = $AuthendicteRequest['loguserid'];
     $id = $action->db->setPostRequiredField('id', 'Request Id is required');
-   
+
     $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['status' => 2]);
     if ($response) {
         echo $action->db->json(200, "Donation Request confirmed successfully");
