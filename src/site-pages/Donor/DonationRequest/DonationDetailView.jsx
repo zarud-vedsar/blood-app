@@ -430,7 +430,7 @@ const DonationDetailView = () => {
                   Accepted By Someone
                 </div>
               ) : (
-                <div className="bg-success d-block w-100 p-1 text-center">
+                <div className="bg-success d-block w-100 p-1 text-center rounded">
                   Approved
                 </div>
               )}
