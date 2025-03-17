@@ -570,7 +570,7 @@ function rejectDonation_donar()
 
     $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['status' => 3]);
     if ($response) {
-        $update= $action->db->update('approved_donations', " id=" . $historyid, ['status' => 2, 'rejection_date' => date('Y-m-d'), 'rejection_reason'=>$rejection_reason]);
+        $update= $action->db->update('approved_donations', " id=" . $historyid, ['status' => 2, 'rejection_date' => date('Y-m-d'), 'rejection_reason'=>$rejection_reason,'rejected_by'=>$user_id]);
         echo $action->db->json(200, "Donation Request Rejected successfully");
         http_response_code(200);
         return;
