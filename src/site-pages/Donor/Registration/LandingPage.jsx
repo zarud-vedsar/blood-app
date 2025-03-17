@@ -28,7 +28,7 @@ const LandingPage = () => {
             </span>
           </div>
           <div>
-            <Link className="btn rounded am-ctm-btn mt-2 " to="/register">
+            <Link className="btn am-ctm-btn mt-2 " to="/register">
               Register
             </Link>
             
@@ -72,7 +72,7 @@ const LandingPage = () => {
         }
           .am-ctm-img{
  width: 80%;
-  margin-top:20%;
+  margin-top:10%;
   border-radius:60% 60% 60% 0px;
       `}</style>
     </>
