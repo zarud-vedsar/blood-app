@@ -580,3 +580,28 @@ function rejectDonation_donar()
         return;
     }
 }
+
+function view_donation_req()
+{
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $user_id = $AuthendicteRequest['loguserid'];
+    $id = $action->db->setPostRequiredField('id', 'Request Id is required');
+    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city`,`status`,`doner`,`request_date`,`approve_date` FROM `zuraud_donation_request` WHERE `user_id`='$user_id' AND `id`='$id'");
+    
+    if ($donationReq) {
+        
+        echo $action->db->json(200, "Donation Request fetched successfully", '', $donationReq);
+        http_response_code(200);
+        return;
+    } else {
+        echo $action->db->json(400, "No Donation Request found");
+        http_response_code(400);
+        return;
+    }
+}
