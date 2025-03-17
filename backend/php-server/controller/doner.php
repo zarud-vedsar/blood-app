@@ -592,7 +592,7 @@ function view_donation_req()
     }
     $user_id = $AuthendicteRequest['loguserid'];
     $id = $action->db->setPostRequiredField('id', 'Request Id is required');
-    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city`,`status`,`doner`,`request_date`,`approve_date` FROM `zuraud_donation_request` WHERE `user_id`='$user_id' AND `id`='$id'");
+    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city`,`status`,`doner`,`request_date`,`approve_date` FROM `zuraud_donation_request` WHERE  `id`='$id'");
     
     if ($donationReq) {
         
