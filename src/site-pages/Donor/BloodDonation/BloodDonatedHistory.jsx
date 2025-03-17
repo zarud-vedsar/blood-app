@@ -8,40 +8,9 @@ import Slider from "../../../site-components/Donor/components/Slider";
 const BloodDonatedHistory = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
     const navigate = useNavigate();
 
-  const acceptRequest = async (id) => {
-    setIsSubmit(true);
-    try {
-      const bformData = new FormData();
-      bformData.append("data", "acceptDonationReq");
-      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
-      bformData.append("id", id);
-
-      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
-
-      if (response?.data?.status === 200) {
-        setTimeout(() => {
-            navigate("/")
-        }, 300);
-      } else {
-        toast.error("An error occurred. Please try again.");
-      }
-    } catch (error) {
-      const status = error.response?.data?.status;
-      if (status === 400 || status === 500 || status === 401) {
-        toast.error(error.response.data.msg || "A server error occurred.");
-      } else {
-        toast.error(
-          "An error occurred. Please check your connection or try again."
-        );
-      }
-    } finally {
-        setIsSubmit(false);
-    }
-  };
+ 
   const fetchDonationRequestList = async () => {
     setLoading(true);
     try {
@@ -144,9 +113,7 @@ const BloodDonatedHistory = () => {
                     </div>
                   </Link>
 
-                  <button className="btn" onClick={() => acceptRequest(request?.id)}>
-                    <ion-icon name="heart" color="danger"></ion-icon>
-                  </button>
+                  
                 </div>
               </li>
             ))}
