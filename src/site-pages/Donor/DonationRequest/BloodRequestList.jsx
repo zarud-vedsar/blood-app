@@ -24,7 +24,7 @@ const BloodRequestList = () => {
       bformData.append("id", id);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
+      
       setTimeout(() => {
         window.location.reload();
     }, 300);
@@ -58,7 +58,7 @@ const BloodRequestList = () => {
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
+      
 
       if (response?.data?.status === 200) {
         setDonationRequestList(response.data.data || []);
@@ -141,7 +141,13 @@ const BloodRequestList = () => {
                             <p className="f-16 text-warning mb-0">Pending</p>
                           )}
                           {request?.status === 1 && (
-                            <p className="f-16 text-success mb-0">Recevied</p>
+                            <p className="f-16 text-success mb-0">Accepted</p>
+                          )}
+                          {request?.status === 2 && (
+                            <p className="f-16 text-info mb-0">Received</p>
+                          )}
+                          {request?.status === 3 && (
+                            <p className="f-16 text-danger mb-0">Rejected</p>
                           )}
                         </div>
                       </div>

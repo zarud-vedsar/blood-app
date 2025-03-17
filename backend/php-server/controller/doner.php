@@ -195,7 +195,8 @@ function fetchuserbyid()
 }
 
 function reset_password()
-{
+{   
+    
     global $action;
     $phone = $action->db->setPostRequiredField('phone', 'Phone is required');
     $password = $action->db->setPostRequiredField('password', 'Password is required');
@@ -355,7 +356,7 @@ function fetchDonationReqforMe()
 
     $user = $action->db->sql("SELECT `id`,`bloodGroup`,`latitude`,`longitude`, `pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$user_id' AND `reg_status`=1");
 
-    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_donation_request` WHERE `bloodGroup`='" . $user[0]['bloodGroup'] . "' AND (`state`='" . $user[0]['state'] . "' OR `city`='" . $user[0]['city'] . "' OR `pincode`='" . $user[0]['pincode'] . "') AND `user_id`!='$user_id' AND `status`=0 AND `requiredDate` > '" . date('Y-m-d H:i:s', strtotime('-7 days')) . "'");
+    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_donation_request` WHERE `bloodGroup`='" . $user[0]['bloodGroup'] . "' AND (`state`='" . $user[0]['state'] . "' OR `city`='" . $user[0]['city'] . "' OR `pincode`='" . $user[0]['pincode'] . "') AND `user_id`!='$user_id' AND `status` IN (0, 3) AND `requiredDate` > '" . date('Y-m-d H:i:s', strtotime('-7 days')) . "'");
 
     if ($donationReq) {
         echo $action->db->json(200, "Donation Request fetched successfully", '', $donationReq);
@@ -384,7 +385,7 @@ function view_MyDonationReqById()
     if ($donationReq) {
         // $potentialdoner = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `bloodGroup`='" . $donationReq[0]['bloodGroup'] . "' AND (`state`='" . $donationReq[0]['state'] . "' OR `city`='" . $donationReq[0]['city'] . "' OR `pincode`='" . $donationReq[0]['pincode'] . "') AND `id`!='$user_id' AND `reg_status`=1") ?: [];
         
-        $doner = $action->db->sql("SELECT d.`id`,d.`uniqueId`,d.`name`,d.`email`,d.`phone`,d.`dob`,d.`gender`,d.`bloodGroup`,d.`address`,d.`latitude`,d.`longitude`,d.`pincode`,d.`state`,d.`city`,ad.id AS historyid FROM `zuraud_doner` d JOIN `approved_donations` ad ON ad.user_id = '{$donationReq[0]['doner']}' AND ad.req_id= $id  WHERE d.`id`='" . $donationReq[0]['doner'] . "' AND d.`reg_status`=1") ?: [];
+        $doner = $action->db->sql("SELECT d.`id`,d.`uniqueId`,d.`name`,d.`email`,d.`phone`,d.`dob`,d.`gender`,d.`bloodGroup`,d.`address`,d.`latitude`,d.`longitude`,d.`pincode`,d.`state`,d.`city`,ad.id AS historyid,ad.status,ad.rejection_reason FROM `zuraud_doner` d JOIN `approved_donations` ad ON ad.user_id = '{$donationReq[0]['doner']}' AND ad.req_id= $id  WHERE d.`id`='" . $donationReq[0]['doner'] . "' AND d.`reg_status`=1 ORDER BY ad.id desc") ?: [];
         echo $action->db->json(200, "Donation Request fetched successfully", '', ['requestDetail' => $donationReq[0],  'doner' => $doner]);
         http_response_code(200);
         return;
@@ -476,6 +477,33 @@ function deleteDonationReq()
 }
 
 function confirmDonation()
+{   
+    
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $user_id = $AuthendicteRequest['loguserid'];
+    $id = $action->db->setPostRequiredField('id', 'Request Id is required');
+    $historyid= $action->db->setPostRequiredField('historyid', 'History Id is required');
+    $remark= $action->db->setPostRequiredField('remark', 'Remark is required');
+    $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['status' => 2]);
+    if ($response) {
+        $update= $action->db->update('approved_donations', " id=" . $historyid, ['status' => 1, 'approval_date' => date('Y-m-d'),'rejection_reason'=>$remark]);
+        echo $action->db->json(200, "Donation Request confirmed successfully");
+        http_response_code(200);
+        return;
+    } else {
+        echo $action->db->json(500, "Internal Server Error");
+        http_response_code(500);
+        return;
+    }
+}
+
+function rejectDonation_requestor()
 {
     global $action;
     $AuthendicteRequest = $action->db->AuthendicateRequest();
@@ -487,11 +515,62 @@ function confirmDonation()
     $user_id = $AuthendicteRequest['loguserid'];
     $id = $action->db->setPostRequiredField('id', 'Request Id is required');
     $historyid= $action->db->setPostRequiredField('historyid', 'History Id is required');
+    $rejection_reason= $action->db->setPostRequiredField('remark', 'rejection Reason is required');
 
-    $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['status' => 2]);
+    $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['status' => 3]);
     if ($response) {
-        $update= $action->db->update('approved_donations', " id=" . $historyid, ['status' => 1, 'approval_date' => date('Y-m-d')]);
-        echo $action->db->json(200, "Donation Request confirmed successfully");
+        $update= $action->db->update('approved_donations', " id=" . $historyid, ['status' => 2, 'rejection_date' => date('Y-m-d'), 'rejection_reason'=>$rejection_reason,'rejected_by'=>$user_id]);
+        echo $action->db->json(200, "Donation Request Rejected successfully");
+        http_response_code(200);
+        return;
+    } else {
+        echo $action->db->json(500, "Internal Server Error");
+        http_response_code(500);
+        return;
+    }
+}
+
+function fetchMyDonationHistory()
+{
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $user_id = $AuthendicteRequest['loguserid'];
+    $donationHistory = $action->db->sql("SELECT ad.id AS historyid,ad.req_id ad.acceptance_date,ad.rejection_date,ad.status , dr.bloodGroup,dr.patientName,dr.unit,dr.address,dr.pincode,dr.request_date,dr.city,dr.state FROM `approved_donations` ad JOIN zuraud_donation_request dr ON dr.id= ad.req_id  WHERE ad.user_id='$user_id'");
+    if ($donationHistory) {
+        echo $action->db->json(200, "Donation History fetched successfully", '', $donationHistory);
+        http_response_code(200);
+        return;
+    } else {
+        echo $action->db->json(400, "No Donation History found");
+        http_response_code(400);
+        return;
+    }
+}
+
+
+function rejectDonation_donar()
+{
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $user_id = $AuthendicteRequest['loguserid'];
+    $id = $action->db->setPostRequiredField('req_id', 'Request Id is required');
+    $historyid= $action->db->setPostRequiredField('historyid', 'History Id is required');
+    $rejection_reason= $action->db->setPostRequiredField('rejection_reason', 'rejection Reason is required');
+
+    $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['status' => 3]);
+    if ($response) {
+        $update= $action->db->update('approved_donations', " id=" . $historyid, ['status' => 2, 'rejection_date' => date('Y-m-d'), 'rejection_reason'=>$rejection_reason]);
+        echo $action->db->json(200, "Donation Request Rejected successfully");
         http_response_code(200);
         return;
     } else {
