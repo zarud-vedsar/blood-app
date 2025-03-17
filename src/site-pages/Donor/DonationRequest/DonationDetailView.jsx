@@ -382,6 +382,11 @@ const DonationDetailView = () => {
               <div class="col-auto fw-16 fw-600">{bloodDonationRequestDetail?.requestDetail?.additionalNote}</div>
             </div>
 
+            {bloodDonationRequestDetail?.doner && bloodDonationRequestDetail?.doner?.length > 0 && (
+              <>
+              </>
+            )}
+
             <div class="form-button-group transparent d-flex  align-items-center">
                 
                 {bloodDonationRequestDetail?.requestDetail?.status === 0 ? 

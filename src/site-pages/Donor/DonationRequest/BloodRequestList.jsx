@@ -141,7 +141,13 @@ const BloodRequestList = () => {
                             <p className="f-16 text-warning mb-0">Pending</p>
                           )}
                           {request?.status === 1 && (
-                            <p className="f-16 text-success mb-0">Recevied</p>
+                            <p className="f-16 text-success mb-0">Accepted</p>
+                          )}
+                          {request?.status === 2 && (
+                            <p className="f-16 text-info mb-0">Received</p>
+                          )}
+                          {request?.status === 3 && (
+                            <p className="f-16 text-danger mb-0">Rejected</p>
                           )}
                         </div>
                       </div>

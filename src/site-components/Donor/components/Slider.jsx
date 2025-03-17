@@ -9,12 +9,7 @@ const Slider = () => {
   const [sidebar, setSidebar] = useState(false);
   const navigate = useNavigate();
   const [dropdowns, setDropdowns] = useState({
-    employee: false,
-    spare: false,
-    machine: false,
-    vehicle: false,
-    service: false,
-    stage: false,
+   
   });
 
   const toggleDropdown = (key) => {
