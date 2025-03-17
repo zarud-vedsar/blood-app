@@ -8174,6 +8174,7 @@ body.dark-mode .cookies-box {
   bottom: 0;
   border-radius: 0px 0px 60px; /* Match the container's border-radius */
   z-index: -1; /* Ensure overlay is behind content */
+  background: #395f0ca1;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
