@@ -268,7 +268,7 @@ const BloodDonationDetailView = () => {
 
   return (
     <>
-      <HeaderWithBack title={"Request for blood"} />
+      <HeaderWithBack title={"Donation Detail"} />
       <div className="am-content">
         <div className="card">
           <div className="card-body">

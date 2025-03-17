@@ -91,7 +91,7 @@ const BloodRequestList = () => {
         <div className="left left-0">
           <Slider/>
         </div>
-        <div className="pageTitle w-75">Blood Request List</div>
+        <div className="pageTitle w-75">Blood Requested List</div>
         <div className="right right-0">
           <Link to="/blood-donation-request/add-new">
             <button className="btn btn-light px-0 me-1">
@@ -103,10 +103,10 @@ const BloodRequestList = () => {
       {/* * App Header */}
 
       <div id="appCapsule">
-        <section className="section px-2 pt-2 pb-5 mb-5">
+        <section className="section px-2  pb-5 mb-5">
           {loading && <div className="loader-fetch">Loading...</div>}
           {!loading && donationRequestList.length === 0 && (
-            <p className="text-center">No data found.</p>
+            <p className="text-center pt-2">No data found.</p>
           )}
 
           <ul className="listview image-listview" id="set_fecthed_data">
