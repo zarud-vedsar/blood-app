@@ -540,7 +540,8 @@ function fetchMyDonationHistory()
         return;
     }
     $user_id = $AuthendicteRequest['loguserid'];
-    $donationHistory = $action->db->sql("SELECT ad.id AS historyid,ad.req_id ad.acceptance_date,ad.rejection_date,ad.status , dr.bloodGroup,dr.patientName,dr.unit,dr.address,dr.pincode,dr.request_date,dr.city,dr.state FROM `approved_donations` ad JOIN zuraud_donation_request dr ON dr.id= ad.req_id  WHERE ad.user_id='$user_id'");
+    
+    $donationHistory = $action->db->sql("SELECT ad.id AS historyid,ad.req_id, ad.acceptance_date,ad.rejection_date,ad.status , dr.bloodGroup,dr.patientName,dr.unit,dr.address,dr.pincode,dr.request_date,dr.city,dr.state FROM `approved_donations` ad JOIN zuraud_donation_request dr ON dr.id= ad.req_id  WHERE ad.user_id='$user_id'");
     if ($donationHistory) {
         echo $action->db->json(200, "Donation History fetched successfully", '', $donationHistory);
         http_response_code(200);

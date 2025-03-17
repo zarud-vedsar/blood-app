@@ -83,7 +83,7 @@ const BloodDonationList = () => {
         <div className="left left-0">
          <Slider/>
         </div>
-        <div className="pageTitle w-75">Blood Request List</div>
+        <div className="pageTitle w-75">Donation List</div>
         <div className="right right-0">
           <Link to="/blood-donation-request/add-new">
             <button className="btn btn-light px-0 me-1">
