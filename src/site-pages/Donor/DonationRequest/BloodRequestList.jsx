@@ -24,7 +24,7 @@ const BloodRequestList = () => {
       bformData.append("id", id);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
+      
       setTimeout(() => {
         window.location.reload();
     }, 300);
@@ -58,7 +58,7 @@ const BloodRequestList = () => {
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
+      
 
       if (response?.data?.status === 200) {
         setDonationRequestList(response.data.data || []);
