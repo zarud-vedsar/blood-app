@@ -477,7 +477,8 @@ function deleteDonationReq()
 }
 
 function confirmDonation()
-{
+{   
+    
     global $action;
     $AuthendicteRequest = $action->db->AuthendicateRequest();
     if (!$AuthendicteRequest['authenticated']) {
@@ -491,7 +492,7 @@ function confirmDonation()
     $remark= $action->db->setPostRequiredField('remark', 'Remark is required');
     $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['status' => 2]);
     if ($response) {
-        $update= $action->db->update('approved_donations', " id=" . $historyid, ['status' => 1, 'approval_date' => date('Y-m-d'),'reject_reason'=>$remark]);
+        $update= $action->db->update('approved_donations', " id=" . $historyid, ['status' => 1, 'approval_date' => date('Y-m-d'),'rejection_reason'=>$remark]);
         echo $action->db->json(200, "Donation Request confirmed successfully");
         http_response_code(200);
         return;
