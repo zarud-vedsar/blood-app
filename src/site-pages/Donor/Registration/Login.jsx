@@ -37,7 +37,7 @@ const Login = () => {
     }
 
     if (!formData.password) {
-      markError("password", "Confirm password is required.");
+      markError("password", "Password is required.");
       return setIsSubmit(false);
     }
 
@@ -76,13 +76,11 @@ const Login = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     if (name === "phone") {
       if (!/^\d{0,10}$/.test(value)) {
         return;
       }
     }
-
     setFormData({ ...formData, [name]: value });
   };
 

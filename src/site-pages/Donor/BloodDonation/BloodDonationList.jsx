@@ -95,10 +95,10 @@ const BloodDonationList = () => {
       {/* * App Header */}
 
       <div id="appCapsule">
-        <section className="section px-2 pt-2 pb-5 mb-5">
+        <section className="section px-2  pb-5 mb-5">
           {loading && <div className="loader-fetch">Loading...</div>}
           {!loading && donationRequestList.length === 0 && (
-            <p>No data found.</p>
+            <p className="text-center pt-2">No data found.</p>
           )}
 
           <ul className="listview image-listview" id="set_fecthed_data">
