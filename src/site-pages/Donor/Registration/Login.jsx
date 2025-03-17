@@ -5,6 +5,7 @@ import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
 import secureLocalStorage from "react-secure-storage";
+import LogoImg from '../../../site-components/common/assets/img/blood-logo.png'
 
 const Login = () => {
   const navigate = useNavigate();
@@ -88,7 +89,8 @@ const Login = () => {
     <>
       <div>
         <div className=" text-center id-login-top-img">
-          <h1 className="text-dark fs-14">Welcome Back!</h1>
+          {/* <img src={LogoImg} alt="logo" /> */}
+          {/* <h1 className="text-white fs-14">Welcome Back!</h1> */}
         </div>
 
         <div className="section mb-5 p-2">
@@ -129,9 +131,13 @@ const Login = () => {
                     <span className="text-danger">{error.msg}</span>
                   )}
                 </div>
+
+                <div className="text-end">
+                          <Link to="/forget"> Forget Password?</Link>
+                          
+                        </div>
               </div>
             </div>
-
             <div className="form-button-group transparent d-flex   flex-column justify-content-center align-items-center">
               <button
                 type="submit"
