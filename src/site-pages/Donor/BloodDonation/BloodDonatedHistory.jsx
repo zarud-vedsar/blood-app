@@ -46,7 +46,7 @@ const BloodDonatedHistory = () => {
     setLoading(true);
     try {
       const bformData = new FormData();
-      bformData.append("data", "fetchDonationReqforMe");
+      bformData.append("data", "fetchMyDonationHistory");
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
