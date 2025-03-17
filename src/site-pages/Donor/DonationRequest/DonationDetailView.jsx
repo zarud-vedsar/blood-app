@@ -1,9 +1,7 @@
 import axios from "axios";
 import React, { useState, lazy, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import {
-  PHP_API_URL,
-} from "../../../site-components/Helper/Constant";
+import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -40,7 +38,6 @@ const DonationDetailView = () => {
         );
 
         if (response?.data?.status === 200) {
-
           const data = response?.data?.data?.requestDetail;
           setBloodDonationRequestDetail(response?.data?.data);
           setFormData((prev) => ({
@@ -77,33 +74,27 @@ const DonationDetailView = () => {
     fetchData(); // Call the async function
   }, [id]); // Only runs when `id` changes
 
-  const handleSubmitRemark = async (status,historyid) => {
+  const handleSubmitRemark = async (status, historyid) => {
     setIsSubmit(true);
 
     try {
       const bformData = new FormData();
-      if(historyid === 0 ){
-        bformData.append("data", "newDonationReq");
-
-      }
-      else{
-        bformData.append("data", "newDonationReq");
-
+      if (historyid === 0) {
+        bformData.append("data", "rejectDonation_requestor");
+      } else {
+        bformData.append("data", "confirmDonation");
       }
       bformData.append("remark", formData?.remark);
       bformData.append("loguserid", formData?.loguserid);
       bformData.append("id", bloodDonationRequestDetail?.requestDetail?.id);
-      bformData.append(
-        "historyid",
-        historyid
-      );
+      bformData.append("historyid", historyid);
       bformData.append("type", status);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 201 || response?.data?.status === 200) {
         setFormData(initializeForm);
         if (response?.data?.status === 200) {
-          window.history.reload();
+         // window.location.reload();
         }
       } else {
         toast.error("An error occurred. Please try again.");
@@ -142,7 +133,7 @@ const DonationDetailView = () => {
       bformData.append("id", id);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      
+
       setTimeout(() => {
         window.location.reload();
       }, 300);
@@ -358,7 +349,10 @@ const DonationDetailView = () => {
                         ) : (
                           <>
                             <div className="form-group basic">
-                              <label className="label f-17 fw-700" htmlFor="remark">
+                              <label
+                                className="label f-17 fw-700"
+                                htmlFor="remark"
+                              >
                                 Remark :
                               </label>
                               <textarea
@@ -369,12 +363,13 @@ const DonationDetailView = () => {
                                 value={formData.remark}
                                 onChange={handleInputChange}
                               />
-                             
                             </div>
                             <div className="d-flex gap-2">
                               <button
                                 className="btn btn-danger btn-block"
-                                onClick={() => handleSubmitRemark(0,data?.historyid)}
+                                onClick={() =>
+                                  handleSubmitRemark(0, data?.historyid)
+                                }
                               >
                                 {isSubmit ? (
                                   "Submitting..."
@@ -386,7 +381,9 @@ const DonationDetailView = () => {
                               </button>
                               <button
                                 className="btn btn-success btn-block"
-                                onClick={() => handleSubmitRemark(1,data?.historyid)}
+                                onClick={() =>
+                                  handleSubmitRemark(1, data?.historyid)
+                                }
                               >
                                 {isSubmit ? (
                                   "Submitting..."
