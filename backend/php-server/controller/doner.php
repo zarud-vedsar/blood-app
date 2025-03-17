@@ -618,7 +618,7 @@ function view_donation_history()
     }
     $user_id = $AuthendicteRequest['loguserid'];
     $id = $action->db->setPostRequiredField('id', 'Request Id is required');
-    $donationReq = $action->db->sql("SELECT ad.`acceptance_date`,ad.`rejection_reason`,ad.`rejection_date`,ad.`approval_date`,ad.`status`,ad.`rejected_by`, dr.patientName,dr.attendeePhone,dr.unit,dr.requiredDate,dr.additionalNote,dr.criticalStatus,dr.address,dr.pincode,dr.state,dr.city,dr.request_date,dr.bloodGroup FROM `approved_donations` ad JOIN zuraud_donation_request dr ON dr.id=ad.req_id  WHERE ad.id='$id'");
+    $donationReq = $action->db->sql("SELECT ad.`acceptance_date`,ad.`rejection_reason`,ad.`rejection_date`,ad.`approval_date`,ad.`status`,ad.`rejected_by`, dr.patientName,dr.attendeePhone,dr.unit,dr.requiredDate,dr.additionalNote,dr.criticalStatus,dr.address,dr.pincode,dr.state,dr.city,dr.request_date,dr.bloodGroup,dr.id AS req_id FROM `approved_donations` ad JOIN zuraud_donation_request dr ON dr.id=ad.req_id  WHERE ad.id='$id'");
     
     if ($donationReq) {
         
