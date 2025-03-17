@@ -13,6 +13,7 @@ import DonationDetailView from "../site-pages/Donor/DonationRequest/DonationDeta
 import BloodDonationList from "../site-pages/Donor/BloodDonation/BloodDonationList";
 import BloodDonatedHistory from "../site-pages/Donor/BloodDonation/BloodDonatedHistory";
 import BloodDonationDetailView from "../site-pages/Donor/BloodDonation/BloodDonationDetailView";
+import BloodDonationHistoryDetail from "../site-pages/Donor/BloodDonation/BloodDonationHistoryDetail";
 const Login = lazy(() => import("../site-pages/Donor/Registration/Login"));
 const RegistrationForm = lazy(() =>
   import("../site-pages/Donor/Registration/RegistrationForm")
@@ -66,6 +67,10 @@ function DonorRoute() {
           <Route
             path="/blood-donation/history"
             element={<ProtectedRoute element={<BloodDonatedHistory/>} />}
+          />
+          <Route
+            path="/blood-donation/history/detail/:id"
+            element={<ProtectedRoute element={<BloodDonationHistoryDetail/>} />}
           />
           <Route
             path="/blood-donation/detail-view/:id"
