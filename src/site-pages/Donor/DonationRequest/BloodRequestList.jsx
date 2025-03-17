@@ -238,7 +238,7 @@ const BloodRequestList = () => {
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0px 5px 10px rgba(150, 0, 0, 0.7);
+           box-shadow: 0px 5px 10px rgb(150 0 0 / 32%);
             font-family: Arial, sans-serif;
             font-size: 18px;
             font-weight: bold;
