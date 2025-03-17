@@ -188,7 +188,7 @@ useEffect(() => {
                       <img
                         className="img-fluid rounded-5"
                         style={{ maxWidth: "30%" }}
-                        alt="NLU Logo"
+                        alt="Logo"
                         src="https://spaceshineone.co.in/wp-content/themes/rpnlup/assets/img/rpnlup_logo_glow.png"
                       />
                       <h2 className="h4_new">

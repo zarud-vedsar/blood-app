@@ -265,7 +265,7 @@ const AddNewBloodRequest = () => {
     <>
 
     
-    <div className="appHeader">
+    <div className="appHeader d-flex justify-content-around align-items-center">
         <div className="left left-0">
         <a href="#" class="headerButton " onClick={goBack}>
                 <ion-icon name="arrow-back-outline" role="img" class="md hydrated"
@@ -276,13 +276,13 @@ const AddNewBloodRequest = () => {
         <div className="right ">
           <Link to="/blood-donation-request/request-list">
             <button className="btn btn-light px-0 me-1">
-            </button><ion-icon name="list"></ion-icon>
+            </button> <ion-icon name="list" style={{fontSize:"22px"}} ></ion-icon>
           </Link>
         </div>
       </div>
 
       <div id="appCapsule">
-        <section className="section px-2  pb-5 mb-5">
+        <section className="section px-2  pb-2 mb-1">
         <form onSubmit={handleSubmit}>
           <div className="card">
             <div className="card-body">
@@ -458,7 +458,7 @@ const AddNewBloodRequest = () => {
                 )}
               </div>
 
-              <div className="form-group basic">
+              <div className="form-group">
                 <label className="label" htmlFor="additionalNote">
                   Additional Note
                 </label>
