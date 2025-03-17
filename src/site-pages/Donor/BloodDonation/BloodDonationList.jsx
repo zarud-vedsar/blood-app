@@ -50,7 +50,6 @@ const BloodDonationList = () => {
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
 
       if (response?.data?.status === 200) {
         setDonationRequestList(response.data.data || []);
@@ -132,12 +131,7 @@ const BloodDonationList = () => {
                             {formatDate(request?.requiredDate)}
                           </p>
 
-                          {request?.status === 0 && (
-                            <p className="f-16 text-warning mb-0">Pending</p>
-                          )}
-                          {request?.status === 1 && (
-                            <p className="f-16 text-success mb-0">Recevied</p>
-                          )}
+                          
                         </div>
                       </div>
                       <div></div>
