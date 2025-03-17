@@ -79,7 +79,7 @@ const DonationDetailView = () => {
 
     try {
       const bformData = new FormData();
-      if (historyid === 0) {
+      if (status === 0) {
         bformData.append("data", "rejectDonation_requestor");
       } else {
         bformData.append("data", "confirmDonation");
@@ -267,7 +267,7 @@ const DonationDetailView = () => {
                   </div>
                   {bloodDonationRequestDetail?.doner?.map((data, index) => (
                     <div
-                      className="card"
+                      className="card mb-3"
                       key={index}
                       style={{ background: "#eaeaea" }}
                     >
@@ -335,14 +335,14 @@ const DonationDetailView = () => {
                           </div>
                         </div>
 
-                        {data?.remark ? (
+                        {data?.rejection_reason ? (
                           <>
                             <div class="row">
                               <div class="col-12">
                                 <strong class="f-17 fw-700"> Remark </strong>
                               </div>
                               <div class="col-auto fw-16 fw-600">
-                                {data?.remark}
+                                {data?.rejection_reason}
                               </div>
                             </div>
                           </>
