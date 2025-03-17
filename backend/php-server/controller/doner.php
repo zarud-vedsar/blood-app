@@ -385,7 +385,7 @@ function view_MyDonationReqById()
     if ($donationReq) {
         // $potentialdoner = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `bloodGroup`='" . $donationReq[0]['bloodGroup'] . "' AND (`state`='" . $donationReq[0]['state'] . "' OR `city`='" . $donationReq[0]['city'] . "' OR `pincode`='" . $donationReq[0]['pincode'] . "') AND `id`!='$user_id' AND `reg_status`=1") ?: [];
         
-        $doner = $action->db->sql("SELECT d.`id`,d.`uniqueId`,d.`name`,d.`email`,d.`phone`,d.`dob`,d.`gender`,d.`bloodGroup`,d.`address`,d.`latitude`,d.`longitude`,d.`pincode`,d.`state`,d.`city`,ad.id AS historyid,ad.status,ad.rejection_reason FROM `zuraud_doner` d JOIN `approved_donations` ad ON ad.user_id = '{$donationReq[0]['doner']}' AND ad.req_id= $id  WHERE d.`id`='" . $donationReq[0]['doner'] . "' AND d.`reg_status`=1") ?: [];
+        $doner = $action->db->sql("SELECT d.`id`,d.`uniqueId`,d.`name`,d.`email`,d.`phone`,d.`dob`,d.`gender`,d.`bloodGroup`,d.`address`,d.`latitude`,d.`longitude`,d.`pincode`,d.`state`,d.`city`,ad.id AS historyid,ad.status,ad.rejection_reason FROM `zuraud_doner` d JOIN `approved_donations` ad ON ad.user_id = '{$donationReq[0]['doner']}' AND ad.req_id= $id  WHERE d.`id`='" . $donationReq[0]['doner'] . "' AND d.`reg_status`=1 ORDER BY ad.id desc") ?: [];
         echo $action->db->json(200, "Donation Request fetched successfully", '', ['requestDetail' => $donationReq[0],  'doner' => $doner]);
         http_response_code(200);
         return;
