@@ -23,4 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 
-*.Constant.jsx
+src\site-components\Helper\Constant.jsx
