@@ -75,7 +75,7 @@ const BloodDonatedHistory = () => {
               <li key={index}>
                 <div className="item d-flex justify-content-between px-0">
                   <Link
-                    to={`/blood-donation-request/detail-view/${request.id}`}
+                    to={`/blood-donation/history/detail/${request.historyid}`}
                     className="text-dark"
                   >
                     <div className="d-flex ">
