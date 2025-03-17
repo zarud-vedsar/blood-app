@@ -570,7 +570,7 @@ function rejectDonation_donar()
 
     $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['status' => 3]);
     if ($response) {
-        $update= $action->db->update('approved_donations', " id=" . $historyid, ['status' => 2, 'rejection_date' => date('Y-m-d'), 'rejection_reason'=>$rejection_reason]);
+        $update= $action->db->update('approved_donations', " id=" . $historyid, ['status' => 2, 'rejection_date' => date('Y-m-d'), 'rejection_reason'=>$rejection_reason,'rejected_by'=>$user_id]);
         echo $action->db->json(200, "Donation Request Rejected successfully");
         http_response_code(200);
         return;
@@ -597,6 +597,32 @@ function view_donation_req()
     if ($donationReq) {
         
         echo $action->db->json(200, "Donation Request fetched successfully", '', $donationReq);
+        http_response_code(200);
+        return;
+    } else {
+        echo $action->db->json(400, "No Donation Request found");
+        http_response_code(400);
+        return;
+    }
+}
+
+
+function view_donation_history()
+{
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $user_id = $AuthendicteRequest['loguserid'];
+    $id = $action->db->setPostRequiredField('id', 'Request Id is required');
+    $donationReq = $action->db->sql("SELECT ad.`acceptance_date`,ad.`rejection_reason`,ad.`rejection_date`,ad.`approval_date`,ad.`status`,ad.`rejected_by`, dr.patientName,dr.attendeePhone,dr.unit,dr.requiredDate,dr.additionalNote,dr.criticalStatus,dr.address,dr.pincode,dr.state,dr.city,dr.request_date FROM `approved_donations` ad JOIN zuraud_donation_request dr ON dr.id=ad.req_id  WHERE ad.id='$id'");
+    
+    if ($donationReq) {
+        
+        echo $action->db->json(200, "Donation History fetched successfully", '', $donationReq);
         http_response_code(200);
         return;
     } else {
