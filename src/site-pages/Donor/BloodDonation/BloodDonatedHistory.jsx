@@ -8,40 +8,9 @@ import Slider from "../../../site-components/Donor/components/Slider";
 const BloodDonatedHistory = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
     const navigate = useNavigate();
 
-  const acceptRequest = async (id) => {
-    setIsSubmit(true);
-    try {
-      const bformData = new FormData();
-      bformData.append("data", "acceptDonationReq");
-      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
-      bformData.append("id", id);
-
-      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
-
-      if (response?.data?.status === 200) {
-        setTimeout(() => {
-            navigate("/")
-        }, 300);
-      } else {
-        toast.error("An error occurred. Please try again.");
-      }
-    } catch (error) {
-      const status = error.response?.data?.status;
-      if (status === 400 || status === 500 || status === 401) {
-        toast.error(error.response.data.msg || "A server error occurred.");
-      } else {
-        toast.error(
-          "An error occurred. Please check your connection or try again."
-        );
-      }
-    } finally {
-        setIsSubmit(false);
-    }
-  };
+ 
   const fetchDonationRequestList = async () => {
     setLoading(true);
     try {
@@ -129,24 +98,29 @@ const BloodDonatedHistory = () => {
                           <header className="f-14">{`${request.unit} Units (Blood)`}</header>
                           <footer className="f-14 ">{`${request?.city} , ${request?.state}`}</footer>
                           <p className="f-16 mb-0">
-                            {formatDate(request?.requiredDate)}
+                            {formatDate(request?.request_date)}
                           </p>
 
                           {request?.status === 0 && (
                             <p className="f-16 text-warning mb-0">Pending</p>
                           )}
                           {request?.status === 1 && (
-                            <p className="f-16 text-success mb-0">Recevied</p>
+                            <p className="f-16 text-success mb-0">Accepted</p>
                           )}
+                          {request?.status === 2 && (
+                            <p className="f-16 text-info mb-0">Received</p>
+                          )}
+                          {request?.status === 3 && (
+                            <p className="f-16 text-danger mb-0">Rejected</p>
+                          )}
+
                         </div>
                       </div>
                       <div></div>
                     </div>
                   </Link>
 
-                  <button className="btn" onClick={() => acceptRequest(request?.id)}>
-                    <ion-icon name="heart" color="danger"></ion-icon>
-                  </button>
+                  
                 </div>
               </li>
             ))}

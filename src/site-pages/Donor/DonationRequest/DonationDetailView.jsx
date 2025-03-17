@@ -94,7 +94,7 @@ const DonationDetailView = () => {
       if (response?.data?.status === 201 || response?.data?.status === 200) {
         setFormData(initializeForm);
         if (response?.data?.status === 200) {
-         // window.location.reload();
+          window.location.reload();
         }
       } else {
         toast.error("An error occurred. Please try again.");
