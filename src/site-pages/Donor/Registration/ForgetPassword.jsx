@@ -5,9 +5,14 @@ import { useState } from "react";
 import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import { Link } from "react-router-dom";
+import IsDonorLoggedIn from "../IsDonorLoggedIn";
 
 const ForgetPassword = () => {
-
+useEffect(() => {
+    if (IsDonorLoggedIn()) {
+      navigate("/dashboard");
+    }
+  }, []);
   const initializeForm = {
     phone: "",
     password: "",

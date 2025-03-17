@@ -117,10 +117,10 @@ const AddNewBloodRequest = () => {
         bformData.append("id", id);
   
         const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-        console.log(response?.data?.data?.requestDetail);
+        
   
         if (response?.data?.status === 200) {
-          console.log(response?.data?.data?.requestDetail);
+          
 
           const data = response?.data?.data?.requestDetail;
           setFormData((prev)=>({
