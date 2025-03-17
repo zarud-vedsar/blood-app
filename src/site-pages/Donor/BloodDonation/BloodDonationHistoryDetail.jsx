@@ -25,7 +25,7 @@ const BloodDonationHistoryDetail = () => {
       setLoading(true);
       try {
         const bformData = new FormData();
-        bformData.append("data", "view_MyDonationReqById");
+        bformData.append("data", "view_donation_history");
         bformData.append(
           "loguserid",
           secureLocalStorage.getItem("loguserid") || ""
@@ -39,22 +39,8 @@ const BloodDonationHistoryDetail = () => {
 
         if (response?.data?.status === 200) {
           const data = response?.data?.data?.requestDetail;
-          setBloodDonationRequestDetail(response?.data?.data);
-          setFormData((prev) => ({
-            ...prev,
-            id: id,
-            patientName: data?.patientName,
-            attendeePhone: data?.attendeePhone,
-            unit: data?.unit,
-            requiredDate: data?.requiredDate,
-            bloodGroup: data?.bloodGroup,
-            additionalNote: data?.additionalNote,
-            criticalStatus: data?.criticalStatus === 1 ? true : false,
-            state: data?.state,
-            city: data?.city,
-            pincode: data?.pincode,
-            address: data?.address,
-          }));
+          setBloodDonationRequestDetail(response?.data?.data[0]);
+          
           toast.error("An error occurred. Please try again.");
         }
       } catch (error) {
@@ -86,7 +72,7 @@ const BloodDonationHistoryDetail = () => {
       }
       bformData.append("remark", formData?.remark);
       bformData.append("loguserid", formData?.loguserid);
-      bformData.append("id", bloodDonationRequestDetail?.requestDetail?.id);
+      bformData.append("id", bloodDonationRequestDetail?.id);
       bformData.append("historyid", historyid);
       bformData.append("type", status);
 
@@ -170,8 +156,8 @@ const BloodDonationHistoryDetail = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.patientName}{" "}
-                {bloodDonationRequestDetail?.requestDetail?.criticalStatus && (
+                {bloodDonationRequestDetail?.patientName}{" "}
+                {bloodDonationRequestDetail?.criticalStatus && (
                   <span className="badge badge-danger mb-0">Critical</span>
                 )}
               </div>
@@ -182,7 +168,7 @@ const BloodDonationHistoryDetail = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.attendeePhone}
+                {bloodDonationRequestDetail?.attendeePhone}
               </div>
             </div>
             <div class="row">
@@ -191,7 +177,7 @@ const BloodDonationHistoryDetail = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.requiredDate}
+                {bloodDonationRequestDetail?.requiredDate}
               </div>
             </div>
             <div class="row">
@@ -200,7 +186,7 @@ const BloodDonationHistoryDetail = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.bloodGroup}
+                {bloodDonationRequestDetail?.bloodGroup}
               </div>
             </div>
             <div class="row">
@@ -209,7 +195,7 @@ const BloodDonationHistoryDetail = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.unit}
+                {bloodDonationRequestDetail?.unit}
               </div>
             </div>
             <div class="row">
@@ -218,7 +204,7 @@ const BloodDonationHistoryDetail = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.pincode}
+                {bloodDonationRequestDetail?.pincode}
               </div>
             </div>
             <div class="row">
@@ -227,7 +213,7 @@ const BloodDonationHistoryDetail = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.state}
+                {bloodDonationRequestDetail?.state}
               </div>
             </div>
             <div class="row">
@@ -236,7 +222,7 @@ const BloodDonationHistoryDetail = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.city}
+                {bloodDonationRequestDetail?.city}
               </div>
             </div>
             <div class="row mb-2">
@@ -245,7 +231,7 @@ const BloodDonationHistoryDetail = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.address}
+                {bloodDonationRequestDetail?.address}
               </div>
             </div>
             <div class="row">
@@ -253,7 +239,7 @@ const BloodDonationHistoryDetail = () => {
                 <strong class="f-17 fw-700"> Additional Note </strong>
               </div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.additionalNote}
+                {bloodDonationRequestDetail?.additionalNote}
               </div>
             </div>
 
@@ -403,11 +389,11 @@ const BloodDonationHistoryDetail = () => {
               )}
 
             <div class="form-button-group transparent d-flex  align-items-center">
-              {bloodDonationRequestDetail?.requestDetail?.status === 0 ||
-              bloodDonationRequestDetail?.requestDetail?.status === 3 ? (
+              {bloodDonationRequestDetail?.status === 0 ||
+              bloodDonationRequestDetail?.status === 3 ? (
                 <div class="d-flex justify-content-between  border py-1 px-2 rounded-pill w-95">
                   <Link
-                    to={`/blood-donation-request/edit/${bloodDonationRequestDetail?.requestDetail?.id}`}
+                    to={`/blood-donation-request/edit/${bloodDonationRequestDetail?.id}`}
                   >
                     <button className="btn btn-light edit-emp">
                       <ion-icon name="create-outline"></ion-icon>
@@ -418,14 +404,14 @@ const BloodDonationHistoryDetail = () => {
                     className="btn btn-light text-danger delete-spare"
                     onClick={() =>
                       deleteRequest(
-                        bloodDonationRequestDetail?.requestDetail?.id
+                        bloodDonationRequestDetail?.id
                       )
                     }
                   >
                     <ion-icon name="trash-outline"></ion-icon>
                   </button>
                 </div>
-              ) : bloodDonationRequestDetail?.requestDetail?.status === 1 ? (
+              ) : bloodDonationRequestDetail?.status === 1 ? (
                 <div className="bg-info d-block w-100 p-1 text-center">
                   Accepted By Someone
                 </div>
