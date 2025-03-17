@@ -29,12 +29,12 @@ const LandingPage = () => {
           </div>
           <div>
             <Link className="btn am-ctm-btn mt-2 " to="/register">
-              Register
+             Get Started
             </Link>
             
           </div>
           <div className="mt-1">
-            Already register ? <Link to="/login"> Login</Link>
+            Already register ? <Link to="/login" style={{color:"#27173e"}}> Login</Link>
             
           </div>
         </div>

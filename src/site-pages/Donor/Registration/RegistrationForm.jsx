@@ -5,6 +5,7 @@ import Select from "react-select";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
+import { FaCalendarAlt } from "react-icons/fa";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -199,6 +200,7 @@ const RegistrationForm = () => {
                 <label className="label" htmlFor="dob">
                   Date Of Birth <span className="text-danger">*</span>
                 </label>
+                <div className="d-flex">
                 <input
                   type="date"
                   className="form-control"
@@ -207,6 +209,11 @@ const RegistrationForm = () => {
                   value={formData.dob}
                   onChange={handleInputChange}
                 />
+                <span style={{marginLeft: "-20px" }}> <FaCalendarAlt /></span>
+
+                </div>
+               
+
                 {error.name === "dob" && (
                   <span className="text-danger">{error.msg}</span>
                 )}
@@ -307,7 +314,7 @@ const RegistrationForm = () => {
                     style={{ marginRight: "5px" }}
                   />
                   I agree to the{" "}
-                  <a href="/terms" target="_blank">
+                  <a href="/terms" target="_blank" style={{color:"#27173e"}}>
                     Terms and Conditions
                   </a>
                 </label>

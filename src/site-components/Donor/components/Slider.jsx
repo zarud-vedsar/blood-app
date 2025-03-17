@@ -7,22 +7,14 @@ import { Link, useNavigate } from "react-router-dom";
 const Slider = () => {
   const { donor } = useDonor();
   const [sidebar, setSidebar] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null); // Track the active dropdown
   const navigate = useNavigate();
-  const [dropdowns, setDropdowns] = useState({
-    employee: false,
-    spare: false,
-    machine: false,
-    vehicle: false,
-    service: false,
-    stage: false,
-  });
 
   const toggleDropdown = (key) => {
-    setDropdowns((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
+    // If the clicked key is already open, close it (set to null)
+    setActiveDropdown((prev) => (prev === key ? null : key));
   };
+
   const logout = () => {
     secureLocalStorage.clear();
     setTimeout(() => {
@@ -33,7 +25,7 @@ const Slider = () => {
   return (
     <>
       <button
-        className="headerButton  d-flex justify-content-center align-items-center f-16 span-grid btn"
+        className="headerButton d-flex justify-content-center align-items-center f-16 span-grid btn"
         onClick={() => setSidebar(!sidebar)}
       >
         <ion-icon name="grid-outline"></ion-icon>
@@ -107,22 +99,20 @@ const Slider = () => {
                 ].map(({ key, icon, label, links }) => (
                   <div key={key}>
                     <div
-                      className={`am-dropdown ${
-                        dropdowns[key] ? "active" : ""
-                      }`}
+                      className={`am-dropdown ${activeDropdown === key ? "active" : ""}`}
                       onClick={() => toggleDropdown(key)}
                     >
                       <span>
                         <ion-icon name={icon}></ion-icon> {label}
                       </span>
                       <ion-icon
-                        name={dropdowns[key] ? "remove-outline" : "add-outline"}
+                        name={activeDropdown === key ? "remove-outline" : "add-outline"}
                         className="fw-600 f-18"
                       ></ion-icon>
                     </div>
                     <div
                       className="am-dropdown-content"
-                      style={{ display: dropdowns[key] ? "block" : "none" }}
+                      style={{ display: activeDropdown === key ? "block" : "none" }}
                     >
                       {links.map((link, index) => (
                         <Link key={index} to={link.link}>
