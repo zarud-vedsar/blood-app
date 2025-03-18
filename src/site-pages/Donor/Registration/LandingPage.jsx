@@ -28,13 +28,13 @@ const LandingPage = () => {
             </span>
           </div>
           <div>
-            <Link className="btn am-ctm-btn mt-2 " to="/register">
+            <Link className="btn am-ctm-btn mt-2 id-btn" to="/register">
              Get Started
             </Link>
             
           </div>
           <div className="mt-1">
-            Already register ? <Link to="/login" style={{color:"#27173e"}}> Login</Link>
+            Already registered? <Link to="/login" style={{color:"#0d6efd"}}> Login</Link>
             
           </div>
         </div>
@@ -60,7 +60,8 @@ const LandingPage = () => {
         .lower-section {
           background: var(--am-primary-white);
           border-radius: 30px 30px 0px 0px;
-          position:absolute;
+          position:fixed;
+
           bottom:0px;
         }
         .am-ctm-btn {
@@ -74,6 +75,12 @@ const LandingPage = () => {
  width: 80%;
   margin-top:10%;
   border-radius:60% 60% 60% 0px;
+      }
+
+      .id-btn:hover{
+        color: white;
+      
+      }
       `}</style>
     </>
   );
