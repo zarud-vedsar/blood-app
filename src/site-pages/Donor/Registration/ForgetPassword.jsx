@@ -217,7 +217,7 @@ useEffect(() => {
                             className="label"
                             htmlFor="phone"
                           >
-                            Phone number <span className="text-danger">*</span>
+                            Phone Number <span className="text-danger">*</span>
                           </label>
                           <div className="input-affix">
                             <i className="prefix-icon anticon "></i>
@@ -226,7 +226,7 @@ useEffect(() => {
                               name="phone"
                               className="form-control"
                               id="phone"
-                              placeholder="Enter phone number"
+                              placeholder="Enter Phone Number"
                               value={formData?.phone}
                               onChange={handleInputChange}
                               readOnly={otpSend}
