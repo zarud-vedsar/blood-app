@@ -65,10 +65,12 @@ const RegistrationForm = () => {
       markError("phone", "Phone Number is required.");
       return setIsSubmit(false);
     }
+    
     if (!/^\d{10}$/.test(formData.phone)) {
       markError("phone", "Phone number must be exactly 10 digits.");
       return setIsSubmit(false);
     }
+
     if (!formData.dob) {
       markError("dob", "Date of Birth is required.");
       return setIsSubmit(false);
