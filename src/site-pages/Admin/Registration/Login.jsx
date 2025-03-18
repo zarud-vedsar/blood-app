@@ -19,7 +19,7 @@ const Login = () => {
 
   useEffect(() => {
     if (IsAdminLoggedIn()) {
-      navigate("/home");
+      navigate("/admin/dashboard");
     }
   }, []);
 
