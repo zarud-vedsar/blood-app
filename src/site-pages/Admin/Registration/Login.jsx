@@ -5,7 +5,9 @@ import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import { useAdminContext } from "../../../site-components/Admin/ContextApi/AdminContext";
 import secureLocalStorage from "react-secure-storage";
-import LogoImg from '../../../site-components/common/assets/img/blood-logo.png'
+import logo from "../../../site-components/common/assets/img/logo-donation.avif";
+import { MdMailOutline } from "react-icons/md";
+import { AiOutlineLock } from "react-icons/ai";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -81,21 +83,45 @@ const Login = () => {
 
   return (
     <>
-      <div>
-        <div className=" text-center id-login-top-img">
-          {/* <img src={LogoImg} alt="logo" /> */}
-          {/* <h1 className="text-white fs-14">Welcome Back!</h1> */}
-        </div>
+      <div className="container-fluid p-h-0 p-v-20 bg full-height d-flex bg_light">
+        <div className="d-flex flex-column justify-content-between w-100">
+          <div className="container" style={{ height: "100vh", display: "grid" }}>
+            <div className="row align-items-center">
+              <div className="col-md-7 col-lg-5 m-h-auto">
+                <div className="card">
+                  <div className="card-body">
+                    <div className="d-flex align-items-center justify-content-between m-b-30">
+                      <img
+                        className="img-fluid rounded-5"
+                        style={{ maxWidth: "30%" }}
+                        alt="NLU Logo"
+                        src={logo}
+                      />
+                      <h2 className="h4_new">Sign In</h2>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-12 ml-2">
+                        <h3 className="h6_new">Welcome Back!</h3>
+                        <p>Enter your credentials for login</p>
+                      </div>
+                    </div>
+                    <form
+                      onSubmit={handleSubmit}
+                    >
 
-        <div className="section mb-5 p-2">
-          <form onSubmit={handleSubmit}>
-            <div className="card">
-              <div className="card-body">
-                <div className="form-group basic">
-                  <label className="label" htmlFor="userid">
-                    User ID <span className="text-danger">*</span>
-                  </label>
-                  <input
+                      
+                      <div className="form-group">
+                        <label
+                          className="font-weight-semibold"
+                          htmlFor="user_email"
+                        >
+                          User ID :
+                        </label>
+                        <div className="input-affix">
+                          <i className="prefix-icon anticon ">
+                            <MdMailOutline />
+                          </i>
+                          <input
                     type="text"
                     className="form-control"
                     name="userid"
@@ -104,55 +130,64 @@ const Login = () => {
                     value={formData.userid}
                     onChange={handleInputChange}
                   />
-                  {error.name === "userid" && (
-                    <span className="text-danger">{error.msg}</span>
-                  )}
-                </div>
-                <div className="form-group basic">
-                  <label className="label" htmlFor="password">
-                    Password <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    id="password"
-                    placeholder="Enter password"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                  />
-                  {error.name === "password" && (
-                    <span className="text-danger">{error.msg}</span>
-                  )}
-                </div>
-                <div className="text-end">
-                          <Link to="/forget" style={{color:"#27173e"}}> Forget Password?</Link>
                           
                         </div>
+                        {error.name === "userid" && (
+                    <span className="text-danger">{error.msg}</span>
+                  )}
+                        
+                      </div>
+
+                      <div className="form-group">
+                        <label
+                          className="font-weight-semibold"
+                          htmlFor="user_pass"
+                        >
+                          Password:
+                        </label>
+                        <div className="input-affix m-b-10">
+                          <i className="prefix-icon anticon">
+                            <AiOutlineLock />
+                          </i>
+                          <input
+                            type="password"
+                            name="password"
+                            className="form-control"
+                            id="password"
+                            placeholder="Enter Password"
+                            value={formData?.password}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                        {error.name === "password" && (
+                    <span className="text-danger">{error.msg}</span>
+                  )}
+                      </div>
+                      <div className="form-group mb-0">
+                        <button
+                          disabled={isSubmit}
+                          type="submit"
+                          className="btn btn-dark py-2 d-flex justify-content-center align-items-center btn-block"
+                        >
+                          Sign In{" "}
+                          {isSubmit && (
+                            <>
+                              &nbsp; <div className="loader-circle"></div>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="form-button-group transparent d-flex   flex-column justify-content-center align-items-center">
-              <button
-                type="submit"
-                className="btn btn-dark btn-block btn-lg"
-                disabled={isSubmit}
-              >
-                {isSubmit ? (
-                  "Logging..."
-                ) : (
-                  <span className="fontsize-normal">Login</span>
-                )}
-              </button>
-              
-               <div className="mt-1 mb-2">
-                          Don't have an account ? <Link to="/info" style={{color:"#0d6efd"}}>Sign Up</Link>
-                          
-                        </div>
-            </div>
-            
-          </form>
+          </div>
         </div>
       </div>
+
+        
+      
     </>
   );
 };

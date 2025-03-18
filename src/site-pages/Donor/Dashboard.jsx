@@ -5,7 +5,7 @@ import Footer from "../../site-components/Donor/components/Footer";
 import { useDonor } from "../../site-components/Donor/ContextApi/DonorContext";
 const Dashboard = () => {
   const { donor } = useDonor();
-  console.log(donor);
+  
   return (
     <>
       <div className="appHeader border-0">
