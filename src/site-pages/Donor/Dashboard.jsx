@@ -11,7 +11,7 @@ import ImageFourth from "../../site-components/common/assets/img/dash-4.png";
 import ImageFifth from "../../site-components/common/assets/img/dash-5.png";
 const Dashboard = () => {
   const { donor } = useDonor();
-  console.log(donor);
+  
   return (
     <>
       <div className="appHeader border-0">

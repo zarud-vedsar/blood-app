@@ -51,12 +51,12 @@ useEffect(() => {
     setIsSubmit(true);
 
     if (!formData.phone || !/^\d{0,10}$/.test(formData?.phone)) {
-      markError("phone", "Phone is required");
+      markError("phone", "Phone Number is required");
       return setIsSubmit(false);
     }
 
     if (!formData.password) {
-      markError("password", "password is required.");
+      markError("password", "Password is required.");
       return setIsSubmit(false);
     }
 

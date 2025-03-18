@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
 import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
-import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
+import {useDonor} from "../../../site-components/Donor/ContextApi/DonorContext"
 import secureLocalStorage from "react-secure-storage";
 import LogoImg from '../../../site-components/common/assets/img/blood-logo.png'
 
@@ -29,7 +29,7 @@ const Login = () => {
     setIsSubmit(true);
 
     if (!formData.phone) {
-      markError("phone", "Phone is required");
+      markError("phone", "Phone Number is required");
       return setIsSubmit(false);
     }
     if (!/^\d{10}$/.test(formData.phone)) {
