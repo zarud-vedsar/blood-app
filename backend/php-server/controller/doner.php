@@ -199,13 +199,13 @@ function reset_password()
     
     global $action;
     $phone = $action->db->setPostRequiredField('phone', 'Phone is required');
-    $password = $action->db->setPostRequiredField('password', 'Password is required');
-    $cpassword = $action->db->setPostRequiredField('cpassword', 'Confirm Password is required');
-    if ($password != $cpassword) {
-        echo $action->db->json(400, "Password and Confirm Password does not match", 'cpassword');
-        http_response_code(400);
-        return;
-    }
+    // $password = $action->db->setPostRequiredField('password', 'Password is required');
+    // $cpassword = $action->db->setPostRequiredField('cpassword', 'Confirm Password is required');
+    // if ($password != $cpassword) {
+    //     echo $action->db->json(400, "Password and Confirm Password does not match", 'cpassword');
+    //     http_response_code(400);
+    //     return;
+    // }
     $user = $action->db->sql("SELECT `id` FROM `zuraud_doner` WHERE `phone`='$phone' AND `reg_status`=1");
     if ($user) {
         $otp = $action->custom->generateOTP(4);
