@@ -40,7 +40,7 @@ function load_donation_request(){
     $city= $action->db->validatePostData('city')?:'';
     $status= $action->db->validatePostData('status')?:'';
 
-    $sql="SELECT dr.*,d.name AS req_name d.phone , d.email, d.uniqueId FROM `zuraud_donation_request` dr JOIN `zuraud_doner` d ON d.id= dr.user_id WHERE 1";
+    $sql="SELECT dr.*,d.name AS req_name, d.phone , d.email, d.uniqueId FROM `zuraud_donation_request` dr JOIN `zuraud_doner` d ON d.id= dr.user_id WHERE 1";
     if(!empty($bloodGroup)){
         $sql.=" AND dr.`bloodGroup`='$bloodGroup'";
     }
