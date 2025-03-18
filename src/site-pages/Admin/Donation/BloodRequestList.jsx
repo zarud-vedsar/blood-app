@@ -368,7 +368,7 @@ function BloodRequestList() {
                       />
 
                       <Column
-                        header="Name"
+                        header="Patient Name"
                         field="patientName"
                         sortable
                         body={(row) => (
