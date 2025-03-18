@@ -48,7 +48,7 @@ const LandingPage = () => {
         .body {
         
           text-align: center;
-          height:100vh;
+          height: 657px;
           widht:100vw;
                               background: var(--am-primary-red);
 
@@ -70,6 +70,7 @@ const LandingPage = () => {
           padding: 20px;
           background: var(--am-primary-red);
           color: var(--am-primary-white);
+          font-weight: 600;
         }
           .am-ctm-img{
  width: 80%;

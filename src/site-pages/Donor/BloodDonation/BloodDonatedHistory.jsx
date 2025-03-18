@@ -47,7 +47,7 @@ const BloodDonatedHistory = () => {
     <div>
       
       <div className="appHeader">
-        <div className="left left-0">
+        <div className="">
           <Slider />
         </div>
         <div className="pageTitle w-75">Donation History</div>

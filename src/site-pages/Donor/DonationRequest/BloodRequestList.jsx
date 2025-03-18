@@ -89,7 +89,7 @@ const BloodRequestList = () => {
     <div>
       {/* App Header */}
       <div className="appHeader">
-        <div className="left left-0">
+        <div className="">
           <Slider/>
         </div>
         <div className="pageTitle w-75">Blood Requested List</div>
@@ -109,7 +109,6 @@ const BloodRequestList = () => {
           {!loading && donationRequestList.length === 0 && (
             <p className="text-center pt-2">No data found.</p>
           )}
-
           <ul className="listview image-listview" id="set_fecthed_data">
             {donationRequestList.map((request, index) => (
               <li key={index}>

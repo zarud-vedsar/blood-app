@@ -80,7 +80,7 @@ const BloodDonationList = () => {
     <div>
       {/* App Header */}
       <div className="appHeader">
-        <div className="left left-0">
+        <div className="">
           <Slider />
         </div>
         <div className="pageTitle w-75">Donation List</div>
