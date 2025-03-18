@@ -29,7 +29,7 @@ const Login = () => {
     setIsSubmit(true);
 
     if (!formData.phone) {
-      markError("phone", "Phone is required");
+      markError("phone", "Phone Number is required");
       return setIsSubmit(false);
     }
     if (!/^\d{10}$/.test(formData.phone)) {
