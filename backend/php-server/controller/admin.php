@@ -74,6 +74,22 @@ function load_donation_request(){
 
 }
 
+function load_admin_detail(){
+    global $action;
+    $userid = $action->db->setPostRequiredField('loguserid',"Admin Id is required");
+    $admin = $action->db->sql("SELECT * FROM `zuraud_user` WHERE `id`='$userid'");
+    if($admin){
+        echo $action->db->json(200, "Admin details Fetched", '', $admin[0]);
+        http_response_code(200);
+        return;
+    }
+    else{
+        echo $action->db->json(400, "No admin found");
+        http_response_code(400);
+        return;
+    }
+}
+
 function load_donation_overview(){
     global $action;
     $AuthendicteRequest = $action->db->AuthendicateRequest();
