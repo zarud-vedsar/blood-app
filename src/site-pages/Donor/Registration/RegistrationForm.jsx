@@ -302,6 +302,7 @@ const RegistrationForm = () => {
 
               <div className="form-group basic">
                 <label className="label">
+                  <div className="d-flex align-items-center">
                   <input
                     type="checkbox"
                     checked={formData.termsAccepted}
@@ -313,10 +314,18 @@ const RegistrationForm = () => {
                     }
                     style={{ marginRight: "5px" }}
                   />
+                  <div>
                   I agree to the{" "}
-                  <a href="/terms" target="_blank" style={{color:"#27173e"}}>
+                  <a href="/terms" target="_blank" style={{color:"#0d6efd"}}>
                     Terms and Conditions
                   </a>
+                    
+                  </div>
+                   
+
+                  </div>
+                  
+                
                 </label>
                 {error.termsAccepted && (
                   <span className="text-danger">{error.termsAccepted}</span>

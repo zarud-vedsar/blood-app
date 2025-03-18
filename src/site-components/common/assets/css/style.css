@@ -40,7 +40,7 @@ a:focus {
 .appHeader {
   height: 56px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   position: fixed;
   top: env(safe-area-inset-top);
@@ -50,6 +50,8 @@ a:focus {
   background: #ffffff;
   color: #27173e;
   border-bottom: 1px solid #dcdce9;
+  padding: 0px 15px;
+  gap: 10px;
 }
 
 .appHeader:before {
@@ -94,6 +96,9 @@ a:focus {
 .appHeader .right .id-back-icon {
   font-size: 20px;
   margin-right: 0px ;
+}
+.id-back-icon{
+  color: #161129;
 }
 
 .appHeader .left .headerButton,

@@ -10,13 +10,14 @@ const HeaderWithBack = ({title}) => {
   return (
     <>
     <div class="appHeader">
-        <div class="left">
+        <div class="">
             <a href="#" class="headerButton " onClick={goBack}>
             {/* <IoChevronBack className='id-back-icon' /> */}
             {/* <IoChevronBackCircle className='id-back-icon' /> */}
             <MdArrowBackIos className='id-back-icon'/>
             </a>
         </div>
+        
         <div class="pageTitle w-75">
             {title}
         </div>
