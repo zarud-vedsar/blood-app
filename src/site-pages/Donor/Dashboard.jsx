@@ -8,6 +8,7 @@ import ImageF from "../../site-components/common/assets/img/dash-1.png";
 import ImageS from "../../site-components/common/assets/img/dash-2.png";
 import ImageT from "../../site-components/common/assets/img/dash-3.png";
 import ImageFourth from "../../site-components/common/assets/img/dash-4.png";
+import ImageFifth from "../../site-components/common/assets/img/dash-5.png";
 const Dashboard = () => {
   const { donor } = useDonor();
   console.log(donor);
@@ -50,7 +51,7 @@ const Dashboard = () => {
                 style={{ boxShadow: "rgb(232 221 221 / 12%) 0px 4px 8px, rgb(0 0 0 / 11%) 0px 4px 16px"}}
               >
                 <div className="mx-auto text-center py-1">
-                  <Link to="/blood-donation-request/request-list"> 
+                  <Link to="/blood-donation-request/add-new"> 
                   <img src={ImageT} alt="" className="id-dash-b-img" />
                   <h4 className="mt-1">Request for Blood</h4>
                   </Link>
@@ -64,7 +65,7 @@ const Dashboard = () => {
               >
                 <div className="mx-auto text-center py-1">
                   <Link to="/blood-donation/list"> 
-                  <img src={ImageS} alt="" className="id-dash-b-img" />
+                  <img src={ImageFifth} alt="" className="id-dash-b-img" />
                   <h4 className="mt-1">Donate</h4>
                   </Link>
                 </div>

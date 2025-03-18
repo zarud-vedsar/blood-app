@@ -6,6 +6,7 @@ import { PHP_API_URL, PINCODE_URL } from "../../../site-components/Helper/Consta
 import secureLocalStorage from "react-secure-storage";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { goBack } from "../../../site-components/Helper/HelperFunction";
+import { FaCalendarAlt } from "react-icons/fa";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -326,6 +327,9 @@ const AddNewBloodRequest = () => {
                 <label className="label" htmlFor="requiredDate">
                   Required Date <span className="text-danger">*</span>
                 </label>
+                <div className="d-flex"> 
+
+                
                 <input
                   type="date"
                   className="form-control"
@@ -334,6 +338,9 @@ const AddNewBloodRequest = () => {
                   value={formData.requiredDate}
                   onChange={handleInputChange}
                 />
+                 <span style={{marginLeft: "-20px" }}> <FaCalendarAlt /></span>
+                 </div>
+
                 {error.name === "requiredDate" && (
                   <span className="text-danger">{error.msg}</span>
                 )}
@@ -507,7 +514,7 @@ const AddNewBloodRequest = () => {
                     style={{ marginRight: "5px" }}
                   />
                   I agree to the{" "}
-                  <a href="/terms" target="_blank">
+                  <a href="/terms" target="_blank" style={{color:"#0d6efd"}}>
                     Terms and Conditions
                   </a>
                 </label>
