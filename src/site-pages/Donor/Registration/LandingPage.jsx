@@ -19,10 +19,10 @@ const LandingPage = () => {
         >
           <img src={pwd} alt="" className="am-ctm-img" />
         </div>
-        <div className="lower-section  mx-auto px-2 py-4">
+        <div className="lower-section  mx-auto">
           <div className="mx-auto px-2">
             <h1>Give Blood, Give Hope. Your donation saves lives!</h1>
-            <span>
+            <span className="mt-1"> 
               This combination creates an impactful and motivational splash
               screen to encourage users to donate blood.
             </span>
@@ -63,6 +63,7 @@ const LandingPage = () => {
           position:fixed;
 
           bottom:0px;
+          padding: 40px 14px 10px;
         }
         .am-ctm-btn {
 

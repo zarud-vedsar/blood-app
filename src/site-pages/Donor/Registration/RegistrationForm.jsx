@@ -11,8 +11,6 @@ const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
 
-
-
 const genderOptions = [
   { value: "male", label: "Male" },
   { value: "female", label: "Female" },
@@ -36,9 +34,9 @@ const RegistrationForm = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState({});
 
-  const markError = (name , msg)=>{
-    setError({"name":name,"msg":msg});
-  }
+  const markError = (name, msg) => {
+    setError({ name: name, msg: msg });
+  };
 
   useEffect(() => {
     if (IsDonorLoggedIn()) {
@@ -49,50 +47,77 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    if (!formData.name)
-      {
-        markError("name","Name is required");
-        return setIsSubmit(false);
-      } 
-      
-    if (!formData.email) {
-      markError("email" , "Email is required");
+    
+    if (!formData.name) {
+      markError("name", "Name is required.");
       return setIsSubmit(false);
     }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)){
-        markError("email" , "Invalid email address");
+
+    if (!formData.email) {
+      markError("email", "Email is required.");
+      return setIsSubmit(false);
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      markError("email", "Invalid email address.");
+      return setIsSubmit(false);
+    }
+    if (!formData.phone) {
+      markError("phone", "Phone Number is required.");
+      return setIsSubmit(false);
+    }
+    
+    if (!/^\d{10}$/.test(formData.phone)) {
+      markError("phone", "Phone number must be exactly 10 digits.");
+      return setIsSubmit(false);
+    }
+
+    if (!formData.dob) {
+      markError("dob", "Date of Birth is required.");
+      return setIsSubmit(false);
+    }
+
+    if (formData?.dob) {
+      const today = new Date();
+      const selectedDate = new Date(formData?.dob);
+      const age = today.getFullYear() - selectedDate.getFullYear();
+      const monthDiff = today.getMonth() - selectedDate.getMonth();
+      const dayDiff = today.getDate() - selectedDate.getDate();
+
+      const actualAge =
+        monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
+      if (actualAge <= 16) {
+        markError("dob", "Age is must be greater than 16.");
         return setIsSubmit(false);
-      }
-        if (!formData.phone){ markError("phone" , "Phone is required");
-          return setIsSubmit(false);
-        };
-        if (!/^\d{10}$/.test(formData.phone)) {
-          markError("phone", "Phone number must be exactly 10 digits");
-          return setIsSubmit(false);
-        }
-        if (!formData.dob){ markError("dob", "Date of Birth is required") ;
-          return setIsSubmit(false);
-        };
-        if (!formData.gender) { markError("gender", "Gender is required");
-          return setIsSubmit(false);
-        };
-        if (!formData.bloodGroup) {markError("bloodGroup" , "Blood group is required");
-          return setIsSubmit(false);
-        };
-        if (!formData.termsAccepted){
-          markError("termsAccepted" , "You must accept the terms");
-          return setIsSubmit(false);};
-          if (!formData.password){ markError("password" , "Password is required.");
-            return setIsSubmit(false);
-          };
-          if (!formData.cpassword){
-            markError("cpassword" , "Confirm password is required.");
-            return setIsSubmit(false);};
-            
-    if (formData.password !== formData.cpassword){
-      markError("cpassword" , "Confirm password must be same as password.");
-      return setIsSubmit(false);}; 
-      markError("",'')
+      } 
+    }
+
+    if (!formData.gender) {
+      markError("gender", "Gender is required");
+      return setIsSubmit(false);
+    }
+    if (!formData.bloodGroup) {
+      markError("bloodGroup", "Blood group is required");
+      return setIsSubmit(false);
+    }
+    if (!formData.password) {
+      markError("password", "Password is required.");
+      return setIsSubmit(false);
+    }
+    if (!formData.cpassword) {
+      markError("cpassword", "Confirm password is required.");
+      return setIsSubmit(false);
+    }
+
+    if (formData.password !== formData.cpassword) {
+      markError("cpassword", "Confirm password must be same as password.");
+      return setIsSubmit(false);
+    }
+    markError("", "");
+
+    if (!formData.termsAccepted) {
+      markError("termsAccepted", "You must accept the terms");
+      return setIsSubmit(false);
+    }
 
     try {
       const bformData = new FormData();
@@ -131,9 +156,24 @@ const RegistrationForm = () => {
       }
     }
 
+    if (name === "dob") {
+      const today = new Date();
+      const selectedDate = new Date(value);
+      const age = today.getFullYear() - selectedDate.getFullYear();
+      const monthDiff = today.getMonth() - selectedDate.getMonth();
+      const dayDiff = today.getDate() - selectedDate.getDate();
+
+      const actualAge =
+        monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
+      if (actualAge <= 16) {
+        markError("dob", "Age is must be greater than 16.");
+      } else {
+        markError("", "");
+      }
+    }
+
     setFormData({ ...formData, [name]: value });
   };
-
 
   return (
     <>
@@ -173,21 +213,21 @@ const RegistrationForm = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                 />
-                {error.name ==="email" && (
+                {error.name === "email" && (
                   <span className="text-danger">{error.msg}</span>
                 )}
               </div>
 
               <div className="form-group basic">
                 <label className="label" htmlFor="phone">
-                  Phone <span className="text-danger">*</span>
+                  Phone Number<span className="text-danger">*</span>
                 </label>
                 <input
                   type="number"
                   className="form-control"
                   name="phone"
                   id="phone"
-                  placeholder="Enter Phone"
+                  placeholder="Enter Phone Number"
                   value={formData.phone}
                   onChange={handleInputChange}
                 />
@@ -201,18 +241,19 @@ const RegistrationForm = () => {
                   Date Of Birth <span className="text-danger">*</span>
                 </label>
                 <div className="d-flex">
-                <input
-                  type="date"
-                  className="form-control"
-                  name="dob"
-                  id="dob"
-                  value={formData.dob}
-                  onChange={handleInputChange}
-                />
-                <span style={{marginLeft: "-20px" }}> <FaCalendarAlt /></span>
-
+                  <input
+                    type="date"
+                    className="form-control"
+                    name="dob"
+                    id="dob"
+                    value={formData.dob}
+                    onChange={handleInputChange}
+                  />
+                  <span style={{ marginLeft: "-20px" }}>
+                    {" "}
+                    <FaCalendarAlt />
+                  </span>
                 </div>
-               
 
                 {error.name === "dob" && (
                   <span className="text-danger">{error.msg}</span>
@@ -327,8 +368,8 @@ const RegistrationForm = () => {
                   
                 
                 </label>
-                {error.termsAccepted && (
-                  <span className="text-danger">{error.termsAccepted}</span>
+                {error.name === "termsAccepted" && (
+                  <span className="text-danger">{error.msg}</span>
                 )}
               </div>
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">

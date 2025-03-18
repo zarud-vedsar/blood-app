@@ -51,12 +51,12 @@ useEffect(() => {
     setIsSubmit(true);
 
     if (!formData.phone || !/^\d{0,10}$/.test(formData?.phone)) {
-      markError("phone", "Phone is required");
+      markError("phone", "Phone Number is required");
       return setIsSubmit(false);
     }
 
     if (!formData.password) {
-      markError("password", "password is required.");
+      markError("password", "Password is required.");
       return setIsSubmit(false);
     }
 
@@ -193,12 +193,12 @@ useEffect(() => {
                         src={logoImg}
                       />
                       <h2 className="h4_new">
-                        Forget Password
+                        Change Your Password
                       </h2>
                     </div>
                     <div className="row">
                       <div className="col-md-12 ml-2">
-                        <h3 className="h6_new">Welcome Back!</h3>
+                        {/* <h3 className="h6_new">Welcome Back!</h3> */}
                         <p>
                           {!otpSend
                             ? "Enter your registered phone number"
@@ -217,7 +217,7 @@ useEffect(() => {
                             className="label"
                             htmlFor="phone"
                           >
-                            Phone number <span className="text-danger">*</span>
+                            Phone Number <span className="text-danger">*</span>
                           </label>
                           <div className="input-affix">
                             <i className="prefix-icon anticon "></i>
@@ -226,7 +226,7 @@ useEffect(() => {
                               name="phone"
                               className="form-control"
                               id="phone"
-                              placeholder="Enter phone number"
+                              placeholder="Enter Phone Number"
                               value={formData?.phone}
                               onChange={handleInputChange}
                               readOnly={otpSend}
@@ -343,7 +343,7 @@ useEffect(() => {
                             {isSubmit ? (
                               "Submiting..."
                             ) : (
-                              <span className="fontsize-normal">Forget</span>
+                              <span className="fontsize-normal">Forgot Your Password</span>
                             )}
                           </button>
                           : <button
@@ -364,7 +364,7 @@ useEffect(() => {
                           )}
                         </button> }
                         </div> 
-                        <Link to="/">
+                        <Link to="/login">
                       <div className="text-center  mb-3" style={{color:"#0d6efd"}}>
                         Sign In
                       </div>

@@ -1,6 +1,8 @@
 import { Suspense, lazy } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "../site-components/Donor/css/custom.css";
+import '../site-components/common/assets/css/style.css';
+import '../site-components/common/assets/css/ionicons.min.css';
 import OTPverificationPage from "../site-pages/Donor/Registration/OTPverificationPage";
 import AddressForm from "../site-pages/Donor/Registration/AddressForm";
 import { DonorProvider } from "../site-components/Donor/ContextApi/DonorContext";

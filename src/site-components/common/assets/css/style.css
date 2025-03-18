@@ -8400,6 +8400,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* .appBottomMenu .active .col ion-icon{
   color: red !important;
 } */
-.id-dash-b-img{
+
+.loader-circle {
+  border: 3px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 3px solid #3498db;
+  width: 20px;
+  height: 20px;
+  -webkit-animation: spinc 1s linear infinite;
+  /* Safari */
+  animation: spinc 1s linear infinite;
+}.id-dash-b-img{
   height: 60px;
 }
