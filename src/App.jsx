@@ -16,7 +16,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/*" element={<DonorRoute />}></Route>
-          <Route path="/admin" element={<AdminRoute />}></Route>
+          <Route path="/admin/*" element={<AdminRoute />}></Route>
         </Routes>
       </Router>
     </>

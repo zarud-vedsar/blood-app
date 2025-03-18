@@ -53,9 +53,9 @@ const Login = () => {
         setAdminDetail(response?.data?.data);
         secureLocalStorage.setItem("loguserid", response?.data?.data?.id);
 
-        // setTimeout(() => {
-        //   navigate(`/dashboard`);
-        // }, 300);
+        setTimeout(() => {
+          navigate(`/admin/dashboard`);
+        }, 300);
       } else {
         toast.error("An error occurred. Please try again.");
       }

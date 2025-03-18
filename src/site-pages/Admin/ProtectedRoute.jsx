@@ -6,7 +6,7 @@ import { useAdminContext } from "../../site-components/Admin/ContextApi/AdminCon
 import { PHP_API_URL } from "../../site-components/Helper/Constant";
 
 const ProtectedRoute = ({ element }) => {
-  const { adminDetail,setAdminDetail} = useAdminContext(); // Assuming useDonor returns an object
+  const { adminDetail,setAdminDetail} = useAdminContext(); 
   const [loading, setLoading] = useState(true);
 
   const loguserid = parseInt(secureLocalStorage.getItem("loguserid"), 10);
@@ -19,26 +19,21 @@ const ProtectedRoute = ({ element }) => {
     if (!loguserid || isNaN(loguserid) || loguserid <= 0) {
       return   setLoading(false);
     }
-
-    if (donor) {
+    if (adminDetail) {
       setLoading(false);
       return; // User already in context, no need to fetch again
     }
 
     try {
       const bformData = new FormData();
-      bformData.append("data", "fetchuserbyid");
+      bformData.append("data", "load_admin_detail");
       bformData.append("loguserid", loguserid);
 
-      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
+      const response = await axios.post(`${PHP_API_URL}/admin.php`, bformData);
 
       if (response?.data?.status === 200) {
         setAdminDetail(response?.data?.data);
 
-        // If pincode is missing, redirect to address page
-        if (!response?.data?.data?.pincode) {
-          return <Navigate to="/address" replace />;
-        }
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -52,9 +47,8 @@ const ProtectedRoute = ({ element }) => {
   };
 
   if (loading) return <div>Loading...</div>;
-  if (!loguserid || isNaN(loguserid) || loguserid <= 0) return <Navigate to="/" replace />;
-  if (adminDetail && !adminDetail.pincode) return <Navigate to="/address" replace />;
-
+  console.log(loguserid)
+  if (!loguserid || isNaN(loguserid) || loguserid <= 0) return <Navigate to="/admin" replace />;
   return element;
 };
 
