@@ -6,6 +6,7 @@ import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import { Link } from "react-router-dom";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
+import logoImg from '../../../site-components/common/assets/img/logo-donation.avif'
 
 const ForgetPassword = () => {
 useEffect(() => {
@@ -50,12 +51,12 @@ useEffect(() => {
     setIsSubmit(true);
 
     if (!formData.phone || !/^\d{0,10}$/.test(formData?.phone)) {
-      markError("phone", "Phone is required");
+      markError("phone", "Phone Number is required");
       return setIsSubmit(false);
     }
 
     if (!formData.password) {
-      markError("password", "password is required.");
+      markError("password", "Password is required.");
       return setIsSubmit(false);
     }
 
@@ -174,31 +175,30 @@ useEffect(() => {
 
   return (
     <>
-      <div className="container-fluid p-h-0 p-v-20 bg full-height d-flex">
+      <div className="container-fluid p-h-0 p-v-20 bg  d-flex">
         <div className="d-flex flex-column justify-content-between w-100">
           <div
             className="container"
-            style={{ height: "100vh", display: "grid" }}
+            style={{ marginTop:"70px", display: "grid" }}
           >
             <div className="row align-items-center">
-              <div className="col-md-7 col-lg-5 m-h-auto">
-                <div className=" shadow-lg">
-                  <div className=" p-3">
+              <div className="col-md-7 col-lg-5 col-sm-12 m-h-auto">
+                <div className="">
+                  <div className="">
                     <div className="d-flex align-items-center justify-content-between m-b-30">
                       <img
                         className="img-fluid rounded-5"
                         style={{ maxWidth: "30%" }}
                         alt="Logo"
-                        src="https://spaceshineone.co.in/wp-content/themes/rpnlup/assets/img/rpnlup_logo_glow.png"
+                        src={logoImg}
                       />
                       <h2 className="h4_new">
-                        Forget <br />
-                        Password
+                        Change Your Password
                       </h2>
                     </div>
                     <div className="row">
                       <div className="col-md-12 ml-2">
-                        <h3 className="h6_new">Welcome Back!</h3>
+                        {/* <h3 className="h6_new">Welcome Back!</h3> */}
                         <p>
                           {!otpSend
                             ? "Enter your registered phone number"
@@ -208,16 +208,16 @@ useEffect(() => {
                     </div>
                     { (
                       <form
-                        className="pt-2 px-2"
+                        className="pt-2"
                         id="security_login_form"
                         onSubmit={handleSubmitOtpForm}
                       >
-                        <div className="form-group">
+                        <div className="form-group basic">
                           <label
-                            className="font-weight-semibold"
+                            className="label"
                             htmlFor="phone"
                           >
-                            Phone number <span className="text-danger">*</span>
+                            Phone Number <span className="text-danger">*</span>
                           </label>
                           <div className="input-affix">
                             <i className="prefix-icon anticon "></i>
@@ -226,7 +226,7 @@ useEffect(() => {
                               name="phone"
                               className="form-control"
                               id="phone"
-                              placeholder="Enter phone number"
+                              placeholder="Enter Phone Number"
                               value={formData?.phone}
                               onChange={handleInputChange}
                               readOnly={otpSend}
@@ -239,9 +239,9 @@ useEffect(() => {
                           
                           {!otpSend && 
                           (<>
-                        <div className="form-group">
+                        <div className="form-group basic">
                           <label
-                            className="font-weight-semibold"
+                            className="label"
                             htmlFor="password"
                           >
                             New Password <span className="text-danger">*</span>
@@ -264,9 +264,9 @@ useEffect(() => {
                           )}
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group basic">
                           <label
-                            className="font-weight-semibold"
+                            className="label"
                             htmlFor="cpassword"
                           >
                             Confirm New Password <span className="text-danger">*</span>
@@ -330,20 +330,20 @@ useEffect(() => {
                           </button>
                         ))}
 
-                        
-                        <div className="form-group mb-1 px-0 ">
+                        <div className="id-postion-fixed-bottom">
+                        <div className="form-group mb-1 px-0" style={{marginTop:'auto'}}>
                         {!otpSend ?
                           <button
                             disabled={isSubmit}
                             type="submit"
-                            className="btn btn-dark d-flex justify-content-center align-items-center btn-block submit_btn mt-2"
+                            className="btn btn-dark btn-block btn-lg"
                             id="signin-btn"
                           >
                             
                             {isSubmit ? (
                               "Submiting..."
                             ) : (
-                              <span className="fontsize-normal">Forget</span>
+                              <span className="fontsize-normal">Forgot Your Password</span>
                             )}
                           </button>
                           : <button
@@ -364,14 +364,17 @@ useEffect(() => {
                           )}
                         </button> }
                         </div> 
-                        
-                      </form>
-                    )}
-                    <Link to="/">
-                      <div className="text-center text-secondary mb-3">
+                        <Link to="/login">
+                      <div className="text-center  mb-3" style={{color:"#0d6efd"}}>
                         Sign In
                       </div>
                     </Link>
+                 </div>
+                       
+                        
+                      </form>
+                    )}
+                   
                   </div>
                 </div>
               </div>

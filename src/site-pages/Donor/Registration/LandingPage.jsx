@@ -19,22 +19,22 @@ const LandingPage = () => {
         >
           <img src={pwd} alt="" className="am-ctm-img" />
         </div>
-        <div className="lower-section  mx-auto px-2 py-4">
+        <div className="lower-section  mx-auto">
           <div className="mx-auto px-2">
             <h1>Give Blood, Give Hope. Your donation saves lives!</h1>
-            <span>
+            <span className="mt-1"> 
               This combination creates an impactful and motivational splash
               screen to encourage users to donate blood.
             </span>
           </div>
           <div>
-            <Link className="btn am-ctm-btn mt-2 " to="/register">
+            <Link className="btn am-ctm-btn mt-2 id-btn" to="/register">
              Get Started
             </Link>
             
           </div>
           <div className="mt-1">
-            Already register ? <Link to="/login" style={{color:"#27173e"}}> Login</Link>
+            Already registered? <Link to="/login" style={{color:"#0d6efd"}}> Login</Link>
             
           </div>
         </div>
@@ -48,7 +48,7 @@ const LandingPage = () => {
         .body {
         
           text-align: center;
-          height:100vh;
+          height: 657px;
           widht:100vw;
                               background: var(--am-primary-red);
 
@@ -60,8 +60,10 @@ const LandingPage = () => {
         .lower-section {
           background: var(--am-primary-white);
           border-radius: 30px 30px 0px 0px;
-          position:absolute;
+          position:fixed;
+
           bottom:0px;
+          padding: 40px 14px 10px;
         }
         .am-ctm-btn {
 
@@ -69,11 +71,18 @@ const LandingPage = () => {
           padding: 20px;
           background: var(--am-primary-red);
           color: var(--am-primary-white);
+          font-weight: 600;
         }
           .am-ctm-img{
  width: 80%;
   margin-top:10%;
   border-radius:60% 60% 60% 0px;
+      }
+
+      .id-btn:hover{
+        color: white;
+      
+      }
       `}</style>
     </>
   );

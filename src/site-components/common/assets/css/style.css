@@ -20,7 +20,7 @@ body {
   font-family: "Source Sans 3", serif;
 }
 a {
-  color: #3a5f0b;
+  color: black;
   outline: 0 !important;
   text-decoration: none;
 }
@@ -40,7 +40,7 @@ a:focus {
 .appHeader {
   height: 56px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   position: fixed;
   top: env(safe-area-inset-top);
@@ -50,6 +50,8 @@ a:focus {
   background: #ffffff;
   color: #27173e;
   border-bottom: 1px solid #dcdce9;
+  padding: 0px 15px;
+  gap: 10px;
 }
 
 .appHeader:before {
@@ -95,6 +97,9 @@ a:focus {
   font-size: 20px;
   margin-right: 0px ;
 }
+.id-back-icon{
+  color: #161129;
+}
 
 .appHeader .left .headerButton,
 .appHeader .right .headerButton {
@@ -104,7 +109,7 @@ a:focus {
   justify-content: center;
   padding: 10px 0px;
   align-items: center;
-  color: #3a5f0b;
+  color: black;
   position: relative;
   font-size: 22px !important;
 }
@@ -320,13 +325,13 @@ a:focus {
 }
 
 .appBottomMenu .item.active:before {
-  background: #3a5f0b;
+  background: #b32825;
 }
 
 .appBottomMenu .item.active .icon,
 .appBottomMenu .item.active ion-icon,
 .appBottomMenu .item.active strong {
-  color: #3a5f0b !important;
+  color: #b32825 !important;
   font-weight: 500;
 }
 
@@ -8376,10 +8381,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: 1px solid red;
   border-radius: 40px;
 }
-
-
-
-
 .floating-button {
   position: absolute;
   top: -22px;
@@ -8399,3 +8400,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* .appBottomMenu .active .col ion-icon{
   color: red !important;
 } */
+
+.loader-circle {
+  border: 3px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 3px solid #3498db;
+  width: 20px;
+  height: 20px;
+  -webkit-animation: spinc 1s linear infinite;
+  /* Safari */
+  animation: spinc 1s linear infinite;
+}.id-dash-b-img{
+  height: 60px;
+}

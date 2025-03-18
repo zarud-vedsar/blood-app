@@ -5,6 +5,7 @@ import secureLocalStorage from "react-secure-storage";
 import { Link } from "react-router-dom";
 import { formatDate } from "../../../site-components/Helper/HelperFunction";
 import Slider from "../../../site-components/Donor/components/Slider";
+import Footer from "../../../site-components/Donor/components/Footer";
 const BloodRequestList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -88,7 +89,7 @@ const BloodRequestList = () => {
     <div>
       {/* App Header */}
       <div className="appHeader">
-        <div className="left left-0">
+        <div className="">
           <Slider/>
         </div>
         <div className="pageTitle w-75">Blood Requested List</div>
@@ -108,7 +109,6 @@ const BloodRequestList = () => {
           {!loading && donationRequestList.length === 0 && (
             <p className="text-center pt-2">No data found.</p>
           )}
-
           <ul className="listview image-listview" id="set_fecthed_data">
             {donationRequestList.map((request, index) => (
               <li key={index}>
@@ -199,6 +199,7 @@ const BloodRequestList = () => {
               </li>
             ))}
           </ul>
+          <Footer></Footer>
         </section>
       </div>
 
@@ -225,38 +226,7 @@ const BloodRequestList = () => {
             font-weight: bold;
           }
 
-          .blood-drop {
-            width: 50px;
-            height: 60px;
-            background: radial-gradient(
-              circle at top,
-              rgba(255, 100, 100, 0.9),
-              rgba(150, 0, 0, 1)
-            );
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-           box-shadow: 0px 5px 10px rgb(150 0 0 / 32%);
-            font-family: Arial, sans-serif;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-          }
-
-          /* Light reflection */
-          .blood-drop::before {
-            content: "";
-            position: absolute;
-            top: 12px;
-            left: 18px;
-            width: 12px;
-            height: 12px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            opacity: 0.8;
-          }
+         
             .request-header{
     font-weight: 500;
     font-size: 18px;

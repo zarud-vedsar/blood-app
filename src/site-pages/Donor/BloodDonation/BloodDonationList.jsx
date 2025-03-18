@@ -5,11 +5,12 @@ import secureLocalStorage from "react-secure-storage";
 import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "../../../site-components/Helper/HelperFunction";
 import Slider from "../../../site-components/Donor/components/Slider";
+import Footer from "../../../site-components/Donor/components/Footer";
 const BloodDonationList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const acceptRequest = async (id) => {
     setIsSubmit(true);
@@ -24,7 +25,7 @@ const BloodDonationList = () => {
 
       if (response?.data?.status === 200) {
         setTimeout(() => {
-            navigate("/blood-donation/history")
+          navigate("/blood-donation/history");
         }, 300);
       } else {
         toast.error("An error occurred. Please try again.");
@@ -39,7 +40,7 @@ const BloodDonationList = () => {
         );
       }
     } finally {
-        setIsSubmit(false);
+      setIsSubmit(false);
     }
   };
   const fetchDonationRequestList = async () => {
@@ -50,7 +51,6 @@ const BloodDonationList = () => {
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
 
       if (response?.data?.status === 200) {
         setDonationRequestList(response.data.data || []);
@@ -80,8 +80,8 @@ const BloodDonationList = () => {
     <div>
       {/* App Header */}
       <div className="appHeader">
-        <div className="left left-0">
-         <Slider/>
+        <div className="">
+          <Slider />
         </div>
         <div className="pageTitle w-75">Donation List</div>
         <div className="right right-0">
@@ -131,26 +131,23 @@ const BloodDonationList = () => {
                           <p className="f-16 mb-0">
                             {formatDate(request?.requiredDate)}
                           </p>
-
-                          {request?.status === 0 && (
-                            <p className="f-16 text-warning mb-0">Pending</p>
-                          )}
-                          {request?.status === 1 && (
-                            <p className="f-16 text-success mb-0">Recevied</p>
-                          )}
                         </div>
                       </div>
                       <div></div>
                     </div>
                   </Link>
 
-                  <button className="btn" onClick={() => acceptRequest(request?.id)}>
+                  <button
+                    className="btn"
+                    onClick={() => acceptRequest(request?.id)}
+                  >
                     <ion-icon name="heart" color="danger"></ion-icon>
                   </button>
                 </div>
               </li>
             ))}
           </ul>
+          <Footer></Footer>
         </section>
       </div>
 
@@ -177,38 +174,7 @@ const BloodDonationList = () => {
             font-weight: bold;
           }
 
-          .blood-drop {
-            width: 50px;
-            height: 60px;
-            background: radial-gradient(
-              circle at top,
-              rgba(255, 100, 100, 0.9),
-              rgba(150, 0, 0, 1)
-            );
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0px 5px 10px rgba(150, 0, 0, 0.7);
-            font-family: Arial, sans-serif;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-          }
-
-          /* Light reflection */
-          .blood-drop::before {
-            content: "";
-            position: absolute;
-            top: 12px;
-            left: 18px;
-            width: 12px;
-            height: 12px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            opacity: 0.8;
-          }
+          
             .request-header{
     font-weight: 500;
     font-size: 18px;
