@@ -193,7 +193,7 @@ useEffect(() => {
                         src={logoImg}
                       />
                       <h2 className="h4_new">
-                        Forget Password
+                        Change Your Password
                       </h2>
                     </div>
                     <div className="row">
