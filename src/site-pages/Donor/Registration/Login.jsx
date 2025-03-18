@@ -143,11 +143,13 @@ const Login = () => {
                 className="btn btn-dark btn-block btn-lg"
                 disabled={isSubmit}
               >
-                {isSubmit ? (
-                  "Logging..."
-                ) : (
-                  <span className="fontsize-normal">Login</span>
-                )}
+                Login  {isSubmit && (
+                            <>
+                              &nbsp; <div className="loader-circle"></div>
+                            </>
+                          )}
+
+               
               </button>
               
                <div className="mt-1 mb-2">

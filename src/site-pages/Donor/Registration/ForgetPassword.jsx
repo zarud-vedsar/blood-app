@@ -340,11 +340,11 @@ useEffect(() => {
                             id="signin-btn"
                           >
                             
-                            {isSubmit ? (
-                              "Submiting..."
-                            ) : (
-                              <span className="fontsize-normal">Forgot Your Password</span>
-                            )}
+                            Forgot Your Password {isSubmit && (
+                            <>
+                              &nbsp; <div className="loader-circle"></div>
+                            </>
+                          )}
                           </button>
                           : <button
                           disabled={isSubmit}
@@ -357,11 +357,12 @@ useEffect(() => {
                           }}
                         >
                           
-                          {isSubmit ? (
-                            "Submiting..."
-                          ) : (
-                            <span className="fontsize-normal">Verify OTP</span>
+                          Verify OTP {isSubmit && (
+                            <>
+                              &nbsp; <div className="loader-circle"></div>
+                            </>
                           )}
+                          
                         </button> }
                         </div> 
                         <Link to="/login">

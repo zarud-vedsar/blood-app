@@ -3,7 +3,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
 import { Link } from "react-router-dom";
-import { formatDate } from "../../../site-components/Helper/HelperFunction";
+import { formatDate, goBack } from "../../../site-components/Helper/HelperFunction";
 import Slider from "../../../site-components/Donor/components/Slider";
 import Footer from "../../../site-components/Donor/components/Footer";
 const BloodRequestList = () => {
@@ -88,19 +88,19 @@ const BloodRequestList = () => {
   return (
     <div>
       {/* App Header */}
-      <div className="appHeader">
-        <div className="">
-          <Slider/>
+      <div className="appHeader d-flex justify-content-around align-items-center">
+        <div className="left left-0">
+        <a href="#" class="headerButton " onClick={goBack}>
+                <ion-icon name="arrow-back-outline" role="img" class="md hydrated"
+                    aria-label="arrow back outline"></ion-icon>
+            </a>
         </div>
         <div className="pageTitle w-75">Blood Requested List</div>
-        <div className="right right-0">
-          <Link to="/blood-donation-request/add-new">
-            <button className="btn btn-light px-0 me-1">
-              <ion-icon name="add-outline"></ion-icon>
-            </button>
-          </Link>
+        <div className="right ">
+          <Slider/>
         </div>
       </div>
+     
       {/* * App Header */}
 
       <div id="appCapsule">
@@ -199,7 +199,7 @@ const BloodRequestList = () => {
               </li>
             ))}
           </ul>
-          <Footer></Footer>
+          
         </section>
       </div>
 

@@ -126,11 +126,11 @@ const OTPVerificationPage = () => {
               className="btn btn-dark btn-block btn-lg"
               disabled={loading}
             >
-              {loading ? (
-                "Loading..."
-              ) : (
-                <span className="fontsize-normal">Verify OTP</span>
-              )}
+              Verify OTP {loading && (
+                            <>
+                              &nbsp; <div className="loader-circle"></div>
+                            </>
+                          )}
             </button>
           </div>
         </form>

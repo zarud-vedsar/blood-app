@@ -7,6 +7,7 @@ import secureLocalStorage from "react-secure-storage";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { goBack } from "../../../site-components/Helper/HelperFunction";
 import { FaCalendarAlt } from "react-icons/fa";
+import Slider from "../../../site-components/Donor/components/Slider";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -275,10 +276,7 @@ const AddNewBloodRequest = () => {
         </div>
         <div className="pageTitle w-75">Request for blood</div>
         <div className="right ">
-          <Link to="/blood-donation-request/request-list">
-            <button className="btn btn-light px-0 me-1">
-            </button> <ion-icon name="list" style={{fontSize:"22px"}} ></ion-icon>
-          </Link>
+          <Slider/>
         </div>
       </div>
 
@@ -399,6 +397,7 @@ const AddNewBloodRequest = () => {
                   value={formData.pincode}
                   onChange={searchPincode}
                 />
+                 
                 {error.name === "pincode" && (
                   <span className="text-danger">{error.msg}</span>
                 )}
@@ -528,11 +527,12 @@ const AddNewBloodRequest = () => {
                   className="btn btn-dark btn-block btn-lg"
                   disabled={isSubmit}
                 >
-                  {isSubmit ? (
-                    "Submitting..."
-                  ) : (
-                    <span className="fontsize-normal">Submit</span>
-                  )}
+                  Submit {isSubmit && (
+                            <>
+                              &nbsp; <div className="loader-circle"></div>
+                            </>
+                          )}
+                
                 </button>
               </div>
             </div>
