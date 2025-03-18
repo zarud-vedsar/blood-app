@@ -17,7 +17,7 @@ const ProtectedRoute = ({ element }) => {
 
   const isUserLoggedIn = async () => {
     if (!loguserid || isNaN(loguserid) || loguserid <= 0) {
-      return   setLoading(false);;
+      return   setLoading(false);
     }
 
     if (donor) {

@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { formatDate } from "../../../site-components/Helper/HelperFunction";
 import Slider from "../../../site-components/Donor/components/Slider";
+import Footer from "../../../site-components/Donor/components/Footer";
 const BloodDonatedHistory = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
-
- 
   const fetchDonationRequestList = async () => {
     setLoading(true);
     try {
@@ -43,14 +41,14 @@ const BloodDonatedHistory = () => {
 
   useEffect(() => {
     fetchDonationRequestList();
-  }, []); // ✅ Fixed useEffect dependency
+  }, []); 
 
   return (
     <div>
-      {/* App Header */}
+      
       <div className="appHeader">
         <div className="left left-0">
-          <Slider/>
+          <Slider />
         </div>
         <div className="pageTitle w-75">Donation History</div>
         <div className="right right-0">
@@ -61,7 +59,6 @@ const BloodDonatedHistory = () => {
           </Link>
         </div>
       </div>
-      {/* * App Header */}
 
       <div id="appCapsule">
         <section className="section px-2  pb-5 mb-5">
@@ -105,26 +102,23 @@ const BloodDonatedHistory = () => {
                             <p className="f-16 text-warning mb-0">Pending</p>
                           )}
                           {request?.status === 1 && (
-                            <p className="f-16 text-success mb-0">Accepted</p>
+                            <p className="f-16 text-success mb-0">
+                              Donated Successfully
+                            </p>
                           )}
                           {request?.status === 2 && (
-                            <p className="f-16 text-info mb-0">Received</p>
+                            <p className="f-16 text-danger mb-0">Rejectd</p>
                           )}
-                          {request?.status === 3 && (
-                            <p className="f-16 text-danger mb-0">Rejected</p>
-                          )}
-
                         </div>
                       </div>
                       <div></div>
                     </div>
                   </Link>
-
-                  
                 </div>
               </li>
             ))}
           </ul>
+          <Footer></Footer>
         </section>
       </div>
 
@@ -151,38 +145,7 @@ const BloodDonatedHistory = () => {
             font-weight: bold;
           }
 
-          .blood-drop {
-            width: 50px;
-            height: 60px;
-            background: radial-gradient(
-              circle at top,
-              rgba(255, 100, 100, 0.9),
-              rgba(150, 0, 0, 1)
-            );
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0px 5px 10px rgba(150, 0, 0, 0.7);
-            font-family: Arial, sans-serif;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-          }
-
-          /* Light reflection */
-          .blood-drop::before {
-            content: "";
-            position: absolute;
-            top: 12px;
-            left: 18px;
-            width: 12px;
-            height: 12px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            opacity: 0.8;
-          }
+         
             .request-header{
     font-weight: 500;
     font-size: 18px;
@@ -195,4 +158,3 @@ const BloodDonatedHistory = () => {
 };
 
 export default BloodDonatedHistory;
-
