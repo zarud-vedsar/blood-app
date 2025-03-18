@@ -151,7 +151,7 @@ const Login = () => {
               </button>
               
                <div className="mt-1 mb-2">
-                          Don't have an account ? <Link to="/info" style={{color:"#27173e"}}> Register</Link>
+                          Don't have an account ? <Link to="/info" style={{color:"#0d6efd"}}>Sign Up</Link>
                           
                         </div>
             </div>
