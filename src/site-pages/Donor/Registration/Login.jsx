@@ -96,7 +96,7 @@ const Login = () => {
         <div className="section mb-5 p-2">
           <form onSubmit={handleSubmit}>
             <div className="card">
-              <div className="card-body">
+              <div className="card-body px-0">
                 <div className="form-group basic">
                   <label className="label" htmlFor="phone">
                     Phone <span className="text-danger">*</span>
@@ -114,6 +114,7 @@ const Login = () => {
                     <span className="text-danger">{error.msg}</span>
                   )}
                 </div>
+
                 <div className="form-group basic">
                   <label className="label" htmlFor="password">
                     Password <span className="text-danger">*</span>
@@ -133,10 +134,9 @@ const Login = () => {
                 </div>
                 <div className="text-end">
                           <Link to="/forget" style={{color:"#27173e"}}> Forget Password?</Link>
-                          
                         </div>
-              </div>
-            </div>
+                      </div>
+                    </div>
             <div className="form-button-group transparent d-flex   flex-column justify-content-center align-items-center">
               <button
                 type="submit"
