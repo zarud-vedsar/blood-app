@@ -99,7 +99,7 @@ const Login = () => {
               <div className="card-body px-0">
                 <div className="form-group basic">
                   <label className="label" htmlFor="phone">
-                    Phone <span className="text-danger">*</span>
+                    Phone Number <span className="text-danger">*</span>
                   </label>
                   <input
                     type="number"
@@ -133,7 +133,7 @@ const Login = () => {
                   )}
                 </div>
                 <div className="text-end">
-                          <Link to="/forget" style={{color:"#27173e"}}> Forget Password?</Link>
+                          <Link to="/forget" style={{color:"#27173e"}}> Forgot Password?</Link>
                         </div>
                       </div>
                     </div>

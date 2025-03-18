@@ -198,7 +198,7 @@ useEffect(() => {
                     </div>
                     <div className="row">
                       <div className="col-md-12 ml-2">
-                        <h3 className="h6_new">Welcome Back!</h3>
+                        {/* <h3 className="h6_new">Welcome Back!</h3> */}
                         <p>
                           {!otpSend
                             ? "Enter your registered phone number"
@@ -343,7 +343,7 @@ useEffect(() => {
                             {isSubmit ? (
                               "Submiting..."
                             ) : (
-                              <span className="fontsize-normal">Forget</span>
+                              <span className="fontsize-normal">Forgot Your Password</span>
                             )}
                           </button>
                           : <button
@@ -364,7 +364,7 @@ useEffect(() => {
                           )}
                         </button> }
                         </div> 
-                        <Link to="/">
+                        <Link to="/login">
                       <div className="text-center  mb-3" style={{color:"#0d6efd"}}>
                         Sign In
                       </div>
