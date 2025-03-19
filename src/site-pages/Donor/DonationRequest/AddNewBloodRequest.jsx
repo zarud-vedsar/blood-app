@@ -8,6 +8,7 @@ import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant"
 import { goBack } from "../../../site-components/Helper/HelperFunction";
 import { FaCalendarAlt } from "react-icons/fa";
 import Slider from "../../../site-components/Donor/components/Slider";
+import { toast } from "react-toastify";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -110,6 +111,7 @@ const AddNewBloodRequest = () => {
   useEffect(() => getLocation(), []);
 
   useEffect(() => {
+    
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -154,8 +156,9 @@ const AddNewBloodRequest = () => {
         setLoading(false);
       }
     };
-  
-    fetchData(); // Call the async function
+  if(id){
+    fetchData(); 
+  }// Call the async function
   }, [id]); // Only runs when `id` changes
   
 
@@ -229,6 +232,9 @@ const AddNewBloodRequest = () => {
       });
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 201 || response?.data?.status === 200) {
+
+        toast.success(response?.data?.msg);
+
         setFormData(initializeForm);
         if(response?.data?.status === 200){
           window.history.back();

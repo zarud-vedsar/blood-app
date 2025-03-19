@@ -5,7 +5,7 @@ import secureLocalStorage from "react-secure-storage";
 import { Link } from "react-router-dom";
 import { formatDate, goBack } from "../../../site-components/Helper/HelperFunction";
 import Slider from "../../../site-components/Donor/components/Slider";
-import Footer from "../../../site-components/Donor/components/Footer";
+import { toast } from "react-toastify";
 const BloodDonatedHistory = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);

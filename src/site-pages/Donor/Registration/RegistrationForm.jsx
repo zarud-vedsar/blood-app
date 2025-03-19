@@ -6,6 +6,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { FaCalendarAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -127,9 +128,12 @@ const RegistrationForm = () => {
       });
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
-        setTimeout(() => {
-          navigate(`/otp-verification/${response?.data?.data?.id}`);
-        }, 300);
+
+         toast.success(response?.data?.msg, {
+                  autoClose: 300, 
+                  onClose: () => navigate(`/otp-verification/${response?.data?.data?.id}`), 
+                });
+        
       } else {
         toast.error("An error occurred. Please try again.");
       }

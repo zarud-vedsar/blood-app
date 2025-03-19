@@ -4,6 +4,8 @@ import {  useParams } from "react-router-dom";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -37,7 +39,7 @@ const BloodDonationDetailView = () => {
         if (response?.data?.status === 200) {
           setBloodDonationRequestDetail(response?.data?.data[0]);
 
-          toast.error("An error occurred. Please try again.");
+          
         }
       } catch (error) {
         const status = error.response?.data?.status;
@@ -69,9 +71,11 @@ const BloodDonationDetailView = () => {
       console.log(response);
 
       if (response?.data?.status === 200) {
-        setTimeout(() => {
-            navigate("/blood-donation/history")
-        }, 300);
+        toast.success(response?.data?.msg, {
+          autoClose: 300, 
+          onClose: navigate("/blood-donation/history"), 
+        });
+        
       } else {
         toast.error("An error occurred. Please try again.");
       }

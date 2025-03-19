@@ -94,17 +94,19 @@
 }
 
 .custom-toast {
-  background: black !important;
+  background: #393939 !important;
   color: white !important;
   text-align: center;
   font-size: 16px;
   border-radius: 8px;
-  width: 250px !important;
+  width: 200px !important;
   height: auto !important;
   display: flex;
+  flex-direction: column;
+  gap: 5px;
   align-items: center;
   justify-content: center;
-  padding: 10px !important;
+  padding: 15px !important;
   opacity: 1;
   transition: opacity 0.3s ease-out; /* Smooth fade-out effect */
 }
