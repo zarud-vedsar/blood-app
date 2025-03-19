@@ -343,7 +343,7 @@ useEffect(() => {
                             {isSubmit ? (
                               "Submiting..."
                             ) : (
-                              <span className="fontsize-normal">Forgot Your Password</span>
+                              <span className="fontsize-normal">Request OTP</span>
                             )}
                           </button>
                           : <button
