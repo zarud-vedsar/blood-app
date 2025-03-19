@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { formatDate } from "../../../site-components/Helper/HelperFunction";
 
-const BloodRequestViewDetail = () => {
+const DonorDetailView = () => {
   const { adminDetail } = useAdminContext();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
@@ -19,9 +19,9 @@ const BloodRequestViewDetail = () => {
 
     try {
       const bformData = new FormData();
-      bformData.append("data", "view_donation");
+      bformData.append("data", "load_donation_donerwise");
       bformData.append("loguserid", logUserId);
-      bformData.append("donation_id", id);
+      bformData.append("donorId", id);
 
       const response = await axios.post(`${PHP_API_URL}/admin.php`, bformData);
 
@@ -86,11 +86,11 @@ const BloodRequestViewDetail = () => {
               <div className="col-md-12 align-items-center ng-star-inserted">
                 {loading ? (
                   <div className="text-center">Loading...</div>
-                ) : data?.donation ? (
+                ) : data?.doner ? (
                   <div className="card px-3">
                     <div className="card-body py-3">
                       <div className="row ">
-                        <h6 className="title">Patient Detail</h6>
+                        <h6 className="title">Donor Detail</h6>
                       </div>
                       <div className="row ">
                         <div className="col-md-4">
@@ -101,17 +101,26 @@ const BloodRequestViewDetail = () => {
                                   className="fa-solid fa-user m-r-10 "
                                   style={{ color: "#3f87f5" }}
                                 ></i>
-                                <span>Patient Name</span>
+                                <span>Name</span>
                               </p>
                               <div className="">:</div>
 
                               <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.patientName || "N/A"}
-                                {data?.donation?.criticalStatus === 1 && (
-                                  <span className="badge badge-danger ml-2">
-                                    Critical
-                                  </span>
-                                )}
+                                {data?.doner?.name || "N/A"}
+                                
+                              </p>
+                            </li>
+                            <li className="row">
+                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
+                                <i
+                                  className="fa-solid fa-id-card m-r-10 "
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
+                                <span>User Id</span>
+                              </p>
+                              <div className="">:</div>
+                              <p className="col font-12 font-weight-semibold">
+                                {data?.doner?.uniqueId || "N/A"}
                               </p>
                             </li>
                             <li className="row">
@@ -124,7 +133,7 @@ const BloodRequestViewDetail = () => {
                               </p>
                               <div className="">:</div>
                               <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.bloodGroup || "N/A"}
+                                {data?.doner?.bloodGroup || "N/A"}
                               </p>
                             </li>
                             <li className="row">
@@ -133,45 +142,14 @@ const BloodRequestViewDetail = () => {
                                   className="fa-solid fa-phone m-r-10 "
                                   style={{ color: "#3f87f5" }}
                                 ></i>
-                                <span>Attendee Phone</span>
+                                <span> Phone Number</span>
                               </p>
                               <div className="">:</div>
                               <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.attendeePhone || "N/A"}
+                                {data?.doner?.phone || "N/A"}
                               </p>
                             </li>
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-chart-simple  m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>Status</span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.status === 0 && (
-                                  <span className="f-16 badge badge-warning mb-0">
-                                    Pending
-                                  </span>
-                                )}
-                                {data?.donation?.status === 1 && (
-                                  <span className="f-16 badge badge-success mb-0">
-                                    Accepted
-                                  </span>
-                                )}
-                                {data?.donation?.status === 2 && (
-                                  <span className="f-16 badge badge-info mb-0">
-                                    Received
-                                  </span>
-                                )}
-                                {data?.donation?.status === 3 && (
-                                  <span className="f-16 badge badge-danger mb-0">
-                                    Rejected
-                                  </span>
-                                )}
-                              </p>
-                            </li>
+                            
                           </ul>
                         </div>
                         <div className="col-md-4">
@@ -186,7 +164,7 @@ const BloodRequestViewDetail = () => {
                               </p>
                               <div className="">:</div>
                               <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.state || "N/A"}
+                                {data?.doner?.state || "N/A"}
                               </p>
                             </li>
                             <li className="row">
@@ -199,7 +177,7 @@ const BloodRequestViewDetail = () => {
                               </p>
                               <div className="">:</div>
                               <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.city || "N/A"}
+                                {data?.doner?.city || "N/A"}
                               </p>
                             </li>
                             <li className="row">
@@ -212,7 +190,7 @@ const BloodRequestViewDetail = () => {
                               </p>
                               <div className="">:</div>
                               <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.pincode || "N/A"}
+                                {data?.doner?.pincode || "N/A"}
                               </p>
                             </li>
                             <li className="row">
@@ -225,7 +203,7 @@ const BloodRequestViewDetail = () => {
                               </p>
                               <div className="">:</div>
                               <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.address || "N/A"}
+                                {data?.doner?.address || "N/A"}
                               </p>
                             </li>
                           </ul>
@@ -697,4 +675,4 @@ const BloodRequestViewDetail = () => {
   );
 };
 
-export default BloodRequestViewDetail;
+export default DonorDetailView;

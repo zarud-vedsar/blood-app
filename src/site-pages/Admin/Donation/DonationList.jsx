@@ -74,7 +74,6 @@ function DonationList() {
         bformData.append(`${key}`, filter[key]);
       });
 
-
       const response = await axios.post(`${PHP_API_URL}/admin.php`, bformData);
 
       if (response?.data?.status === 200) {
@@ -139,9 +138,7 @@ function DonationList() {
                   <a href="./" className="breadcrumb-item">
                     <i className="fas fa-home m-r-5" /> Donation
                   </a>
-                  <span className="breadcrumb-item active">
-                    Donation List
-                  </span>
+                  <span className="breadcrumb-item active">Donation List</span>
                 </nav>
               </div>
             </div>
@@ -172,7 +169,7 @@ function DonationList() {
               <div className={`card-body px-3 ${showFilter ? "" : "d-none"}`}>
                 <form onSubmit={applyFilter}>
                   <div className="row">
-                  <FormField
+                    <FormField
                       label="From Date"
                       name="fromDate"
                       id="fromDate"
@@ -200,7 +197,7 @@ function DonationList() {
                         }))
                       }
                     />
-                    
+
                     <div className="col-md-3 col-lg-3 col-12 form-group">
                       <label className="font-weight-semibold">
                         Blood Group
@@ -222,9 +219,6 @@ function DonationList() {
                         }
                       />
                     </div>
-                  
-
-                    
 
                     <div className="col-md-3 col-lg-3 col-12 form-group">
                       <label className="font-weight-semibold">Pin Code</label>
@@ -444,8 +438,6 @@ function DonationList() {
                         sortable
                       />
 
-                      
-
                       <Column
                         header="View"
                         body={(rowData) => (
@@ -457,7 +449,10 @@ function DonationList() {
                               </Tooltip>
                             }
                           >
-                            <Link to="#" className="text-warning">
+                            <Link
+                              to={`/admin/blood-request/${rowData.id}`}
+                              className="text-warning"
+                            >
                               <i className="fa-solid fa-eye"></i>
                             </Link>
                           </OverlayTrigger>
@@ -481,5 +476,4 @@ function DonationList() {
   );
 }
 
-
-export default DonationList
+export default DonationList;

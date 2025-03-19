@@ -386,7 +386,7 @@ function DonorList() {
                               </Tooltip>
                             }
                           >
-                            <Link to="#" className="text-warning">
+                            <Link to={`/admin/donor-detail/${rowData.id}`} className="text-warning">
                               <i className="fa-solid fa-eye"></i>
                             </Link>
                           </OverlayTrigger>
