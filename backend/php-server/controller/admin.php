@@ -249,6 +249,19 @@ function load_donor_list(){
 
 
 }
+
+function load_donation_donerwise(){
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $donorId= $action->db->setPostRequiredField('donorId','Doner Id is required')?:'';
+
+    
+}
     
 
 
