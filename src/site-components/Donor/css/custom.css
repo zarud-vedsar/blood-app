@@ -87,3 +87,35 @@
   border-radius: 50%;
   opacity: 0.8;
 }
+
+.Toastify__toast-container {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+}
+
+.custom-toast {
+  background: black !important;
+  color: white !important;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 8px;
+  width: 250px !important;
+  height: auto !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px !important;
+  opacity: 1;
+  transition: opacity 0.3s ease-out; /* Smooth fade-out effect */
+}
+
+/* Smooth fade-out effect when closing */
+.Toastify__toast--exit {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.Toastify__close-button {
+  color: white !important;
+  opacity: 1 !important;
+}
