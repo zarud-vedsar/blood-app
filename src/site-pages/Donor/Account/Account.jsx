@@ -55,7 +55,7 @@ const Account = () => {
                   <h2 className="mb-0">{donor?.name}</h2>
                   <a href="mailto:admin@gmail.com">{donor?.email}</a>
                 </div>
-                <button className="btn btn-dark ">Edit Profile</button>
+                <Link to={`/edit-profile`} className="btn btn-dark ">Edit Profile</Link>
               </div>
               <div className="id-link-wrapper mt-5">
                 <Link
