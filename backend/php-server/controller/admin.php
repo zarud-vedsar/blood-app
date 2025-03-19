@@ -148,3 +148,52 @@ function load_donation_overview(){
 }
 
 
+function load_donor_list(){
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $admin_id = $AuthendicteRequest['loguserid'];
+
+    $gender= $action->db->validatePostData('gender')?:'';
+    $bloodGroup= $action->db->validatePostData('bloodGroup')?:'';
+    $pincode= $action->db->validatePostData('pincode')?:'';
+    $state= $action->db->validatePostData('state')?:'';
+    $city= $action->db->validatePostData('city')?:'';
+
+    $sql= "SELECT * FROM `zuraud_doner` WHERE `reg_status`=1 ";
+    if(!empty($gender)){
+        $sql.=" AND `gender`='$gender'";
+    }
+    if(!empty($bloodGroup)){
+        $sql.=" AND `bloodGroup`='$bloodGroup'";
+    }
+    if(!empty($pincode)){
+        $sql.=" AND `pincode`='$pincode'";
+    }
+    if(!empty($state)){
+        $sql.=" AND `state`='$state'";
+    }
+    if(!empty($city)){
+        $sql.=" AND `city`='$city'";
+    }
+    $donor_list = $action->db->sql($sql);
+
+    if($donor_list){
+        echo $action->db->json(200, "Donor list fetched", '', $donor_list);
+        http_response_code(200);
+        return;
+    }else{
+        echo $action->db->json(400, "No donor found");
+        http_response_code(400);
+        return;
+    }
+
+
+}
+    
+
+
