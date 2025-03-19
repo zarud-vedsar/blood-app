@@ -340,7 +340,7 @@ useEffect(() => {
                             id="signin-btn"
                           >
                             
-                            Forgot Your Password {isSubmit && (
+                           Request OTP {isSubmit && (
                             <>
                               &nbsp; <div className="loader-circle"></div>
                             </>
