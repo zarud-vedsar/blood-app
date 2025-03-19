@@ -18,6 +18,8 @@ import BloodDonationDetailView from "../site-pages/Donor/BloodDonation/BloodDona
 import BloodDonationHistoryDetail from "../site-pages/Donor/BloodDonation/BloodDonationHistoryDetail";
 import PageLoader from "../site-components/Donor/components/PageLoader";
 import { Slide, ToastContainer } from "react-toastify";
+import Account from "../site-pages/Donor/Account/Account";
+import EditProfile from "../site-pages/Donor/Account/EditProfile";
 const Login = lazy(() => import("../site-pages/Donor/Registration/Login"));
 const RegistrationForm = lazy(() =>
   import("../site-pages/Donor/Registration/RegistrationForm")
@@ -106,6 +108,14 @@ function DonorRoute() {
           <Route
             path="/blood-donation/detail-view/:id"
             element={<ProtectedRoute element={<BloodDonationDetailView />} />}
+          />
+          <Route
+            path="/account"
+            element={<ProtectedRoute element={<Account/>} />}
+          />
+          <Route
+            path="/edit-profile"
+            element={<ProtectedRoute element={<EditProfile/>} />}
           />
         </Routes>
       </Suspense>
