@@ -6,6 +6,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import {useDonor} from "../../../site-components/Donor/ContextApi/DonorContext"
 import secureLocalStorage from "react-secure-storage";
 import LogoImg from '../../../site-components/common/assets/img/blood-logo.png'
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -144,11 +145,13 @@ const Login = () => {
                 className="btn btn-dark btn-block btn-lg"
                 disabled={isSubmit}
               >
-                {isSubmit ? (
-                  "Logging..."
-                ) : (
-                  <span className="fontsize-normal">Login</span>
-                )}
+                Login  {isSubmit && (
+                            <>
+                              &nbsp; <div className="loader-circle"></div>
+                            </>
+                          )}
+
+               
               </button>
               
                <div className="mt-1 mb-2">

@@ -4,6 +4,7 @@ import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
 import { useDonor } from "../../site-components/Donor/ContextApi/DonorContext";
 import { PHP_API_URL } from "../../site-components/Helper/Constant";
+import PageLoader from "../../site-components/Donor/components/PageLoader";
 
 const ProtectedRoute = ({ element }) => {
   const { donor, setDonor } = useDonor(); // Assuming useDonor returns an object
@@ -51,7 +52,6 @@ const ProtectedRoute = ({ element }) => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
   if (!loguserid || isNaN(loguserid) || loguserid <= 0) return <Navigate to="/" replace />;
   if (donor && !donor.pincode) return <Navigate to="/address" replace />;
 

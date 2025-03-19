@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "../../../site-components/Helper/HelperFunction";
 import Slider from "../../../site-components/Donor/components/Slider";
 import Footer from "../../../site-components/Donor/components/Footer";
+import userImg from "../../../site-components/common/assets/img/user.png";
+
 const BloodDonationList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -79,17 +81,12 @@ const BloodDonationList = () => {
   return (
     <div>
       {/* App Header */}
-      <div className="appHeader">
-        <div className="">
-          <Slider />
+      <div className="appHeader border-0">
+        <div className="left">
+          <img src={userImg} alt="User" className="imaged w32" />
         </div>
-        <div className="pageTitle w-75">Donation List</div>
-        <div className="right right-0">
-          <Link to="/blood-donation-request/add-new">
-            <button className="btn btn-light px-0 me-1">
-              <ion-icon name="add-outline"></ion-icon>
-            </button>
-          </Link>
+        <div className="right">
+          <Slider />{" "}
         </div>
       </div>
       {/* * App Header */}

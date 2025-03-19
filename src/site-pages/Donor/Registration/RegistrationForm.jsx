@@ -378,11 +378,11 @@ const RegistrationForm = () => {
                   className="btn btn-dark btn-block btn-lg"
                   disabled={isSubmit}
                 >
-                  {isSubmit ? (
-                    "Submitting..."
-                  ) : (
-                    <span className="fontsize-normal">Next</span>
-                  )}
+                  Next {isSubmit && (
+                            <>
+                              &nbsp; <div className="loader-circle"></div>
+                            </>
+                          )}
                 </button>
               </div>
             </div>

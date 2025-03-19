@@ -33,20 +33,31 @@ const Navbar = ({ toggleExpand, toggleFolded }) => {
     {
       title: "Dashboard",
       icon: <AiOutlineDashboard />,
-      url: "",
+      url: "dashboard",
       dropdownMenus: [
-        { subtitle: "Home", url: "home", icon: <FaUserGraduate /> },
-        { subtitle: "Admin", url: "admin-dashboard", icon: <FaUserGraduate /> },
-        { subtitle: "User Log", url: "user-log", icon: <FaChalkboardTeacher /> },
       ],
     },
     {
-      title: "Donation",
-      icon: <AiOutlineBook />,
-      url: "",
+      title: "Donor List",
+      icon: <AiOutlineDashboard />,
+      url: "donor/list",
       dropdownMenus: [
-        { subtitle: "Blood Request List", url: "blood-request/list", icon: <FaFileAlt /> },
-        { subtitle: "Donatation List", url: "donation/list", icon: <FaClipboardList /> },
+      ],
+    },
+    {
+      title: "Blood Request List",
+      icon: <AiOutlineBook />,
+      url: "blood-request/list",
+      dropdownMenus: [
+        
+      ],
+    },
+    {
+      title: "Donatation List",
+      icon: <AiOutlineBook />,
+      url: "donation/list",
+      dropdownMenus: [
+        
       ],
     },
     

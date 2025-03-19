@@ -8,6 +8,8 @@ import Navbar from "../site-components/Admin/components/Navbar";
 import IsAdminLoggedIn from "../site-pages/Admin/IsAdminLoggedIn";
 import BloodRequestList from "../site-pages/Admin/Donation/BloodRequestList";
 import DonationList from "../site-pages/Admin/Donation/DonationList";
+import { ToastContainer } from "react-toastify";
+import DonorList from "../site-pages/Admin/Donor/DonorList";
 const Login = lazy(() => import("../site-pages/Admin/Registration/Login"));
 const Dashboard = lazy(() => import("../site-pages/Admin/Dashboard/Dashboard"));
 
@@ -21,6 +23,15 @@ function AdminRoute({ toggleExpand, toggleFolded }) {
           <Navbar toggleExpand={toggleExpand} toggleFolded={toggleFolded} />
         )}
         <Suspense fallback={<div>Loading...</div>}>
+        <ToastContainer
+            autoClose={5000}
+            position="top-right"
+            hideProgressBar={false}
+            draggable
+            pauseOnHover
+            closeOnClick
+          />
+
           <Routes>
             <Route path="/" element={<Login />} />
             <Route
@@ -34,6 +45,10 @@ function AdminRoute({ toggleExpand, toggleFolded }) {
             <Route
               path="/donation/list"
               element={<ProtectedRoute element={<DonationList />} />}
+            />
+            <Route
+              path="/donor/list"
+              element={<ProtectedRoute element={<DonorList />} />}
             />
           </Routes>
         </Suspense>

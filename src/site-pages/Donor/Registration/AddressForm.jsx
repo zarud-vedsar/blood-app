@@ -251,11 +251,12 @@ const AddressForm = () => {
                   className="btn btn-dark btn-block btn-lg"
                   disabled={isSubmit}
                 >
-                  {loading ? (
-                    "Loading..."
-                  ) : (
-                    <span className="fontsize-normal"> Submit</span>
-                  )}
+                  Submit {isSubmit && (
+                            <>
+                              &nbsp; <div className="loader-circle"></div>
+                            </>
+                          )}
+                  
                 </button>
               </div>
             </div>
