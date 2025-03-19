@@ -287,7 +287,7 @@ function view_donation()
 
     $donation_id = $action->db->setPostRequiredField('donation_id', 'Donation Id is required');
 
-    $donation = $action->db->sql("SELECT * FROM `zuraud_donation_request` WHERE id='$donation_id'");
+    $donation = $action->db->sql("SELECT dr.*, d.name AS req_name, d.email AS req_email , d.phone AS req_phone , d.uniqueId AS req_uniqueId , d.address AS req_address , d.pincode AS req_pincode, d.state AS req_state, d.city AS req_city FROM `zuraud_donation_request` dr JOIN zuraud_doner d ON d.id= dr.user_id WHERE dr.id='$donation_id'");
     if ($donation) {
 
         $acceptance = $action->db->sql("SELECT ad.`acceptance_date`,ad.`rejection_reason`,ad.`rejection_date`,ad.`approval_date`,ad.`status`,d.name AS donorName, d.phone AS donorPhone, d.email AS donorEmail  FROM `approved_donations` ad JOIN zuraud_doner d ON d.id= ad.user_id WHERE ad.req_id='$donation_id'") ?: [];
