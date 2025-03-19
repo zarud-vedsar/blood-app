@@ -24,13 +24,16 @@ const Dashboard = () => {
       </div>
 
       <div id="appCapsule">
+      <div className="id-dash-top-color"></div>
         <section className="section px-2  pb-2 mb-1">
+         
           <div
             className="card"
             style={{
               backgroundColor: "white",
               boxShadow:
-                "rgba(0, 0, 0, 0.1) 0px 1px 2px, rgba(0, 0, 0, 0.1) 0px 4px 16px",
+                "rgb(0 0 0 / 6%) 0px 1px 2px, rgb(0 0 0 / 8%) 0px 4px 16px",
+                marginTop: "-49px",
             }}
           >
             <div className="card-body">
@@ -44,16 +47,17 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
+
           <div className="row mt-2">
             <div className="col-6">
               <div
                 className="card"
-                style={{ boxShadow: "rgb(232 221 221 / 12%) 0px 4px 8px, rgb(0 0 0 / 11%) 0px 4px 16px"}}
+                style={{ boxShadow: "rgb(0 0 0 / 6%) 0px 4px 8px, rgb(0 0 0 / 10%) 0px 4px 16px"}}
               >
                 <div className="mx-auto text-center py-1">
                   <Link to="/blood-donation-request/add-new"> 
-                  <img src={ImageT} alt="" className="id-dash-b-img" />
-                  <h4 className="mt-1">Request for Blood</h4>
+                  <img src={ImageF} alt="" className="id-dash-b-img" />
+                  <h4 className="mt-1 fw-600">Request for Blood</h4>
                   </Link>
                 </div>
               </div>
@@ -61,12 +65,12 @@ const Dashboard = () => {
             <div className="col-6">
               <div
                 className="card"
-                style={{ boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1), 0 4px 16px rgba(0, 0, 0, 0.1)",}}
+                style={{ boxShadow: "rgb(0 0 0 / 6%) 0px 4px 8px, rgb(0 0 0 / 10%) 0px 4px 16px",}}
               >
                 <div className="mx-auto text-center py-1">
                   <Link to="/blood-donation/list"> 
                   <img src={ImageFifth} alt="" className="id-dash-b-img" />
-                  <h4 className="mt-1">Donate</h4>
+                  <h4 className="mt-1 fw-600">Donate</h4>
                   </Link>
                 </div>
               </div>
@@ -74,12 +78,12 @@ const Dashboard = () => {
             <div className="col-6 mt-2">
               <div
                 className="card"
-                style={{ boxShadow: "rgb(232 221 221 / 12%) 0px 4px 8px, rgb(0 0 0 / 11%) 0px 4px 16px"}}
+                style={{ boxShadow: "rgb(0 0 0 / 6%) 0px 4px 8px, rgb(0 0 0 / 10%) 0px 4px 16px"}}
               >
                 <div className="mx-auto text-center py-1">
                   <Link to="/blood-donation-request/request-list"> 
-                  <img src={ImageF} alt="" className="id-dash-b-img" />
-                  <h4 className="mt-1">Blood Request List</h4>
+                  <img src={ImageT} alt="" className="id-dash-b-img" />
+                  <h4 className="mt-1 fw-600">Blood Request List</h4>
                   </Link>
                 </div>
               </div>
@@ -87,12 +91,12 @@ const Dashboard = () => {
             <div className="col-6 mt-2">
               <div
                 className="card"
-                style={{ boxShadow: "rgb(232 221 221 / 12%) 0px 4px 8px, rgb(0 0 0 / 11%) 0px 4px 16px"}}
+                style={{ boxShadow: "rgb(0 0 0 / 6%) 0px 4px 8px, rgb(0 0 0 / 10%) 0px 4px 16px"}}
               >
                 <div className="mx-auto text-center py-1">
                   <Link to="/blood-donation/history"> 
                   <img src={ImageFourth} alt="" className="id-dash-b-img" />
-                  <h4 className="mt-1">History</h4>
+                  <h4 className="mt-1 fw-600">History</h4>
                   </Link>
                 </div>
               </div>

@@ -232,7 +232,7 @@ a:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* border-top: 1px solid #dcdce9; */
+  border-top: 1px solid #b52a27;
   padding-left: 4px;
   padding-right: 4px;
   padding-bottom: env(safe-area-inset-bottom);
@@ -325,7 +325,7 @@ a:focus {
 }
 
 .appBottomMenu .item.active:before {
-  background: #b32825;
+  /* background: #b32825; */
 }
 
 .appBottomMenu .item.active .icon,
@@ -342,6 +342,7 @@ a:focus {
 }
 
 .appBottomMenu.text-light {
+  
   color: #fff;
 }
 
@@ -8412,4 +8413,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   animation: spinc 1s linear infinite;
 }.id-dash-b-img{
   height: 60px;
+}
+.id-dash-top-color{
+  height: 80px;
+  background-color: #b52a27;
 }
