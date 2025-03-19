@@ -92,6 +92,7 @@ const Login = () => {
           {/* <img src={LogoImg} alt="logo" /> */}
           {/* <h1 className="text-white fs-14">Welcome Back!</h1> */}
         </div>
+       
 
         <div className="section mb-5 p-2">
           <form onSubmit={handleSubmit}>
@@ -106,7 +107,7 @@ const Login = () => {
                     className="form-control"
                     name="phone"
                     id="phone"
-                    placeholder="Enter Phone"
+                    placeholder="Enter Phone Number"
                     value={formData.phone}
                     onChange={handleInputChange}
                   />
