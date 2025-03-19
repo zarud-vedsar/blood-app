@@ -119,21 +119,21 @@ const BloodRequestList = () => {
                   >
                     <div className="d-flex ">
                       <div
-                        className="d-flex justify-content-center align-items-center "
+                        className="d-flex justify-content-center"
                         style={{ marginRight: "10px" }}
                       >
                         <div className="blood-drop">{request?.bloodGroup}</div>
                       </div>
                       <div className="in px-2">
                         <div>
-                          <p className="request-header">
+                          <p className="request-header fw-600">
                             {request?.patientName} {request?.criticalStatus === 1 && (
                             <span className="badge badge-danger mb-0">Critical</span>
                           )}
                           </p>
-                          <header className="f-14">{`${request.unit} Units (Blood)`}</header>
-                          <footer className="f-14 ">{`${request?.city} , ${request?.state}`}</footer>
-                          <p className="f-16 mb-0">
+                          <header className="f-14 fw-600">{`${request.unit} Units (Blood)`}</header>
+                          <footer className="f-14 id-mb">{`${request?.city} , ${request?.state}`}</footer>
+                          <p className="f-16 mb-0 fw-600">
                             {formatDate(request?.requiredDate)}
                           </p>
                          
@@ -228,10 +228,12 @@ const BloodRequestList = () => {
 
          
             .request-header{
-    font-weight: 500;
     font-size: 18px;
-    margin-bottom:3px;
+    margin-bottom:6px;
             }
+    .id-mb{
+    margin-bottom: 6px !important;
+    }
         `}
       </style>
     </div>

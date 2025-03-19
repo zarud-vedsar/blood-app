@@ -93,6 +93,7 @@ const Login = () => {
           {/* <img src={LogoImg} alt="logo" /> */}
           {/* <h1 className="text-white fs-14">Welcome Back!</h1> */}
         </div>
+       
 
         <div className="section mb-5 p-2">
           <form onSubmit={handleSubmit}>
@@ -107,7 +108,7 @@ const Login = () => {
                     className="form-control"
                     name="phone"
                     id="phone"
-                    placeholder="Enter Phone"
+                    placeholder="Enter Phone Number"
                     value={formData.phone}
                     onChange={handleInputChange}
                   />
@@ -134,7 +135,7 @@ const Login = () => {
                   )}
                 </div>
                 <div className="text-end">
-                          <Link to="/forget" style={{color:"#27173e"}}> Forgot Password?</Link>
+                          <Link to="/forget" style={{color:"#0d6efd"}}> Forgot Your Password?</Link>
                         </div>
                       </div>
                     </div>
@@ -154,7 +155,7 @@ const Login = () => {
               </button>
               
                <div className="mt-1 mb-2">
-                          Don't have an account ? <Link to="/info" style={{color:"#0d6efd"}}>Sign Up</Link>
+                          Don't have an account ? <Link to="/register" style={{color:"#0d6efd"}}>Sign Up</Link>
                           
                         </div>
             </div>

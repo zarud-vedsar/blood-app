@@ -294,7 +294,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="patientName"
                   id="patientName"
-                  placeholder="Enter patient name"
+                  placeholder="Enter Patient Name"
                   value={formData.patientName}
                   onChange={handleInputChange}
                 />
@@ -312,7 +312,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="attendeePhone"
                   id="attendeePhone"
-                  placeholder="Enter attendee phone number"
+                  placeholder="Enter Attendee Phone Number"
                   value={formData.attendeePhone}
                   onChange={handleInputChange}
                 />
@@ -375,7 +375,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="unit"
                   id="unit"
-                  placeholder="Enter required blood unit"
+                  placeholder="Enter Required Blood Unit"
                   value={formData.unit}
                   onChange={handleInputChange}
                 />
@@ -393,7 +393,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="pincode"
                   id="pincode"
-                  placeholder="Enter pincode"
+                  placeholder="Enter Pincode"
                   value={formData.pincode}
                   onChange={searchPincode}
                 />
@@ -412,7 +412,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="state"
                   id="state"
-                  placeholder="Enter state"
+                  placeholder="Enter State"
                   value={formData.state}
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, state: e.target.value }))
@@ -431,7 +431,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="city"
                   id="city"
-                  placeholder="Enter city"
+                  placeholder="Enter City"
                   value={formData.city}
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, city: e.target.value }))
@@ -450,7 +450,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="address"
                   id="address"
-                  placeholder="Enter address"
+                  placeholder="Enter Address"
                   value={formData.address}
                   onChange={(e) =>
                     setFormData((prev) => ({
@@ -472,7 +472,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="additionalNote"
                   id="additionalNote"
-                  placeholder="Enter additional detail"
+                  placeholder="Enter Additional Details"
                   value={formData.additionalNote}
                   onChange={handleInputChange}
                 />
