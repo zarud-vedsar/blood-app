@@ -17,6 +17,7 @@ import BloodDonatedHistory from "../site-pages/Donor/BloodDonation/BloodDonatedH
 import BloodDonationDetailView from "../site-pages/Donor/BloodDonation/BloodDonationDetailView";
 import BloodDonationHistoryDetail from "../site-pages/Donor/BloodDonation/BloodDonationHistoryDetail";
 import PageLoader from "../site-components/Donor/components/PageLoader";
+import { ToastContainer } from "react-toastify";
 const Login = lazy(() => import("../site-pages/Donor/Registration/Login"));
 const RegistrationForm = lazy(() =>
   import("../site-pages/Donor/Registration/RegistrationForm")
@@ -37,6 +38,9 @@ function DonorRoute() {
   }, [location]);
   return (
     <>
+    <ToastContainer 
+      />
+
     {loading && <PageLoader />} 
     <DonorProvider>
       <Suspense
@@ -44,6 +48,7 @@ function DonorRoute() {
         <div>Loading...</div>
         }
       >
+        
         <Routes>
           <Route path="/" element={<Navigate to="info" />} />
           <Route path="/info" element={<LandingPage />} />

@@ -6,6 +6,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import {useDonor} from "../../../site-components/Donor/ContextApi/DonorContext"
 import secureLocalStorage from "react-secure-storage";
 import LogoImg from '../../../site-components/common/assets/img/blood-logo.png'
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
