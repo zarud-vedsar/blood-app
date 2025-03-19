@@ -38,6 +38,16 @@ const Footer = () => {
         </div>
       </Link>
 
+      <Link
+        to="/account"
+        className={`item ${location.pathname === "/blood-donation-request/request-list" ? "active" : ""}`}
+      >
+        <div className="col">
+        <ion-icon name="person"></ion-icon>
+          <strong className="mt-1">Account</strong>
+        </div>
+      </Link>
+
      
     </div>
   );
