@@ -14,6 +14,9 @@ import secureLocalStorage from "react-secure-storage";
 import { FormField } from "../../../site-components/admin/assets/FormField";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { DonationStatusConstant } from "../../../site-components/Helper/DonationStatusConstant";
+import { Link } from "react-router-dom";
+import { OverlayTrigger } from "react-bootstrap";
+import Tooltip from "react-bootstrap/Tooltip";
 
 function BloodRequestList() {
   const [showFilter, setShowFilter] = useState(false);
@@ -73,6 +76,7 @@ function BloodRequestList() {
         bformData.append(`${key}`, filter[key]);
       });
 
+
       const response = await axios.post(`${PHP_API_URL}/admin.php`, bformData);
 
       if (response?.data?.status === 200) {
@@ -95,7 +99,6 @@ function BloodRequestList() {
             ...new Set(response?.data?.data?.map((item) => item.city)),
           ]);
         }
-
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -368,7 +371,35 @@ function BloodRequestList() {
                       />
 
                       <Column
-                        header="Name"
+                        header="User"
+                        field="req_name"
+                        sortable
+                        body={(row) => (
+                          <div className="p-2">
+                            <div className="d-flex ">
+                              <div className="mr-2">
+                                <i className="fa-regular fa-user"></i>
+                              </div>
+                              <div className="">{row.req_name}</div>
+                            </div>
+                            <div className="d-flex ">
+                              <div className="mr-2">
+                                <i className="fa-regular fa-address-card"></i>
+                              </div>
+                              <div className="">{row.uniqueId}</div>
+                            </div>
+
+                            <div className="d-flex ">
+                              <div className="mr-2">
+                                <i className="fa-solid fa-mobile-screen"></i>
+                              </div>
+                              <div className="">{row.phone}</div>
+                            </div>
+                          </div>
+                        )}
+                      />
+                      <Column
+                        header="Patient Name"
                         field="patientName"
                         sortable
                         body={(row) => (
@@ -412,23 +443,12 @@ function BloodRequestList() {
                       />
 
                       <Column
-                        body={(row) => capitalizeFirstLetter(row.address)}
-                        header="Address"
-                        field="address"
-                        sortable
-                      />
-                      <Column
                         body={(row) => capitalizeFirstLetter(row.pincode)}
                         header="PinCode"
                         field="pincode"
                         sortable
                       />
-                      <Column
-                        body={(row) => formatDate(row.approve_date)}
-                        header="Approved Date"
-                        field="approve_date"
-                        sortable
-                      />
+
                       <Column
                         body={(row) => formatDate(row.request_date)}
                         header="Requested Date"
@@ -468,6 +488,24 @@ function BloodRequestList() {
                               </span>
                             )}
                           </div>
+                        )}
+                      />
+
+                      <Column
+                        header="View"
+                        body={(rowData) => (
+                          <OverlayTrigger
+                            placement="bottom"
+                            overlay={
+                              <Tooltip id={`tooltip-${rowData.id}`}>
+                                View
+                              </Tooltip>
+                            }
+                          >
+                            <Link to="#" className="text-warning">
+                              <i className="fa-regular fa-eye"></i>
+                            </Link>
+                          </OverlayTrigger>
                         )}
                       />
                     </DataTable>

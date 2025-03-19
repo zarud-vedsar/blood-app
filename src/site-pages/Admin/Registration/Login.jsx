@@ -8,6 +8,7 @@ import secureLocalStorage from "react-secure-storage";
 import logo from "../../../site-components/common/assets/img/logo-donation.avif";
 import { MdMailOutline } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -185,9 +186,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-
-        
-      
     </>
   );
 };

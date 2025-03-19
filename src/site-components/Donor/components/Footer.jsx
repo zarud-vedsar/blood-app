@@ -29,7 +29,7 @@ const Footer = () => {
       </Link>
 
       <Link
-        to="/blood-donation-request/request-list"
+        to="/blood-donation-request/add-new"
         className={`item ${location.pathname === "/blood-donation-request/request-list" ? "active" : ""}`}
       >
         <div className="col">
@@ -38,15 +38,7 @@ const Footer = () => {
         </div>
       </Link>
 
-      <Link
-        to="/blood-donation/history"
-        className={`item ${location.pathname === "/blood-donation/history" ? "active" : ""}`}
-      >
-        <div className="col">
-          <ion-icon name="swap-horizontal-outline"></ion-icon>
-          <strong className="mt-1">History</strong>
-        </div>
-      </Link>
+     
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
 import { Link } from "react-router-dom";
-import { formatDate } from "../../../site-components/Helper/HelperFunction";
+import { formatDate, goBack } from "../../../site-components/Helper/HelperFunction";
 import Slider from "../../../site-components/Donor/components/Slider";
 import Footer from "../../../site-components/Donor/components/Footer";
 const BloodRequestList = () => {
@@ -88,19 +88,19 @@ const BloodRequestList = () => {
   return (
     <div>
       {/* App Header */}
-      <div className="appHeader">
-        <div className="">
-          <Slider/>
+      <div className="appHeader d-flex justify-content-around align-items-center">
+        <div className="left left-0">
+        <a href="#" class="headerButton " onClick={goBack}>
+                <ion-icon name="arrow-back-outline" role="img" class="md hydrated"
+                    aria-label="arrow back outline"></ion-icon>
+            </a>
         </div>
         <div className="pageTitle w-75">Blood Requested List</div>
-        <div className="right right-0">
-          <Link to="/blood-donation-request/add-new">
-            <button className="btn btn-light px-0 me-1">
-              <ion-icon name="add-outline"></ion-icon>
-            </button>
-          </Link>
+        <div className="right ">
+          <Slider/>
         </div>
       </div>
+     
       {/* * App Header */}
 
       <div id="appCapsule">
@@ -119,21 +119,21 @@ const BloodRequestList = () => {
                   >
                     <div className="d-flex ">
                       <div
-                        className="d-flex justify-content-center align-items-center "
+                        className="d-flex justify-content-center"
                         style={{ marginRight: "10px" }}
                       >
                         <div className="blood-drop">{request?.bloodGroup}</div>
                       </div>
                       <div className="in px-2">
                         <div>
-                          <p className="request-header">
+                          <p className="request-header fw-600">
                             {request?.patientName} {request?.criticalStatus === 1 && (
                             <span className="badge badge-danger mb-0">Critical</span>
                           )}
                           </p>
-                          <header className="f-14">{`${request.unit} Units (Blood)`}</header>
-                          <footer className="f-14 ">{`${request?.city} , ${request?.state}`}</footer>
-                          <p className="f-16 mb-0">
+                          <header className="f-14 fw-600">{`${request.unit} Units (Blood)`}</header>
+                          <footer className="f-14 id-mb">{`${request?.city} , ${request?.state}`}</footer>
+                          <p className="f-16 mb-0 fw-600">
                             {formatDate(request?.requiredDate)}
                           </p>
                          
@@ -199,7 +199,7 @@ const BloodRequestList = () => {
               </li>
             ))}
           </ul>
-          <Footer></Footer>
+          
         </section>
       </div>
 
@@ -228,10 +228,12 @@ const BloodRequestList = () => {
 
          
             .request-header{
-    font-weight: 500;
     font-size: 18px;
-    margin-bottom:3px;
+    margin-bottom:6px;
             }
+    .id-mb{
+    margin-bottom: 6px !important;
+    }
         `}
       </style>
     </div>

@@ -63,7 +63,7 @@ const LandingPage = () => {
           position:fixed;
 
           bottom:0px;
-          padding: 40px 14px 10px;
+          padding: 23px;
         }
         .am-ctm-btn {
 

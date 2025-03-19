@@ -7,6 +7,7 @@ import secureLocalStorage from "react-secure-storage";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { goBack } from "../../../site-components/Helper/HelperFunction";
 import { FaCalendarAlt } from "react-icons/fa";
+import Slider from "../../../site-components/Donor/components/Slider";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -275,10 +276,7 @@ const AddNewBloodRequest = () => {
         </div>
         <div className="pageTitle w-75">Request for blood</div>
         <div className="right ">
-          <Link to="/blood-donation-request/request-list">
-            <button className="btn btn-light px-0 me-1">
-            </button> <ion-icon name="list" style={{fontSize:"22px"}} ></ion-icon>
-          </Link>
+          <Slider/>
         </div>
       </div>
 
@@ -296,7 +294,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="patientName"
                   id="patientName"
-                  placeholder="Enter patient name"
+                  placeholder="Enter Patient Name"
                   value={formData.patientName}
                   onChange={handleInputChange}
                 />
@@ -314,7 +312,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="attendeePhone"
                   id="attendeePhone"
-                  placeholder="Enter attendee phone number"
+                  placeholder="Enter Attendee Phone Number"
                   value={formData.attendeePhone}
                   onChange={handleInputChange}
                 />
@@ -377,7 +375,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="unit"
                   id="unit"
-                  placeholder="Enter required blood unit"
+                  placeholder="Enter Required Blood Unit"
                   value={formData.unit}
                   onChange={handleInputChange}
                 />
@@ -395,10 +393,11 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="pincode"
                   id="pincode"
-                  placeholder="Enter pincode"
+                  placeholder="Enter Pincode"
                   value={formData.pincode}
                   onChange={searchPincode}
                 />
+                 
                 {error.name === "pincode" && (
                   <span className="text-danger">{error.msg}</span>
                 )}
@@ -413,7 +412,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="state"
                   id="state"
-                  placeholder="Enter state"
+                  placeholder="Enter State"
                   value={formData.state}
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, state: e.target.value }))
@@ -432,7 +431,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="city"
                   id="city"
-                  placeholder="Enter city"
+                  placeholder="Enter City"
                   value={formData.city}
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, city: e.target.value }))
@@ -451,7 +450,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="address"
                   id="address"
-                  placeholder="Enter address"
+                  placeholder="Enter Address"
                   value={formData.address}
                   onChange={(e) =>
                     setFormData((prev) => ({
@@ -473,7 +472,7 @@ const AddNewBloodRequest = () => {
                   className="form-control"
                   name="additionalNote"
                   id="additionalNote"
-                  placeholder="Enter additional detail"
+                  placeholder="Enter Additional Details"
                   value={formData.additionalNote}
                   onChange={handleInputChange}
                 />
@@ -528,11 +527,12 @@ const AddNewBloodRequest = () => {
                   className="btn btn-dark btn-block btn-lg"
                   disabled={isSubmit}
                 >
-                  {isSubmit ? (
-                    "Submitting..."
-                  ) : (
-                    <span className="fontsize-normal">Submit</span>
-                  )}
+                  Submit {isSubmit && (
+                            <>
+                              &nbsp; <div className="loader-circle"></div>
+                            </>
+                          )}
+                
                 </button>
               </div>
             </div>

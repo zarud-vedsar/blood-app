@@ -6,6 +6,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import {useDonor} from "../../../site-components/Donor/ContextApi/DonorContext"
 import secureLocalStorage from "react-secure-storage";
 import LogoImg from '../../../site-components/common/assets/img/blood-logo.png'
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -92,6 +93,7 @@ const Login = () => {
           {/* <img src={LogoImg} alt="logo" /> */}
           {/* <h1 className="text-white fs-14">Welcome Back!</h1> */}
         </div>
+       
 
         <div className="section mb-5 p-2">
           <form onSubmit={handleSubmit}>
@@ -106,7 +108,7 @@ const Login = () => {
                     className="form-control"
                     name="phone"
                     id="phone"
-                    placeholder="Enter Phone"
+                    placeholder="Enter Phone Number"
                     value={formData.phone}
                     onChange={handleInputChange}
                   />
@@ -133,7 +135,7 @@ const Login = () => {
                   )}
                 </div>
                 <div className="text-end">
-                          <Link to="/forget" style={{color:"#27173e"}}> Forgot Password?</Link>
+                          <Link to="/forget" style={{color:"#0d6efd"}}> Forgot Your Password?</Link>
                         </div>
                       </div>
                     </div>
@@ -143,15 +145,17 @@ const Login = () => {
                 className="btn btn-dark btn-block btn-lg"
                 disabled={isSubmit}
               >
-                {isSubmit ? (
-                  "Logging..."
-                ) : (
-                  <span className="fontsize-normal">Login</span>
-                )}
+                Login  {isSubmit && (
+                            <>
+                              &nbsp; <div className="loader-circle"></div>
+                            </>
+                          )}
+
+               
               </button>
               
                <div className="mt-1 mb-2">
-                          Don't have an account ? <Link to="/info" style={{color:"#0d6efd"}}>Sign Up</Link>
+                          Don't have an account ? <Link to="/register" style={{color:"#0d6efd"}}>Sign Up</Link>
                           
                         </div>
             </div>
