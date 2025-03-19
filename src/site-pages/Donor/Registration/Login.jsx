@@ -134,7 +134,7 @@ const Login = () => {
                   )}
                 </div>
                 <div className="text-end">
-                          <Link to="/forget" style={{color:"#27173e"}}> Forgot Password?</Link>
+                          <Link to="/forget" style={{color:"#0d6efd"}}> Forgot Your Password?</Link>
                         </div>
                       </div>
                     </div>
@@ -152,7 +152,7 @@ const Login = () => {
               </button>
               
                <div className="mt-1 mb-2">
-                          Don't have an account ? <Link to="/info" style={{color:"#0d6efd"}}>Sign Up</Link>
+                          Don't have an account ? <Link to="/register" style={{color:"#0d6efd"}}>Sign Up</Link>
                           
                         </div>
             </div>
