@@ -78,6 +78,59 @@ function load_donation_request(){
 
 }
 
+function load_donation_list(){
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $admin_id = $AuthendicteRequest['loguserid'];
+
+    $bloodGroup= $action->db->validatePostData('bloodGroup')?:'';
+
+    $fromDate= $action->db->validatePostData('fromDate')?:'';
+    $toDate= $action->db->validatePostData('toDate')?:'';
+    $pincode= $action->db->validatePostData('pincode')?:'';
+    $state = $action->db->validatePostData('state')?:'';
+    $city= $action->db->validatePostData('city')?:'';
+    
+
+    $sql="SELECT dr.*,d.name AS req_name, d.phone , d.email, d.uniqueId FROM `zuraud_donation_request` dr JOIN `zuraud_doner` d ON d.id= dr.user_id WHERE dr.`status` = 2 ";
+    if(!empty($bloodGroup)){
+        $sql.=" AND dr.`bloodGroup`='$bloodGroup'";
+    }
+    if(!empty($fromDate)){
+        $sql.=" AND dr.`requiredDate`>='$fromDate'";
+    }
+    if(!empty($toDate)){
+        $sql.=" AND dr.`requiredDate`<='$toDate'";
+    }
+    if(!empty($pincode)){
+        $sql.=" AND dr.`pincode`='$pincode'";
+    }
+    if(!empty($state)){
+        $sql.=" AND dr.`state`='$state'";
+    }
+    if(!empty($city)){
+        $sql.=" AND dr.`city`='$city'";
+    }
+    
+    $donation_request = $action->db->sql($sql);
+
+    if($donation_request){
+        echo $action->db->json(200, "Donation request listed", '', $donation_request);
+        http_response_code(200);
+        return;
+    }else{
+        echo $action->db->json(400, "No donation request found");
+        http_response_code(400);
+        return;
+    }
+
+}
+
 function load_admin_detail(){
     global $action;
     $userid = $action->db->setPostRequiredField('loguserid',"Admin Id is required");
