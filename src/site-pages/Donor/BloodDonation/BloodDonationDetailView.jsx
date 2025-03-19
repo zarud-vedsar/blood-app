@@ -55,8 +55,8 @@ const BloodDonationDetailView = () => {
       }
     };
 
-    fetchData(); // Call the async function
-  }, [id]); // Only runs when `id` changes
+    fetchData(); 
+  }, [id]); 
 
  
   const acceptRequest = async () => {
@@ -68,7 +68,7 @@ const BloodDonationDetailView = () => {
       bformData.append("id", id);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
+      
 
       if (response?.data?.status === 200) {
         toast.success(response?.data?.msg, {

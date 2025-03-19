@@ -51,7 +51,7 @@ const Login = () => {
       bformData.append("password", formData?.password);
 
       const response = await axios.post(`${PHP_API_URL}/admin.php`, bformData);
-      console.log(response)
+      
       if (response?.data?.status === 200) {
         setAdminDetail(response?.data?.data);
         secureLocalStorage.setItem("loguserid", response?.data?.data?.id);
