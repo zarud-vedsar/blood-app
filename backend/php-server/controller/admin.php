@@ -61,6 +61,8 @@ function load_donation_request(){
     }
     if(!empty($status)){
         $sql.=" AND dr.`status`='$status'";
+    }else{
+        $sql.= " AND dr.`status` IN (0,1,3) ";
     }
     $donation_request = $action->db->sql($sql);
 
