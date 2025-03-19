@@ -500,7 +500,7 @@ function BloodRequestList() {
                               </Tooltip>
                             }
                           >
-                            <Link to="#" className="text-warning">
+                            <Link to={`/admin/blood-request/${rowData.id}`} className="text-warning">
                               <i className="fa-solid fa-eye"></i>
                             </Link>
                           </OverlayTrigger>

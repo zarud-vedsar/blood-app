@@ -10,6 +10,7 @@ import BloodRequestList from "../site-pages/Admin/Donation/BloodRequestList";
 import DonationList from "../site-pages/Admin/Donation/DonationList";
 import { ToastContainer } from "react-toastify";
 import DonorList from "../site-pages/Admin/Donor/DonorList";
+import BloodRequestViewDetail from "../site-pages/Admin/Donation/BloodRequestViewDetail";
 const Login = lazy(() => import("../site-pages/Admin/Registration/Login"));
 const Dashboard = lazy(() => import("../site-pages/Admin/Dashboard/Dashboard"));
 
@@ -49,6 +50,10 @@ function AdminRoute({ toggleExpand, toggleFolded }) {
             <Route
               path="/donor/list"
               element={<ProtectedRoute element={<DonorList />} />}
+            />
+            <Route
+              path="/blood-request/:id"
+              element={<ProtectedRoute element={<BloodRequestViewDetail />} />}
             />
           </Routes>
         </Suspense>
