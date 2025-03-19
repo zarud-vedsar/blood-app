@@ -260,7 +260,34 @@ function load_donation_donerwise(){
     }
     $donorId= $action->db->setPostRequiredField('donorId','Doner Id is required')?:'';
 
+    // incomplete
+}
+
+function view_donation(){
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
     
+
+    $donation_id= $action->db->setPostRequiredField('donation_id','Donation Id is required');
+
+    $donation = $action->db->sql("SELECT * FROM `zuraud_donation_request` WHERE id='$donation_id'");
+    if($donation){
+
+        $acceptance= $action->db->sql("SELECT ad.`acceptance_date`,ad.`rejection_reason`,ad.`rejection_date`,ad.`approval_date`,ad.`status`,d.name AS donorName, d.phone AS donorPhone, d.email AS donorEmail  FROM `approved_donations` ad JOIN zuraud_doner d ON d.id= ad.user_id WHERE ad.req_id='$donation_id'")?: [];
+
+        echo $action->db->json(200, "Donation details fetched", '', ['donation'=>$donation[0],'acceptance'=>$acceptance]);
+        http_response_code(200);
+        return;
+    }else{
+        echo $action->db->json(400, "Something went wrong");
+        http_response_code(400);
+        return;
+    }
 }
     
 
