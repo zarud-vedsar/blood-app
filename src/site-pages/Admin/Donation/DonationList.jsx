@@ -13,7 +13,6 @@ import { Column } from "primereact/Column";
 import secureLocalStorage from "react-secure-storage";
 import { FormField } from "../../../site-components/admin/assets/FormField";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
-import { DonationStatusConstant } from "../../../site-components/Helper/DonationStatusConstant";
 import { Link } from "react-router-dom";
 import { OverlayTrigger } from "react-bootstrap";
 import Tooltip from "react-bootstrap/Tooltip";
@@ -47,7 +46,6 @@ function DonationList() {
   };
 
   const initialData = {
-    status: "",
     bloodGroup: "",
     fromDate: getFirstDayOfMonth(),
     toDate: getLastDayOfMonth(),
@@ -69,7 +67,7 @@ function DonationList() {
     setIsFetching(true);
     try {
       const bformData = new FormData();
-      bformData.append("data", "load_donation_request");
+      bformData.append("data", "load_donation_list");
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
 
       Object.keys(filter).forEach((key) => {
@@ -174,54 +172,7 @@ function DonationList() {
               <div className={`card-body px-3 ${showFilter ? "" : "d-none"}`}>
                 <form onSubmit={applyFilter}>
                   <div className="row">
-                    <div className="col-md-3 col-lg-3 col-12 form-group">
-                      <label className="font-weight-semibold">
-                        Blood Group
-                      </label>
-
-                      <Select
-                        options={bloodGroups}
-                        isSearchable
-                        value={
-                          bloodGroups.find(
-                            (blood) => blood.value === formData.bloodGroup
-                          ) || { value: "", label: "Select Blood Group" }
-                        }
-                        onChange={(selected) =>
-                          setFormData({
-                            ...formData,
-                            bloodGroup: selected.value,
-                          })
-                        }
-                      />
-                    </div>
-                    <div className="col-md-3 col-lg-3 col-12 form-group">
-                      <label className="font-weight-semibold">
-                        Donation Status
-                      </label>
-
-                      <Select
-                        options={DonationStatusConstant}
-                        onChange={(selectedOption) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            status: selectedOption.value,
-                          }))
-                        }
-                        value={
-                          formData.status !== ""
-                            ? {
-                                value: formData.status,
-                                label: DonationStatusConstant.find(
-                                  (option) => option.value === formData.status
-                                )?.label,
-                              }
-                            : { value: "", label: "Select Status" }
-                        }
-                      />
-                    </div>
-
-                    <FormField
+                  <FormField
                       label="From Date"
                       name="fromDate"
                       id="fromDate"
@@ -249,6 +200,31 @@ function DonationList() {
                         }))
                       }
                     />
+                    
+                    <div className="col-md-3 col-lg-3 col-12 form-group">
+                      <label className="font-weight-semibold">
+                        Blood Group
+                      </label>
+
+                      <Select
+                        options={bloodGroups}
+                        isSearchable
+                        value={
+                          bloodGroups.find(
+                            (blood) => blood.value === formData.bloodGroup
+                          ) || { value: "", label: "Select Blood Group" }
+                        }
+                        onChange={(selected) =>
+                          setFormData({
+                            ...formData,
+                            bloodGroup: selected.value,
+                          })
+                        }
+                      />
+                    </div>
+                  
+
+                    
 
                     <div className="col-md-3 col-lg-3 col-12 form-group">
                       <label className="font-weight-semibold">Pin Code</label>
@@ -461,35 +437,14 @@ function DonationList() {
                         field="requiredDate"
                         sortable
                       />
-
                       <Column
-                        header="Status"
-                        field="status"
-                        body={(row) => (
-                          <div className="d-flex">
-                            {row?.status === 0 && (
-                              <span className="f-16 badge badge-warning mb-0">
-                                Pending
-                              </span>
-                            )}
-                            {row?.status === 1 && (
-                              <span className="f-16 badge badge-success mb-0">
-                                Accepted
-                              </span>
-                            )}
-                            {row?.status === 2 && (
-                              <span className="f-16 badge badge-info mb-0">
-                                Received
-                              </span>
-                            )}
-                            {row?.status === 3 && (
-                              <span className="f-16 badge badge-danger mb-0">
-                                Rejected
-                              </span>
-                            )}
-                          </div>
-                        )}
+                        body={(row) => formatDate(row.approve_date)}
+                        header="Received Date"
+                        field="approve_date"
+                        sortable
                       />
+
+                      
 
                       <Column
                         header="View"

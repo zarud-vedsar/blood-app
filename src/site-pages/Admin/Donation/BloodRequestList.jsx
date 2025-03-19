@@ -76,7 +76,6 @@ function BloodRequestList() {
         bformData.append(`${key}`, filter[key]);
       });
 
-
       const response = await axios.post(`${PHP_API_URL}/admin.php`, bformData);
 
       if (response?.data?.status === 200) {
@@ -174,6 +173,34 @@ function BloodRequestList() {
               <div className={`card-body px-3 ${showFilter ? "" : "d-none"}`}>
                 <form onSubmit={applyFilter}>
                   <div className="row">
+                    <FormField
+                      label="From Date"
+                      name="fromDate"
+                      id="fromDate"
+                      type="date"
+                      value={formData.fromDate}
+                      column="col-md-3 col-lg-3"
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          fromDate: e.target.value,
+                        }))
+                      }
+                    />
+                    <FormField
+                      label="To Date"
+                      name="toDate"
+                      id="toDate"
+                      type="date"
+                      value={formData.toDate}
+                      column="col-md-3 col-lg-3"
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          toDate: e.target.value,
+                        }))
+                      }
+                    />
                     <div className="col-md-3 col-lg-3 col-12 form-group">
                       <label className="font-weight-semibold">
                         Blood Group
@@ -220,35 +247,6 @@ function BloodRequestList() {
                         }
                       />
                     </div>
-
-                    <FormField
-                      label="From Date"
-                      name="fromDate"
-                      id="fromDate"
-                      type="date"
-                      value={formData.fromDate}
-                      column="col-md-3 col-lg-3"
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          fromDate: e.target.value,
-                        }))
-                      }
-                    />
-                    <FormField
-                      label="To Date"
-                      name="toDate"
-                      id="toDate"
-                      type="date"
-                      value={formData.toDate}
-                      column="col-md-3 col-lg-3"
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          toDate: e.target.value,
-                        }))
-                      }
-                    />
 
                     <div className="col-md-3 col-lg-3 col-12 form-group">
                       <label className="font-weight-semibold">Pin Code</label>
