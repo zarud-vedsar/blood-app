@@ -258,9 +258,23 @@ function load_donation_donerwise(){
         http_response_code(401);
         return;
     }
-    $donorId= $action->db->setPostRequiredField('donorId','Doner Id is required')?:'';
+    $donorId= $action->db->setPostRequiredField('donorId','Doner Id is required');
 
-    // incomplete
+    $doner= $action->db->sql("SELECT * FROM `zuraud_doner` WHERE `id`='$donorId'");
+    if($doner){
+        $donation_request = $action->db->sql("SELECT ad.acceptance_date,ad.rejection_reason,ad.rejection_date,ad.approval_date,ad.status, dr.patientName,dr.attendeePhone,dr.unit,dr.requiredDate,dr.criticalStatus FROM `approved_donations` ad JOIN zuraud_donation_request dr ON dr.id= ad.req_id WHERE ad.user_id='$donorId'")?: [];
+        
+            echo $action->db->json(200, "Donation request listed", '', ['doner'=>$doner[0],'donation_request'=>$donation_request]);
+            http_response_code(200);
+            return;
+        
+    }
+    else{
+        echo $action->db->json(400, "No doner found");
+        http_response_code(400);
+        return;
+    }
+    
 }
 
 function view_donation(){
