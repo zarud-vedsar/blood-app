@@ -40,27 +40,27 @@ function load_donation_request(){
     $city= $action->db->validatePostData('city')?:'';
     $status= $action->db->validatePostData('status')?:'';
 
-    $sql="SELECT * FROM `zuraud_donation_request` WHERE 1";
+    $sql="SELECT dr.*,d.name AS req_name, d.phone , d.email, d.uniqueId FROM `zuraud_donation_request` dr JOIN `zuraud_doner` d ON d.id= dr.user_id WHERE 1";
     if(!empty($bloodGroup)){
-        $sql.=" AND `bloodGroup`='$bloodGroup'";
+        $sql.=" AND dr.`bloodGroup`='$bloodGroup'";
     }
     if(!empty($fromDate)){
-        $sql.=" AND `requiredDate`>='$fromDate'";
+        $sql.=" AND dr.`requiredDate`>='$fromDate'";
     }
     if(!empty($toDate)){
-        $sql.=" AND `requiredDate`<='$toDate'";
+        $sql.=" AND dr.`requiredDate`<='$toDate'";
     }
     if(!empty($pincode)){
-        $sql.=" AND `pincode`='$pincode'";
+        $sql.=" AND dr.`pincode`='$pincode'";
     }
     if(!empty($state)){
-        $sql.=" AND `state`='$state'";
+        $sql.=" AND dr.`state`='$state'";
     }
     if(!empty($city)){
-        $sql.=" AND `city`='$city'";
+        $sql.=" AND dr.`city`='$city'";
     }
     if(!empty($status)){
-        $sql.=" AND `status`='$status'";
+        $sql.=" AND dr.`status`='$status'";
     }
     $donation_request = $action->db->sql($sql);
 

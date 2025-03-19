@@ -220,14 +220,14 @@ const RegistrationForm = () => {
 
               <div className="form-group basic">
                 <label className="label" htmlFor="phone">
-                  Phone <span className="text-danger">*</span>
+                  Phone Number<span className="text-danger">*</span>
                 </label>
                 <input
                   type="number"
                   className="form-control"
                   name="phone"
                   id="phone"
-                  placeholder="Enter Phone"
+                  placeholder="Enter Phone Number"
                   value={formData.phone}
                   onChange={handleInputChange}
                 />
