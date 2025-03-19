@@ -503,7 +503,7 @@ function BloodRequestList() {
                             }
                           >
                             <Link to="#" className="text-warning">
-                              <i className="fa-regular fa-eye"></i>
+                              <i className="fa-solid fa-eye"></i>
                             </Link>
                           </OverlayTrigger>
                         )}
