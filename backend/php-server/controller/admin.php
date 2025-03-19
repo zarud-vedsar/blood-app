@@ -290,7 +290,7 @@ function view_donation()
     $donation = $action->db->sql("SELECT dr.*, d.name AS req_name, d.email AS req_email , d.phone AS req_phone , d.uniqueId AS req_uniqueId , d.address AS req_address , d.pincode AS req_pincode, d.state AS req_state, d.city AS req_city FROM `zuraud_donation_request` dr JOIN zuraud_doner d ON d.id= dr.user_id WHERE dr.id='$donation_id'");
     if ($donation) {
 
-        $acceptance = $action->db->sql("SELECT ad.`acceptance_date`,ad.`rejection_reason`,ad.`rejection_date`,ad.`approval_date`,ad.`status`,d.name AS donorName, d.phone AS donorPhone, d.email AS donorEmail  FROM `approved_donations` ad JOIN zuraud_doner d ON d.id= ad.user_id WHERE ad.req_id='$donation_id'") ?: [];
+        $acceptance = $action->db->sql("SELECT ad.`acceptance_date`,ad.`rejection_reason`,ad.`rejection_date`,ad.`approval_date`,ad.`status`,d.name AS donorName, d.phone AS donorPhone, d.email AS donorEmail , d.address, d.city, d.pincode, d.state, d.uniqueId  FROM `approved_donations` ad JOIN zuraud_doner d ON d.id= ad.user_id WHERE ad.req_id='$donation_id'") ?: [];
 
         echo $action->db->json(200, "Donation details fetched", '', ['donation' => $donation[0], 'acceptance' => $acceptance]);
         http_response_code(200);
