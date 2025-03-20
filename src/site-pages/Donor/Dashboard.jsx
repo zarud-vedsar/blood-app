@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import userImg from "../../site-components/common/assets/img/user.png";
 import Footer from "../../site-components/Donor/components/Footer";
 import { useDonor } from "../../site-components/Donor/ContextApi/DonorContext";
@@ -8,23 +8,34 @@ import ImageT from "../../site-components/common/assets/img/dash-3.png";
 import ImageFourth from "../../site-components/common/assets/img/dash-4.png";
 import ImageFifth from "../../site-components/common/assets/img/dash-5.png";
 import BannerImg from "../../site-components/common/assets/img/banner-img.avif";
+import BannerImg1 from "../../site-components/common/assets/img/BloodDonation.png";
+import BannerImg2 from "../../site-components/common/assets/img/bannerimg2.jpg";
 import { capitalizeFirstLetter } from "../../site-components/Helper/HelperFunction";
 const Dashboard = () => {
   const { donor } = useDonor();
 
-  const images = [BannerImg, BannerImg, BannerImg]; // Array of image paths
+  const images = [BannerImg, BannerImg1, BannerImg2]; // Array of image paths
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Next slide function
   const goToNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
+  // Previous slide function
   const goToPrevious = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length
-    );
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
-  
+
+  // Auto slide functionality
+  useEffect(() => {
+    const interval = setInterval(() => {
+      goToNext();
+    }, 3000); // 3000ms = 3 seconds for auto sliding
+
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, []);
 
   console.log(donor);
 
@@ -66,13 +77,28 @@ const Dashboard = () => {
           </div>
 
           <div className="slider-container">
-      <div className="slider">
-        <img
-          src={images[currentIndex]}
-          alt={`Slider Image ${currentIndex + 1}`}
-          className="img-fluid id-dash-banner-img"
-        />
+      <div
+        className="slider"
+        style={{
+          transform: `translateX(-${currentIndex * 100}%)`, // Moves the images right to left
+        }}
+      >
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`Slider Image ${index + 1}`}
+            className={`img-fluid id-dash-banner-img ${currentIndex === index ? "shadow" : ""}`} // Add shadow to the active image
+            style={{ animation: `slideRightToLeft 1s ease-in-out` }} // Apply sliding animation
+          />
+        ))}
       </div>
+      <button onClick={goToPrevious} className="prev-btn">
+        &#10094;
+      </button>
+      <button onClick={goToNext} className="next-btn">
+        &#10095;
+      </button>
     </div>
 
           {/* <div>
