@@ -389,7 +389,7 @@ const DonorDetailView = () => {
                                               </Tooltip>
                                             }
                                           >
-                                            <Link to={`/admin/blood-request/${rowData.id}`} className="text-warning">
+                                            <Link to={`/admin/blood-request/${rowData.donationid}`} className="text-warning">
                                               <i className="fa-solid fa-eye"></i>
                                             </Link>
                                           </OverlayTrigger>
