@@ -7,20 +7,39 @@ import ImageF from "../../site-components/common/assets/img/dash-1.png";
 import ImageT from "../../site-components/common/assets/img/dash-3.png";
 import ImageFourth from "../../site-components/common/assets/img/dash-4.png";
 import ImageFifth from "../../site-components/common/assets/img/dash-5.png";
+import BannerImg from "../../site-components/common/assets/img/banner-img.avif";
+import { capitalizeFirstLetter } from "../../site-components/Helper/HelperFunction";
 const Dashboard = () => {
   const { donor } = useDonor();
+
+  const images = [BannerImg, BannerImg, BannerImg]; // Array of image paths
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  const goToPrevious = () => {
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+    );
+  };
   
+
+  console.log(donor);
+
   return (
     <>
       <div className="appHeader border-0">
-        <div className="left">
-          {/* <img src={userImg} alt="User" className="imaged w32" /> */}
-        </div>
-        <div className="right">
-          <Link to="/account">
-          <img src={userImg} alt="User" className="imaged w32" />
+        <div className="left d-flex align-items-center">
+          <Link to={'/account'}>
+          <img src={userImg} alt="User" className="imaged w32 id-header-user-img" />
           </Link>
           
+          <h4 className="text-white mb-0 fw-600">{`Welcome, ${capitalizeFirstLetter(donor?.name)}`}</h4>
+        </div>
+        <div className="right">
+
           {/* <Slider />{" "} */}
         </div>
       </div>
@@ -28,16 +47,12 @@ const Dashboard = () => {
       <div id="appCapsule">
       <div className="id-dash-top-color"></div>
         <section className="section px-2  pb-2 mb-1">
-         
-          <div
-            className="card"
+          <div className="card"
             style={{
               backgroundColor: "white",
-              boxShadow:
-                "rgb(0 0 0 / 6%) 0px 1px 2px, rgb(0 0 0 / 8%) 0px 4px 16px",
+              boxShadow: "rgb(0 0 0 / 6%) 0px 1px 2px, rgb(0 0 0 / 8%) 0px 4px 16px",
                 marginTop: "-49px",
-            }}
-          >
+            }} >
             <div className="card-body">
               <div className="d-flex justify-content-between ">
                 <div>
@@ -50,7 +65,19 @@ const Dashboard = () => {
             </div>
           </div>
 
-          
+          <div className="slider-container">
+      <div className="slider">
+        <img
+          src={images[currentIndex]}
+          alt={`Slider Image ${currentIndex + 1}`}
+          className="img-fluid id-dash-banner-img"
+        />
+      </div>
+    </div>
+
+          {/* <div>
+            <img src={BannerImg} alt=""  className="img-fluid id-dash-banner-img"/>
+          </div> */}
 
           <div className="row mt-2">
             <div className="col-6">
