@@ -8406,10 +8406,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-top: 3px solid #3498db;
   width: 20px;
   height: 20px;
-  -webkit-animation: spinc 1s linear infinite;
-  /* Safari */
   animation: spinc 1s linear infinite;
-}.id-dash-b-img{
+}
+
+@keyframes spinc {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.id-dash-b-img{
   height: 60px;
 }
 

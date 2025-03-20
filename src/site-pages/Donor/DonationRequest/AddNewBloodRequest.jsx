@@ -7,12 +7,8 @@ import secureLocalStorage from "react-secure-storage";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { goBack } from "../../../site-components/Helper/HelperFunction";
 import { FaCalendarAlt } from "react-icons/fa";
-import Slider from "../../../site-components/Donor/components/Slider";
 import { toast } from "react-toastify";
 import { IoChevronBackOutline } from "react-icons/io5";
-const HeaderWithBack = lazy(() =>
-  import("../../../site-components/Donor/components/HeaderWithBack")
-);
 
 const AddNewBloodRequest = () => {
   const {id} = useParams();
@@ -173,8 +169,8 @@ const AddNewBloodRequest = () => {
       return setIsSubmit(false);
     }
 
-    if (!/^\d{10}$/.test(formData.attendeePhone)) {
-      markError("phone", "Phone number must be exactly 10 digits");
+    if (!/^[6-9]\d{9}$/.test(formData.attendeePhone)) {
+      markError("phone", "Valid phone number is required");
       return setIsSubmit(false);
     }
 
