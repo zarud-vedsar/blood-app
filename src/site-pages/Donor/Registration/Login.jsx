@@ -55,10 +55,10 @@ const Login = () => {
       if (response?.data?.status === 200) {
         setDonor(response?.data?.data);
         secureLocalStorage.setItem("loguserid", response?.data?.data?.id);
-
-        setTimeout(() => {
-          navigate(`/dashboard`);
-        }, 300);
+        toast.success(response?.data?.msg, {
+          autoClose: 300, 
+          onClose: () => navigate("/dashboard"), 
+        });
       } else {
         toast.error("An error occurred. Please try again.");
       }

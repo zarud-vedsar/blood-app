@@ -4,6 +4,7 @@ import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext
 import secureLocalStorage from "react-secure-storage";
 import axios from "axios";
 import { PHP_API_URL, PINCODE_URL } from "../../../site-components/Helper/Constant";
+import { toast } from "react-toastify";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -139,9 +140,11 @@ const AddressForm = () => {
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
         setDonor((prev) => ({ ...prev, ...formData }));
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 300);
+         toast.success(response?.data?.msg, {
+                                  autoClose: 300, 
+                                  onClose: () => navigate("/dashboard"), 
+                                });
+      
       } else {
         toast.error("An error occurred. Please try again.");
       }

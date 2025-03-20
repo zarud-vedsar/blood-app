@@ -57,7 +57,7 @@ function DonorRoute() {
         closeOnClick
         pauseOnHover
         draggable
-        //autoClose={500}
+        autoClose={500}
         transition={Slide} 
         toastClassName="custom-toast"
       />

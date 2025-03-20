@@ -48,7 +48,6 @@ const ProtectedRoute = ({ element }) => {
   };
 
   if (loading) return <div>Loading...</div>;
-  console.log(loguserid)
   if (!loguserid || isNaN(loguserid) || loguserid <= 0) return <Navigate to="/admin" replace />;
   return element;
 };

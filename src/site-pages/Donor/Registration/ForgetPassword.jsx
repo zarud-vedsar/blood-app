@@ -6,10 +6,11 @@ import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import { Link } from "react-router-dom";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
-import logoImg from '../../../site-components/common/assets/img/logo-donation.avif'
+import logoImg from "../../../site-components/common/assets/img/logo-donation.avif";
+import { toast } from "react-toastify";
 
 const ForgetPassword = () => {
-useEffect(() => {
+  useEffect(() => {
     if (IsDonorLoggedIn()) {
       navigate("/dashboard");
     }
@@ -18,7 +19,7 @@ useEffect(() => {
     phone: "",
     password: "",
     cpassword: "",
-    otp:"",
+    otp: "",
   };
 
   const [formData, setFormData] = useState(initializeForm);
@@ -38,8 +39,6 @@ useEffect(() => {
       clearInterval(interval);
     };
   });
-
-
 
   const [error, setError] = useState({});
   const markError = (name, msg) => {
@@ -71,18 +70,16 @@ useEffect(() => {
       const bformData = new FormData();
       bformData.append("data", "reset_password");
       bformData.append("phone", formData?.phone);
-      bformData.append("password",formData?.password );
+      bformData.append("password", formData?.password);
       bformData.append("cpassword", formData?.cpassword);
-      
-     
+
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
 
-
       if (response.data?.status === 200) {
-        setFormData((prev)=>({...prev,id:response?.data?.data?.id}));
+        setFormData((prev) => ({ ...prev, id: response?.data?.data?.id }));
         setSeconds(60);
         setOtpSend(true);
-    
+        toast.success(response?.data?.msg);
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -119,7 +116,6 @@ useEffect(() => {
       return setIsSubmit(false);
     }
 
-    
     if (!formData.otp || !/^\d{0,6}$/.test(formData?.otp)) {
       markError("otp", "OTP is required");
       return setIsSubmit(false);
@@ -131,19 +127,18 @@ useEffect(() => {
       const bformData = new FormData();
       bformData.append("data", "verifyResetPasswordOTP");
       bformData.append("phone", formData?.phone);
-      bformData.append("password",formData?.password );
+      bformData.append("password", formData?.password);
       bformData.append("cpassword", formData?.cpassword);
       bformData.append("otp", formData?.otp);
       bformData.append("id", formData?.id);
-      
-     
+
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
 
-      if (response.data?.status === 200) {
-        setTimeout(() => {
-          navigate("/info")
-        }, 300);
-    
+      if (response?.data?.status === 200) {
+        toast.success(response?.data?.msg, {
+          autoClose: 300,
+          onClose: () => navigate("/info"),
+        });
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -164,7 +159,7 @@ useEffect(() => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === "phone") {
       if (!/^\d{0,10}$/.test(value)) {
         return;
@@ -179,7 +174,7 @@ useEffect(() => {
         <div className="d-flex flex-column justify-content-between w-100">
           <div
             className="container"
-            style={{ marginTop:"70px", display: "grid" }}
+            style={{ marginTop: "70px", display: "grid" }}
           >
             <div className="row align-items-center">
               <div className="col-md-7 col-lg-5 col-sm-12 m-h-auto">
@@ -192,9 +187,7 @@ useEffect(() => {
                         alt="Logo"
                         src={logoImg}
                       />
-                      <h2 className="h4_new">
-                        Change Your Password
-                      </h2>
+                      <h2 className="h4_new">Change Your Password</h2>
                     </div>
                     <div className="row">
                       <div className="col-md-12 ml-2">
@@ -206,17 +199,14 @@ useEffect(() => {
                         </p>
                       </div>
                     </div>
-                    { (
+                    {
                       <form
                         className="pt-2"
                         id="security_login_form"
                         onSubmit={handleSubmitOtpForm}
                       >
                         <div className="form-group basic">
-                          <label
-                            className="label"
-                            htmlFor="phone"
-                          >
+                          <label className="label" htmlFor="phone">
                             Phone Number <span className="text-danger">*</span>
                           </label>
                           <div className="input-affix">
@@ -236,62 +226,58 @@ useEffect(() => {
                             <span className="text-danger">{error.msg}</span>
                           )}
                         </div>
-                          
-                          {!otpSend && 
-                          (<>
-                        <div className="form-group basic">
-                          <label
-                            className="label"
-                            htmlFor="password"
-                          >
-                            New Password <span className="text-danger">*</span>
-                          </label>
-                          <div className="input-affix m-b-10">
-                            <i className="prefix-icon anticon"></i>
-                            <input
-                              type="password"
-                              name="password"
-                              className="form-control"
-                              id="password"
-                              placeholder="New Password"
-                              value={formData?.password}
-                              onChange={handleInputChange}
-                              readOnly={otpSend}
-                            />
-                          </div>
-                          {error.name === "password" && (
-                            <span className="text-danger">{error.msg}</span>
-                          )}
-                        </div>
 
-                        <div className="form-group basic">
-                          <label
-                            className="label"
-                            htmlFor="cpassword"
-                          >
-                            Confirm New Password <span className="text-danger">*</span>
-                          </label>
-                          <div className="input-affix m-b-10">
-                            <i className="prefix-icon anticon"></i>
-                            <input
-                              type="password"
-                              name="cpassword"
-                              className="form-control"
-                              id="cpassword"
-                              placeholder="Confirm Password"
-                              value={formData?.cpassword}
-                              onChange={handleInputChange}
-                              readOnly={otpSend}
-                            />
-                          </div>
-                          {error.name === "cpassword" && (
-                            <span className="text-danger">{error.msg}</span>
-                          )}
-                        </div>
-                        </>)
-                }
+                        {!otpSend && (
+                          <>
+                            <div className="form-group basic">
+                              <label className="label" htmlFor="password">
+                                New Password{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <div className="input-affix m-b-10">
+                                <i className="prefix-icon anticon"></i>
+                                <input
+                                  type="password"
+                                  name="password"
+                                  className="form-control"
+                                  id="password"
+                                  placeholder="New Password"
+                                  value={formData?.password}
+                                  onChange={handleInputChange}
+                                  readOnly={otpSend}
+                                />
+                              </div>
+                              {error.name === "password" && (
+                                <span className="text-danger">{error.msg}</span>
+                              )}
+                            </div>
 
-                        {otpSend && 
+                            <div className="form-group basic">
+                              <label className="label" htmlFor="cpassword">
+                                Confirm New Password{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <div className="input-affix m-b-10">
+                                <i className="prefix-icon anticon"></i>
+                                <input
+                                  type="password"
+                                  name="cpassword"
+                                  className="form-control"
+                                  id="cpassword"
+                                  placeholder="Confirm Password"
+                                  value={formData?.cpassword}
+                                  onChange={handleInputChange}
+                                  readOnly={otpSend}
+                                />
+                              </div>
+                              {error.name === "cpassword" && (
+                                <span className="text-danger">{error.msg}</span>
+                              )}
+                            </div>
+                          </>
+                        )}
+
+                        {otpSend && (
                           <div className="form-group">
                             <label
                               className="font-weight-semibold"
@@ -300,9 +286,7 @@ useEffect(() => {
                               Otp <span className="text-danger">*</span>
                             </label>
                             <div className="input-affix m-b-10">
-                              <i className="prefix-icon anticon">
-                               
-                              </i>
+                              <i className="prefix-icon anticon"></i>
                               <input
                                 type="number"
                                 name="otp"
@@ -314,68 +298,75 @@ useEffect(() => {
                               />
                             </div>
                             {error.name === "otp" && (
-                            <span className="text-danger">{error.msg}</span>
-                          )}
+                              <span className="text-danger">{error.msg}</span>
+                            )}
                           </div>
-}
+                        )}
 
-                      {otpSend &&
-                        (seconds > 0 ? (
-                          <div className="text-center text-secondary mb-1">
-                            OTP is valid for {seconds}
-                          </div>
-                        ) : (
-                          <button className="text-center text-secondary mb-1 cursor-pointer btn btn-block" type="submit" >
-                            Resend OTP
-                          </button>
-                        ))}
+                        {otpSend &&
+                          (seconds > 0 ? (
+                            <div className="text-center text-secondary mb-1">
+                              OTP is valid for {seconds}
+                            </div>
+                          ) : (
+                            <button
+                              className="text-center text-secondary mb-1 cursor-pointer btn btn-block"
+                              type="submit"
+                            >
+                              Resend OTP
+                            </button>
+                          ))}
 
                         <div className="id-postion-fixed-bottom">
-                        <div className="form-group mb-1 px-0" style={{marginTop:'auto'}}>
-                        {!otpSend ?
-                          <button
-                            disabled={isSubmit}
-                            type="submit"
-                            className="btn btn-dark btn-block btn-lg"
-                            id="signin-btn"
+                          <div
+                            className="form-group mb-1 px-0"
+                            style={{ marginTop: "auto" }}
                           >
-                            
-                           Request OTP {isSubmit && (
-                            <>
-                              &nbsp; <div className="loader-circle"></div>
-                            </>
-                          )}
-                          </button>
-                          : <button
-                          disabled={isSubmit}
-                          className="btn btn-dark d-flex justify-content-center align-items-center btn-block submit_btn"
-                          id="signin-btn"
-                          onClick={(event) => {
-                            event.preventDefault();  
-                            event.stopPropagation(); 
-                            verifyOTP();           
-                          }}
-                        >
-                          
-                          Verify OTP {isSubmit && (
-                            <>
-                              &nbsp; <div className="loader-circle"></div>
-                            </>
-                          )}
-                          
-                        </button> }
-                        </div> 
-                        <Link to="/login">
-                      <div className="text-center  mb-3" style={{color:"#0d6efd"}}>
-                        Sign In
-                      </div>
-                    </Link>
-                 </div>
-                       
-                        
+                            {!otpSend ? (
+                              <button
+                                disabled={isSubmit}
+                                type="submit"
+                                className="btn btn-dark btn-block btn-lg"
+                                id="signin-btn"
+                              >
+                                Request OTP{" "}
+                                {isSubmit && (
+                                  <>
+                                    &nbsp; <div className="loader-circle"></div>
+                                  </>
+                                )}
+                              </button>
+                            ) : (
+                              <button
+                                disabled={isSubmit}
+                                className="btn btn-dark d-flex justify-content-center align-items-center btn-block submit_btn"
+                                id="signin-btn"
+                                onClick={(event) => {
+                                  event.preventDefault();
+                                  event.stopPropagation();
+                                  verifyOTP();
+                                }}
+                              >
+                                Verify OTP{" "}
+                                {isSubmit && (
+                                  <>
+                                    &nbsp; <div className="loader-circle"></div>
+                                  </>
+                                )}
+                              </button>
+                            )}
+                          </div>
+                          <Link to="/login">
+                            <div
+                              className="text-center  mb-3"
+                              style={{ color: "#0d6efd" }}
+                            >
+                              Sign In
+                            </div>
+                          </Link>
+                        </div>
                       </form>
-                    )}
-                   
+                    }
                   </div>
                 </div>
               </div>
