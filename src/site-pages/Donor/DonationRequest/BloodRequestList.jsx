@@ -4,8 +4,6 @@ import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
 import { Link } from "react-router-dom";
 import { capitalizeFirstLetter, formatDate, goBack } from "../../../site-components/Helper/HelperFunction";
-import Slider from "../../../site-components/Donor/components/Slider";
-import Footer from "../../../site-components/Donor/components/Footer";
 import { toast } from "react-toastify";
 import { IoChevronBackOutline } from "react-icons/io5";
 import DataNotFound from '../../../site-components/common/assets/img/data-not-found.png';
@@ -77,7 +75,7 @@ const BloodRequestList = () => {
       setDonationRequestList([]);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
-        toast.error(error.response.data.msg || "A server error occurred.");
+        //toast.error(error.response.data.msg || "A server error occurred.");
       } else {
         toast.error(
           "An error occurred. Please check your connection or try again."

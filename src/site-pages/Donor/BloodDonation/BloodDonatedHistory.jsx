@@ -11,12 +11,13 @@ import DataNotFound from '../../../site-components/common/assets/img/data-not-fo
 const BloodDonatedHistory = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const loguserid = secureLocalStorage.getItem("loguserid");
   const fetchDonationRequestList = async () => {
     setLoading(true);
     try {
       const bformData = new FormData();
       bformData.append("data", "fetchMyDonationHistory");
-      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
+      bformData.append("loguserid", loguserid);
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
         setDonationRequestList(response.data.data || []);
@@ -27,7 +28,7 @@ const BloodDonatedHistory = () => {
       setDonationRequestList([]);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
-        toast.error(error.response.data.msg || "A server error occurred.");
+        //toast.error(error.response.data.msg || "A server error occurred.");
       } else {
         toast.error(
           "An error occurred. Please check your connection or try again."
@@ -39,7 +40,9 @@ const BloodDonatedHistory = () => {
   };
 
   useEffect(() => {
+    if(loguserid){
     fetchDonationRequestList();
+    }
   }, []); 
 
   return (
