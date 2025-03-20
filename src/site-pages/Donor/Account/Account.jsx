@@ -4,6 +4,9 @@ import { goBack } from "../../../site-components/Helper/HelperFunction";
 import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
 import secureLocalStorage from "react-secure-storage";
 import { Link, useNavigate } from "react-router-dom";
+import { FaAngleRight } from "react-icons/fa6";
+import { IoChevronBackOutline } from "react-icons/io5";
+
 
 const Account = () => {
   const { donor } = useDonor();
@@ -25,12 +28,8 @@ const Account = () => {
       <div className="appHeader d-flex justify-content-around align-items-center">
         <div className="left left-0">
           <a href="#" class="headerButton " onClick={goBack}>
-            <ion-icon
-              name="arrow-back-outline"
-              role="img"
-              class="md hydrated"
-              aria-label="arrow back outline"
-            ></ion-icon>
+          <IoChevronBackOutline />
+           
           </a>
         </div>
         <div className="pageTitle w-75">Account</div>
@@ -67,12 +66,12 @@ const Account = () => {
                   </span>
                   <p className="link-text">Request For Blood</p>
                   <span className="arrow">
-                    <ion-icon name="arrow-forward"></ion-icon>
+                  <FaAngleRight className="icons"/>
                   </span>
                 </Link>
 
                 <Link
-                  to={""}
+                  to={"/terms-condition"}
                   className="id-link-item"
                 >
                   <span className="icon">
@@ -80,7 +79,7 @@ const Account = () => {
                   </span>
                   <p className="link-text">Terms & Conditions</p>
                   <span className="arrow">
-                    <ion-icon name="arrow-forward"></ion-icon>
+                  <FaAngleRight className="icons"/>
                   </span>
                 </Link>
 
@@ -93,7 +92,7 @@ const Account = () => {
                   </span>
                   <p className="link-text">Donation History</p>
                   <span className="arrow">
-                    <ion-icon name="arrow-forward"></ion-icon>
+                  <FaAngleRight className="icons"/>
                   </span>
                 </Link>
               </div>
@@ -118,11 +117,13 @@ const Account = () => {
          width: 115px;
          border-radius: 50%;
          }
+
          .id-link-item{
          display: flex;
          align-items: center;
          gap:10px;
          }
+
          .id-link-wrapper .id-link-item span ion-icon{
          padding: 10px;
          background-color: #00000014;
@@ -130,6 +131,13 @@ const Account = () => {
          color: #e20014;
          font-size: 20px;
          }
+         .id-link-item .arrow .icons{
+         background: #ebebeb;
+    font-size: 24px;
+    padding: 5px;
+    border-radius: 50%;
+         }
+
          .id-link-right{
          margin-left: auto;
          }
@@ -158,12 +166,9 @@ const Account = () => {
    margin-bottom: 8px;
 }
 
-.id-link-item:hover .icon, 
-.id-link-item:hover .arrow {
-   color: #fff;
-}
+
    .id-logout ion-icon{
-       padding: 10px;
+    padding: 10px;
     background: #ebebeb;
     border-radius: 50%;
     font-size: 20px;
@@ -171,22 +176,14 @@ const Account = () => {
    }
 
    .id-logout{
-   padding: 0px 4px
+   padding: 0px 25px
    
-   }
-
-@media (max-width: 768px) {
-   .id-link-wrapper {
-      padding: 10px 0px;
    }
 
    .id-link-item {
       padding: 6px;
    }
-
-
 }
-
         `}
         </style>
       </div>

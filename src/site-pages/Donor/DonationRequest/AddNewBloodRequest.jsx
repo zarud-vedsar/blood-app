@@ -8,6 +8,7 @@ import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant"
 import { goBack } from "../../../site-components/Helper/HelperFunction";
 import { FaCalendarAlt } from "react-icons/fa";
 import Slider from "../../../site-components/Donor/components/Slider";
+import { IoChevronBackOutline } from "react-icons/io5";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -270,8 +271,8 @@ const AddNewBloodRequest = () => {
     <div className="appHeader d-flex justify-content-around align-items-center">
         <div className="left left-0">
         <a href="#" class="headerButton " onClick={goBack}>
-                <ion-icon name="arrow-back-outline" role="img" class="md hydrated"
-                    aria-label="arrow back outline"></ion-icon>
+        <IoChevronBackOutline />
+              
             </a>
         </div>
         <div className="pageTitle w-75">Request for blood</div>

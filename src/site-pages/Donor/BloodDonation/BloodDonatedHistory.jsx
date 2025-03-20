@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { formatDate, goBack } from "../../../site-components/Helper/HelperFunction";
 import Slider from "../../../site-components/Donor/components/Slider";
 import Footer from "../../../site-components/Donor/components/Footer";
+import { IoChevronBackOutline } from "react-icons/io5";
 const BloodDonatedHistory = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -49,8 +50,8 @@ const BloodDonatedHistory = () => {
       <div className="appHeader d-flex justify-content-around align-items-center">
               <div className="left left-0">
               <a href="#" class="headerButton " onClick={goBack}>
-                      <ion-icon name="arrow-back-outline" role="img" class="md hydrated"
-                          aria-label="arrow back outline"></ion-icon>
+              <IoChevronBackOutline />
+                     
                   </a>
               </div>
               <div className="pageTitle w-75">Donation History</div>
