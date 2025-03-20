@@ -10,7 +10,7 @@ import { formatDate, goBack } from "../../../site-components/Helper/HelperFuncti
 import { IoChevronBackOutline } from "react-icons/io5";
 import DataNotFound from '../../../site-components/common/assets/img/data-not-found.png';
 import { toast } from "react-toastify";
-
+import { BiSolidDonateBlood } from "react-icons/bi";
 const BloodDonationList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -150,7 +150,7 @@ const BloodDonationList = () => {
                     className="btn"
                     onClick={() => acceptRequest(request?.id)}
                   >
-                    <ion-icon name="heart" color="danger"></ion-icon>
+                    <BiSolidDonateBlood  style={{color:"red", fontSize:"22px"}}/>
                   </button>
                 </div>
               </li>
