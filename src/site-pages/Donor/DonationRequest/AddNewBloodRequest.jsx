@@ -46,7 +46,7 @@ const AddNewBloodRequest = () => {
 
   const searchPincode = async (e) => {
     if (!/^\d{0,6}$/.test(e.target.value)) {
-      markError("pincode", "Pincode must be a 6-digit number");
+      markError("pincode", "Pin Code must be a 6-digit number");
       return;
     } else {
       setFormData({ ...formData, pincode: e.target.value });
@@ -66,7 +66,7 @@ const AddNewBloodRequest = () => {
           city: response?.data[0]?.PostOffice[0]?.District,
         }));
       } else {
-        markError("pincode", "Please provide valid pincode");
+        markError("pincode", "Please provide valid pin code");
 
         setFormData((prev) => ({ ...prev, state: "", city: "" }));
         toast.error("Please provide valid pincode");
@@ -195,13 +195,13 @@ const AddNewBloodRequest = () => {
     }
 
     if (!formData?.pincode) {
-      markError("pincode", "Vaild Pincode is required");
+      markError("pincode", "Vaild Pin Code is required");
 
       return setIsSubmit(false);
     }
 
     if (formData?.pincode && formData?.pincode?.length < 6) {
-      markError("pincode", "Pincode must be a 6-digit number");
+      markError("pincode", "Pin Code must be a 6-digit number");
       return setIsSubmit(false);
     }
     if (!formData?.state) {
@@ -392,14 +392,14 @@ const AddNewBloodRequest = () => {
 
                 <div className="form-group basic">
                   <label className="label" htmlFor="pincode">
-                    PinCode <span className="text-danger">*</span>
+                    Pin Code <span className="text-danger">*</span>
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     name="pincode"
                     id="pincode"
-                    placeholder="Enter Pincode"
+                    placeholder="Enter Pin Code"
                     value={formData.pincode}
                     onChange={searchPincode}
                   />

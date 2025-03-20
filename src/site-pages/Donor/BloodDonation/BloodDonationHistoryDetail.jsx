@@ -166,7 +166,7 @@ const BloodDonationHistoryDetail = () => {
             </div>
             <div class="row">
               <div class="col-5">
-                <strong class="f-17 fw-700"> PinCode </strong>
+                <strong class="f-17 fw-700"> Pin Code </strong>
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">

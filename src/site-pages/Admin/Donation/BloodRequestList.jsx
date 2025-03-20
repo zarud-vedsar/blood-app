@@ -268,7 +268,7 @@ function BloodRequestList() {
                                 value: formData.pincode,
                                 label: formData.pincode,
                               }
-                            : { value: "", label: "Select Pincode" }
+                            : { value: "", label: "Select Pin Code" }
                         }
                       />
                     </div>
@@ -442,7 +442,7 @@ function BloodRequestList() {
 
                       <Column
                         body={(row) => capitalizeFirstLetter(row.pincode)}
-                        header="PinCode"
+                        header="Pin Code"
                         field="pincode"
                         sortable
                       />
