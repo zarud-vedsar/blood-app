@@ -262,7 +262,7 @@ function load_donation_donerwise()
 
     $doner = $action->db->sql("SELECT * FROM `zuraud_doner` WHERE `id`='$donorId'");
     if ($doner) {
-        $donation_request = $action->db->sql("SELECT ad.acceptance_date,ad.rejection_reason,ad.rejection_date,ad.approval_date,ad.status, dr.patientName,dr.attendeePhone,dr.unit,dr.requiredDate,dr.criticalStatus FROM `approved_donations` ad JOIN zuraud_donation_request dr ON dr.id= ad.req_id WHERE ad.user_id='$donorId'") ?: [];
+        $donation_request = $action->db->sql("SELECT ad.acceptance_date,ad.rejection_reason,ad.rejection_date,ad.approval_date,ad.status, dr.patientName,dr.attendeePhone,dr.unit,dr.requiredDate,dr.criticalStatus, dr.id AS donationid, dr.request_date FROM `approved_donations` ad JOIN zuraud_donation_request dr ON dr.id= ad.req_id WHERE ad.user_id='$donorId'") ?: [];
 
         echo $action->db->json(200, "Donation request listed", '', ['doner' => $doner[0], 'donation_request' => $donation_request]);
         http_response_code(200);
