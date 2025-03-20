@@ -277,7 +277,7 @@ const AddNewBloodRequest = () => {
         </div>
         <div className="pageTitle w-75">Request for blood</div>
         <div className="right ">
-          <Slider/>
+          {/* <Slider/> */}
         </div>
       </div>
 

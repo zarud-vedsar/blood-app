@@ -86,7 +86,7 @@ const BloodDonationList = () => {
           <img src={userImg} alt="User" className="imaged w32" />
         </div>
         <div className="right">
-          <Slider />{" "}
+          {/* <Slider />{" "} */}
         </div>
       </div>
       {/* * App Header */}

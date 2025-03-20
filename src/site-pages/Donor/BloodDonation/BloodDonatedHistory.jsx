@@ -56,7 +56,7 @@ const BloodDonatedHistory = () => {
               </div>
               <div className="pageTitle w-75">Donation History</div>
               <div className="right ">
-                <Slider/>
+                {/* <Slider/> */}
               </div>
             </div>
 

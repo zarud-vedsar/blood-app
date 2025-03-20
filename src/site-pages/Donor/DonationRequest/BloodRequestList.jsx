@@ -97,7 +97,7 @@ const BloodRequestList = () => {
         </div>
         <div className="pageTitle w-75">Blood Requested List</div>
         <div className="right ">
-          <Slider/>
+          {/* <Slider/> */}
         </div>
       </div>
      
