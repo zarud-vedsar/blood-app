@@ -199,7 +199,7 @@ const EditProfile = () => {
 
     try {
       const bformData = new FormData();
-      bformData.append("data", "register");
+      bformData.append("data", "edit_profile");
       Object.keys(formData).forEach((key) => {
         bformData.append(`${key}`, formData[key]);
       });
