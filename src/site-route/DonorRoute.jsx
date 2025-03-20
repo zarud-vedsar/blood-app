@@ -20,6 +20,7 @@ import PageLoader from "../site-components/Donor/components/PageLoader";
 import { Slide, ToastContainer } from "react-toastify";
 import Account from "../site-pages/Donor/Account/Account";
 import EditProfile from "../site-pages/Donor/Account/EditProfile";
+import TermsCondition from "../site-pages/Donor/TermsCondition";
 const Login = lazy(() => import("../site-pages/Donor/Registration/Login"));
 const RegistrationForm = lazy(() =>
   import("../site-pages/Donor/Registration/RegistrationForm")
@@ -116,6 +117,10 @@ function DonorRoute() {
           <Route
             path="/edit-profile"
             element={<ProtectedRoute element={<EditProfile/>} />}
+          />
+          <Route
+            path="/terms-condition"
+            element={<ProtectedRoute element={<TermsCondition/>} />}
           />
         </Routes>
       </Suspense>

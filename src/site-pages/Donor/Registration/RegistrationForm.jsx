@@ -361,7 +361,7 @@ const RegistrationForm = () => {
                   />
                   <div>
                   I agree to the{" "}
-                  <a href="/terms" target="_blank" style={{color:"#0d6efd"}}>
+                  <a href="/terms-condition" target="_blank" style={{color:"#0d6efd"}}>
                     Terms and Conditions
                   </a>
                     

@@ -7,6 +7,7 @@ import { formatDate, goBack } from "../../../site-components/Helper/HelperFuncti
 import Slider from "../../../site-components/Donor/components/Slider";
 import Footer from "../../../site-components/Donor/components/Footer";
 import { toast } from "react-toastify";
+import { IoChevronBackOutline } from "react-icons/io5";
 const BloodRequestList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -96,13 +97,12 @@ const BloodRequestList = () => {
       <div className="appHeader d-flex justify-content-around align-items-center">
         <div className="left left-0">
         <a href="#" class="headerButton " onClick={goBack}>
-                <ion-icon name="arrow-back-outline" role="img" class="md hydrated"
-                    aria-label="arrow back outline"></ion-icon>
+        <IoChevronBackOutline />
             </a>
         </div>
         <div className="pageTitle w-75">Blood Requested List</div>
         <div className="right ">
-          <Slider/>
+          {/* <Slider/> */}
         </div>
       </div>
      
