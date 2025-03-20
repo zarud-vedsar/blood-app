@@ -5,6 +5,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
 import { capitalizeFirstLetter } from "../../../site-components/Helper/HelperFunction";
 import { toast } from "react-toastify";
+import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -127,23 +128,30 @@ const DonationDetailView = () => {
 
   const deleteRequest = async (id) => {
     setIsSubmit(true);
+
     try {
-      const bformData = new FormData();
-      bformData.append("data", "deleteDonationReq");
-      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
-      bformData.append("id", id);
+      const deleteAlert = await DeleteSweetAlert();
+      if (deleteAlert) {
+        const bformData = new FormData();
+        bformData.append("data", "deleteDonationReq");
+        bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
+        bformData.append("id", id);
 
-      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
+        const response = await axios.post(
+          `${PHP_API_URL}/doner.php`,
+          bformData
+        );
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 300);
-      if (response?.data?.status === 200) {
         setTimeout(() => {
           window.location.reload();
         }, 300);
-      } else {
-        toast.error("An error occurred. Please try again.");
+        if (response?.data?.status === 200) {
+          setTimeout(() => {
+            window.location.reload();
+          }, 300);
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
       }
     } catch (error) {
       const status = error.response?.data?.status;
@@ -166,98 +174,109 @@ const DonationDetailView = () => {
         <div className="card">
           <div className="card-body px-0">
             <div className="px-3">
-            <div class="row">
-              <div class="col-5">
-                <strong class="f-17 fw-700">Patient Name</strong>
+              <div class="row">
+                <div class="col-5">
+                  <strong class="f-17 fw-700">Patient Name</strong>
+                </div>
+                <div class="col-1">:</div>
+                <div class="col-auto fw-16 fw-600">
+                  {capitalizeFirstLetter(
+                    bloodDonationRequestDetail?.requestDetail?.patientName
+                  )}{" "}
+                  {bloodDonationRequestDetail?.requestDetail
+                    ?.criticalStatus && (
+                    <span className="badge badge-danger mb-0">Critical</span>
+                  )}
+                </div>
               </div>
-              <div class="col-1">:</div>
-              <div class="col-auto fw-16 fw-600">
-                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.patientName)}{" "}
-                {bloodDonationRequestDetail?.requestDetail?.criticalStatus && (
-                  <span className="badge badge-danger mb-0">Critical</span>
-                )}
+              <div class="row">
+                <div class="col-5">
+                  <strong class="f-17 fw-700">Attendee Phone</strong>
+                </div>
+                <div class="col-1">:</div>
+                <div class="col-auto fw-16 fw-600">
+                  {bloodDonationRequestDetail?.requestDetail?.attendeePhone}
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-5">
-                <strong class="f-17 fw-700">Attendee Phone</strong>
+              <div class="row">
+                <div class="col-5">
+                  <strong class="f-17 fw-700">Required Date</strong>
+                </div>
+                <div class="col-1">:</div>
+                <div class="col-auto fw-16 fw-600">
+                  {bloodDonationRequestDetail?.requestDetail?.requiredDate}
+                </div>
               </div>
-              <div class="col-1">:</div>
-              <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.attendeePhone}
+              <div class="row">
+                <div class="col-5">
+                  <strong class="f-17 fw-700"> Blood Group </strong>
+                </div>
+                <div class="col-1">:</div>
+                <div class="col-auto fw-16 fw-600">
+                  {bloodDonationRequestDetail?.requestDetail?.bloodGroup}
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-5">
-                <strong class="f-17 fw-700">Required Date</strong>
+              <div class="row">
+                <div class="col-5">
+                  <strong class="f-17 fw-700"> Unit </strong>
+                </div>
+                <div class="col-1">:</div>
+                <div class="col-auto fw-16 fw-600">
+                  {bloodDonationRequestDetail?.requestDetail?.unit}
+                </div>
               </div>
-              <div class="col-1">:</div>
-              <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.requiredDate}
+              <div class="row">
+                <div class="col-5">
+                  <strong class="f-17 fw-700"> PinCode </strong>
+                </div>
+                <div class="col-1">:</div>
+                <div class="col-auto fw-16 fw-600">
+                  {bloodDonationRequestDetail?.requestDetail?.pincode}
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-5">
-                <strong class="f-17 fw-700"> Blood Group </strong>
+              <div class="row">
+                <div class="col-5">
+                  <strong class="f-17 fw-700"> State </strong>
+                </div>
+                <div class="col-1">:</div>
+                <div class="col-auto fw-16 fw-600">
+                  {capitalizeFirstLetter(
+                    bloodDonationRequestDetail?.requestDetail?.state
+                  )}
+                </div>
               </div>
-              <div class="col-1">:</div>
-              <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.bloodGroup}
+              <div class="row">
+                <div class="col-5">
+                  <strong class="f-17 fw-700"> City </strong>
+                </div>
+                <div class="col-1">:</div>
+                <div class="col-auto fw-16 fw-600">
+                  {capitalizeFirstLetter(
+                    bloodDonationRequestDetail?.requestDetail?.city
+                  )}
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-5">
-                <strong class="f-17 fw-700"> Unit </strong>
+              <div class="row mb-1">
+                <div class="col-5">
+                  <strong class="f-17 fw-700"> Address </strong>
+                </div>
+                <div class="col-1">:</div>
+                <div class="col-auto fw-16 fw-600">
+                  {capitalizeFirstLetter(
+                    bloodDonationRequestDetail?.requestDetail?.address
+                  )}
+                </div>
               </div>
-              <div class="col-1">:</div>
-              <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.unit}
+              <div class="row">
+                <div class="col-12">
+                  <strong class="f-17 fw-700"> Additional Note: </strong>
+                </div>
+                <div class="col-12 fw-16 fw-600">
+                  {capitalizeFirstLetter(
+                    bloodDonationRequestDetail?.requestDetail?.additionalNote
+                  )}
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-5">
-                <strong class="f-17 fw-700"> PinCode </strong>
-              </div>
-              <div class="col-1">:</div>
-              <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.pincode}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-5">
-                <strong class="f-17 fw-700"> State </strong>
-              </div>
-              <div class="col-1">:</div>
-              <div class="col-auto fw-16 fw-600">
-                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.state)}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-5">
-                <strong class="f-17 fw-700"> City </strong>
-              </div>
-              <div class="col-1">:</div>
-              <div class="col-auto fw-16 fw-600">
-                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.city)}
-              </div>
-            </div>
-            <div class="row mb-1">
-              <div class="col-5">
-                <strong class="f-17 fw-700"> Address </strong>
-              </div>
-              <div class="col-1">:</div>
-              <div class="col-auto fw-16 fw-600">
-                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.address)}
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <strong class="f-17 fw-700"> Additional Note: </strong>
-              </div>
-              <div class="col-12 fw-16 fw-600">
-                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.additionalNote)}
-              </div>
-            </div>
             </div>
 
             {bloodDonationRequestDetail?.doner &&
@@ -272,7 +291,10 @@ const DonationDetailView = () => {
                     <div
                       className="card mb-3"
                       key={index}
-                      style={{ background: "rgb(234 234 234 / 46%)", borderRadius:"0px" }}
+                      style={{
+                        background: "rgb(234 234 234 / 46%)",
+                        borderRadius: "0px",
+                      }}
                     >
                       <div className="card-body">
                         <div class="row ">
@@ -280,7 +302,9 @@ const DonationDetailView = () => {
                             <strong class="f-17 fw-700"> Name </strong>
                           </div>
                           <div class="col-1">:</div>
-                          <div class="col-auto fw-16 fw-600">{capitalizeFirstLetter(data?.name)}</div>
+                          <div class="col-auto fw-16 fw-600">
+                            {capitalizeFirstLetter(data?.name)}
+                          </div>
                         </div>
                         <div class="row ">
                           <div class="col-5">
@@ -310,7 +334,9 @@ const DonationDetailView = () => {
                             <strong class="f-17 fw-700"> City</strong>
                           </div>
                           <div class="col-1">:</div>
-                          <div class="col-auto fw-16 fw-600">{capitalizeFirstLetter(data?.city)}</div>
+                          <div class="col-auto fw-16 fw-600">
+                            {capitalizeFirstLetter(data?.city)}
+                          </div>
                         </div>
                         <div class="row ">
                           <div class="col-5">
@@ -326,7 +352,9 @@ const DonationDetailView = () => {
                             <strong class="f-17 fw-700"> State</strong>
                           </div>
                           <div class="col-1">:</div>
-                          <div class="col-auto fw-16 fw-600">{capitalizeFirstLetter(data?.state)}</div>
+                          <div class="col-auto fw-16 fw-600">
+                            {capitalizeFirstLetter(data?.state)}
+                          </div>
                         </div>
                         <div class="row mb-1 ">
                           <div class="col-5">
@@ -453,7 +481,6 @@ const DonationDetailView = () => {
           `}
         </style>
       </div>
-     
     </>
   );
 };
