@@ -17,7 +17,7 @@ import BloodDonatedHistory from "../site-pages/Donor/BloodDonation/BloodDonatedH
 import BloodDonationDetailView from "../site-pages/Donor/BloodDonation/BloodDonationDetailView";
 import BloodDonationHistoryDetail from "../site-pages/Donor/BloodDonation/BloodDonationHistoryDetail";
 import PageLoader from "../site-components/Donor/components/PageLoader";
-import { Slide, ToastContainer } from "react-toastify";
+import { Slide, ToastContainer, Zoom } from "react-toastify";
 import Account from "../site-pages/Donor/Account/Account";
 import EditProfile from "../site-pages/Donor/Account/EditProfile";
 import TermsCondition from "../site-pages/Donor/TermsCondition";
@@ -58,7 +58,7 @@ function DonorRoute() {
         pauseOnHover
         draggable
         autoClose={500}
-        transition={Slide} 
+        transition={Zoom} 
         toastClassName="custom-toast"
       />
         <Routes>
