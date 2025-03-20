@@ -264,7 +264,7 @@ const EditProfile = () => {
                   name="name"
                   id="name"
                   placeholder="Enter Name"
-                  value={formData.name}
+                  value={formData?.name}
                   onChange={handleInputChange}
                 />
                 {error.name === "name" && (
@@ -282,7 +282,7 @@ const EditProfile = () => {
                   name="email"
                   id="email"
                   placeholder="Enter Email"
-                  value={formData.email}
+                  value={formData?.email}
                   onChange={handleInputChange}
                 />
                 {error.name === "email" && (
@@ -300,7 +300,7 @@ const EditProfile = () => {
                   name="phone"
                   id="phone"
                   placeholder="Enter Phone Number"
-                  value={formData.phone}
+                  value={formData?.phone}
                   onChange={handleInputChange}
                 />
                 {error.name === "phone" && (
@@ -318,7 +318,7 @@ const EditProfile = () => {
                     className="form-control"
                     name="dob"
                     id="dob"
-                    value={formData.dob}
+                    value={formData?.dob}
                     onChange={handleInputChange}
                   />
                   <span style={{ marginLeft: "-20px" }}>
@@ -342,7 +342,7 @@ const EditProfile = () => {
                   isSearchable
                   value={
                     genderOptions.find(
-                      (gender) => gender.value === formData.gender
+                      (gender) => gender.value === formData?.gender
                     ) || null
                   }
                   onChange={(selected) =>
@@ -365,7 +365,7 @@ const EditProfile = () => {
                   isSearchable
                   value={
                     bloodGroups.find(
-                      (blood) => blood.value === formData.bloodGroup
+                      (blood) => blood.value === formData?.bloodGroup
                     ) || null
                   }
                   onChange={(selected) =>
@@ -386,7 +386,7 @@ const EditProfile = () => {
                   name="pincode"
                   id="pincode"
                   placeholder="Enter Pincode"
-                  value={formData.pincode}
+                  value={formData?.pincode}
                   onChange={searchPincode}
                 />
                 {error.name === "pincode" && (
@@ -404,7 +404,7 @@ const EditProfile = () => {
                   name="state"
                   id="state"
                   placeholder="Enter state"
-                  value={formData.state}
+                  value={formData?.state}
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, state: e.target.value }))
                   }
@@ -424,7 +424,7 @@ const EditProfile = () => {
                   name="city"
                   id="city"
                   placeholder="Enter city"
-                  value={formData.city}
+                  value={formData?.city}
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, city: e.target.value }))
                   }
@@ -444,7 +444,7 @@ const EditProfile = () => {
                   name="address"
                   id="address"
                   placeholder="Enter address"
-                  value={formData.address}
+                  value={formData?.address}
                   onChange={(e) =>
                     setFormData((prev) => ({
                       ...prev,
