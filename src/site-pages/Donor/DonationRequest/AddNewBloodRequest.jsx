@@ -276,7 +276,7 @@ const AddNewBloodRequest = () => {
         <div className="pageTitle w-75">Request for blood</div>
         <div className="right ">
           <Link to="/blood-donation-request/request-list">
-            <i class="fa-solid fa-list"></i>
+            <i class="fa-solid fa-list text-white"></i>
           </Link>
         </div>
       </div>

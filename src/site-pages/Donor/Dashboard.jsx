@@ -10,11 +10,13 @@ import ImageFifth from "../../site-components/common/assets/img/dash-5.png";
 import BannerImg from "../../site-components/common/assets/img/banner-img.avif";
 import BannerImg1 from "../../site-components/common/assets/img/BloodDonation.png";
 import BannerImg2 from "../../site-components/common/assets/img/bannerimg2.jpg";
+import BannerImg3 from "../../site-components/common/assets/img/bannnerimg3.jpg";
+import BannerImg5 from "../../site-components/common/assets/img/bannerimg5.jpg";
 import { capitalizeFirstLetter } from "../../site-components/Helper/HelperFunction";
 const Dashboard = () => {
   const { donor } = useDonor();
 
-  const images = [BannerImg, BannerImg1, BannerImg2]; // Array of image paths
+  const images = [BannerImg, BannerImg5, BannerImg1, BannerImg3, ]; // Array of image paths
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Next slide function
