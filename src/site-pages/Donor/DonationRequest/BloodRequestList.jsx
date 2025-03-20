@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { capitalizeFirstLetter, formatDate, goBack } from "../../../site-components/Helper/HelperFunction";
 import Slider from "../../../site-components/Donor/components/Slider";
 import Footer from "../../../site-components/Donor/components/Footer";
+import { toast } from "react-toastify";
 import { IoChevronBackOutline } from "react-icons/io5";
 import DataNotFound from '../../../site-components/common/assets/img/data-not-found.png';
 const BloodRequestList = () => {
@@ -32,9 +33,13 @@ const BloodRequestList = () => {
         window.location.reload();
     }, 300);
       if (response?.data?.status === 200) {
-        setTimeout(() => {
-            window.location.reload();
-        }, 300);
+
+        toast.success(response?.data?.msg, {
+                                          autoClose: 300, 
+                                          onClose: window.location.reload(), 
+                                        });
+
+       
       } else {
         toast.error("An error occurred. Please try again.");
       }

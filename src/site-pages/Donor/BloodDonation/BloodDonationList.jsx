@@ -9,11 +9,13 @@ import userImg from "../../../site-components/common/assets/img/user.png";
 import { formatDate, goBack } from "../../../site-components/Helper/HelperFunction";
 import { IoChevronBackOutline } from "react-icons/io5";
 import DataNotFound from '../../../site-components/common/assets/img/data-not-found.png';
+import { toast } from "react-toastify";
 
 const BloodDonationList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const loguserid = secureLocalStorage.getItem("loguserid");
   const navigate = useNavigate();
 
   const acceptRequest = async (id) => {
@@ -25,12 +27,13 @@ const BloodDonationList = () => {
       bformData.append("id", id);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
+      
 
       if (response?.data?.status === 200) {
-        setTimeout(() => {
-          navigate("/blood-donation/history");
-        }, 300);
+        toast.success(response?.data?.msg, {
+          autoClose: 300,
+          onClose: navigate("/blood-donation/history"),
+        });
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -52,7 +55,7 @@ const BloodDonationList = () => {
     try {
       const bformData = new FormData();
       bformData.append("data", "fetchDonationReqforMe");
-      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
+      bformData.append("loguserid", loguserid);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
 
@@ -65,7 +68,7 @@ const BloodDonationList = () => {
       setDonationRequestList([]);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
-        toast.error(error.response.data.msg || "A server error occurred.");
+        //toast.error(error.response.data.msg || "A server error occurred.");
       } else {
         toast.error(
           "An error occurred. Please check your connection or try again."
@@ -78,7 +81,7 @@ const BloodDonationList = () => {
 
   useEffect(() => {
     fetchDonationRequestList();
-  }, []); // ✅ Fixed useEffect dependency
+  }, [loguserid]);
 
   return (
     <div>

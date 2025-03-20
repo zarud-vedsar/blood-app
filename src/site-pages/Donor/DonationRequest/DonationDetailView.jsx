@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
 import { capitalizeFirstLetter } from "../../../site-components/Helper/HelperFunction";
+import { toast } from "react-toastify";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -56,7 +57,6 @@ const DonationDetailView = () => {
             pincode: data?.pincode,
             address: data?.address,
           }));
-          toast.error("An error occurred. Please try again.");
         }
       } catch (error) {
         const status = error.response?.data?.status;
