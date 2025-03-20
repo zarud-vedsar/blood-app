@@ -4,9 +4,13 @@ import secureLocalStorage from "react-secure-storage";
 import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import { toast } from "react-toastify"; // Ensure toast is imported
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import { formatDate } from "../../../site-components/Helper/HelperFunction";
+import { capitalizeFirstLetter, formatDate } from "../../../site-components/Helper/HelperFunction";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { OverlayTrigger } from "react-bootstrap";
+import Tooltip from "react-bootstrap/Tooltip";
 
 const DonorDetailView = () => {
   const { adminDetail } = useAdminContext();
@@ -157,6 +161,65 @@ const DonorDetailView = () => {
                             <li className="row">
                               <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
                                 <i
+                                  className="fa fa-envelope m-r-10 "
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
+                                <span>Email</span>
+                              </p>
+                              <div className="">:</div>
+                              <p className="col font-12 font-weight-semibold ">
+                                {data?.doner?.email || "N/A"} 
+                              </p>
+                            </li>
+                            <li className="row">
+                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
+                                <i
+                                  className="fa-solid fa-calendar m-r-10 "
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
+                                <span>Date of birth</span>
+                              </p>
+                              <div className="">:</div>
+                              <p className="col font-12 font-weight-semibold ">
+                                {formatDate(data?.doner?.dob) ||
+                                  "N/A"}
+                              </p>
+                            </li>
+                            <li className="row">
+                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
+                                <i
+                                  className="fa-solid fa-venus-mars m-r-10 "
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
+                                <span>Gender</span>
+                              </p>
+                              <div className="">:</div>
+                              <p className="col font-12 font-weight-semibold">
+                                {capitalizeFirstLetter(data?.doner?.gender )||
+                                  "N/A"}
+                              </p>
+                            </li>
+                           
+                            <li className="row">
+                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
+                                <i
+                                  className="fa-solid fa-map-pin m-r-10 "
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
+                                <span>Pincode</span>
+                              </p>
+                              <div className="">:</div>
+                              <p className="col font-12 font-weight-semibold">
+                                {data?.doner?.pincode || "N/A"}
+                              </p>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="col-md-4">
+                          <ul className="list-unstyled m-t-10">
+                            <li className="row">
+                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
+                                <i
                                   className="fa fa-map m-r-10 "
                                   style={{ color: "#3f87f5" }}
                                 ></i>
@@ -180,19 +243,7 @@ const DonorDetailView = () => {
                                 {data?.doner?.city || "N/A"}
                               </p>
                             </li>
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-map-pin m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>Pincode</span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold">
-                                {data?.doner?.pincode || "N/A"}
-                              </p>
-                            </li>
+                            
                             <li className="row">
                               <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
                                 <i
@@ -208,466 +259,154 @@ const DonorDetailView = () => {
                             </li>
                           </ul>
                         </div>
-                        <div className="col-md-4">
-                          <ul className="list-unstyled m-t-10">
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa fa-hand-holding-droplet m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>Unit Required</span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold text-warning">
-                                {data?.donation?.unit || "N/A"} Unit
-                              </p>
-                            </li>
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-calendar m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>Required Date</span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold text-danger">
-                                {formatDate(data?.donation?.requiredDate) ||
-                                  "N/A"}
-                              </p>
-                            </li>
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-calendar m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>Request Date</span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold">
-                                {formatDate(data?.donation?.request_date) ||
-                                  "N/A"}
-                              </p>
-                            </li>
-                            {data?.donation?.approve_date && (
-                              <li className="row">
-                                <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                  <i
-                                    className="fa-solid fa-calendar m-r-10 "
-                                    style={{ color: "#3f87f5" }}
-                                  ></i>
-                                  <span>Approved Date</span>
-                                </p>
-                                <div className="">:</div>
-                                <p className="col font-12 font-weight-semibold text-success">
-                                  {formatDate(data?.donation?.approve_date) ||
-                                    "N/A"}
-                                </p>
-                              </li>
-                            )}
-                          </ul>
-                        </div>
+                       
                       </div>
                     </div>
                   </div>
                 ) : (
                   <div className="text-center">
-                    No application details available.
+                    Donor details not available.
                   </div>
                 )}
               </div>
             </div>
-            <div className="row ant-card-body ">
-              <div className="col-md-12 align-items-center ng-star-inserted">
-                {loading ? (
-                  <div className="text-center">Loading...</div>
-                ) : data?.donation ? (
-                  <div className="card px-3">
-                    <div className="card-body py-3">
-                      <div className="row ">
-                        <h6 className="title">Requestor Detail</h6>
-                      </div>
-
-                      <div className="row ">
-                        <div className="col-md-4">
-                          <ul className="list-unstyled m-t-10">
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-user m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>Name</span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.req_name || "N/A"}
-                              </p>
-                            </li>
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-id-card m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>User Id</span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.req_uniqueId || "N/A"}
-                              </p>
-                            </li>
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-phone m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>Phone Number</span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.req_phone || "N/A"}
-                              </p>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="col-md-4">
-                          <ul className="list-unstyled m-t-10">
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa fa-map m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>State</span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.req_state || "N/A"}
-                              </p>
-                            </li>
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-city m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>City</span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.req_city || "N/A"}
-                              </p>
-                            </li>
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-map-pin m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>Pincode</span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.req_pincode || "N/A"}
-                              </p>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="col-md-4">
-                          <ul className="list-unstyled m-t-10">
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-envelope m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>Email </span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.req_email || "N/A"}
-                              </p>
-                            </li>
-                            <li className="row">
-                              <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-house m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>Address </span>
-                              </p>
-                              <div className="">:</div>
-                              <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.req_address || "N/A"}
-                              </p>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <div className="row ">
-                        <div className="col-md-12">
-                          <ul className="list-unstyled ">
-                            <li className="row">
-                              <p className="col-sm-12 px-0 font-13 col-12 font-weight-semibold text-dark m-b-5">
-                                <i
-                                  className="fa-solid fa-circle-info m-r-10 "
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                                <span>Additional Infomation</span>
-                              </p>
-
-                              <p className="col font-12 font-weight-semibold">
-                                {data?.donation?.additionalNote || "N/A"}
-                              </p>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center">
-                    No application details available.
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="row ant-card-body">
-              <div className="col-md-12 align-items-center ng-star-inserted">
-                {loading ? (
-                  <div className="text-center">Loading...</div>
-                ) : data?.acceptance && data?.acceptance.length > 0 && (
-                  <div className="card">
-                    <div className="card-body py-3">
-                      <h6 className="title">Donor Detail</h6>
-                      {data?.acceptance.map((item, index) => (
-                        <div key={index} className="card">
-                          <div className="card-body py-3">
-                            <div className="row">
-                              {/* Column 1 */}
-                              <div className="col-md-4">
-                                <ul className="list-unstyled m-t-10">
-                                  <li className="row">
-                                    <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                      <i
-                                        className="fa-solid fa-user m-r-10"
-                                        style={{ color: "#3f87f5" }}
-                                      ></i>
-                                      Name
-                                    </p>
-                                    <div className="">:</div>
-                                    <p className="col font-12 font-weight-semibold">
-                                      {item?.donorName || "N/A"}
-                                    </p>
-                                  </li>
-                                  <li className="row">
-                                    <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                      <i
-                                        className="fa-solid fa-id-card m-r-10"
-                                        style={{ color: "#3f87f5" }}
-                                      ></i>
-                                      User Id
-                                    </p>
-                                    <div className="">:</div>
-                                    <p className="col font-12 font-weight-semibold">
-                                      {item?.uniqueId || "N/A"}
-                                    </p>
-                                  </li>
-                                  <li className="row">
-                                    <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                      <i
-                                        className="fa-solid fa-phone m-r-10"
-                                        style={{ color: "#3f87f5" }}
-                                      ></i>
-                                      Phone Number
-                                    </p>
-                                    <div className="">:</div>
-                                    <p className="col font-12 font-weight-semibold">
-                                      {item?.donorPhone || "N/A"}
-                                    </p>
-                                  </li>
-                                  <li className="row">
-                                    <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                      <i
-                                        className="fa-solid fa-envelope m-r-10"
-                                        style={{ color: "#3f87f5" }}
-                                      ></i>
-                                      Email
-                                    </p>
-                                    <div className="">:</div>
-                                    <p className="col font-12 font-weight-semibold">
-                                      {item?.donorEmail || "N/A"}
-                                    </p>
-                                  </li>
-                                </ul>
-                              </div>
-
-                              {/* Column 2 */}
-                              <div className="col-md-4">
-                                <ul className="list-unstyled m-t-10">
-                                  <li className="row">
-                                    <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                      <i
-                                        className="fa-solid fa-map m-r-10"
-                                        style={{ color: "#3f87f5" }}
-                                      ></i>
-                                      State
-                                    </p>
-                                    <div className="">:</div>
-                                    <p className="col font-12 font-weight-semibold">
-                                      {item?.state || "N/A"}
-                                    </p>
-                                  </li>
-                                  <li className="row">
-                                    <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                      <i
-                                        className="fa-solid fa-city m-r-10"
-                                        style={{ color: "#3f87f5" }}
-                                      ></i>
-                                      City
-                                    </p>
-                                    <div className="">:</div>
-                                    <p className="col font-12 font-weight-semibold">
-                                      {item?.city || "N/A"}
-                                    </p>
-                                  </li>
-                                  <li className="row">
-                                    <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                      <i
-                                        className="fa-solid fa-map-pin m-r-10"
-                                        style={{ color: "#3f87f5" }}
-                                      ></i>
-                                      Pincode
-                                    </p>
-                                    <div className="">:</div>
-                                    <p className="col font-12 font-weight-semibold">
-                                      {item?.pincode || "N/A"}
-                                    </p>
-                                  </li>
-                                  <li className="row">
-                                    <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                      <i
-                                        className="fa-solid fa-house m-r-10"
-                                        style={{ color: "#3f87f5" }}
-                                      ></i>
-                                      Address
-                                    </p>
-                                    <div className="">:</div>
-                                    <p className="col font-12 font-weight-semibold">
-                                      {item?.address || "N/A"}
-                                    </p>
-                                  </li>
-                                </ul>
-                              </div>
-
-                              {/* Column 3 */}
-                              <div className="col-md-4">
-                                <ul className="list-unstyled m-t-10">
-                                  <li className="row">
-                                    <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                      <i
-                                        className="fa-solid fa-calendar m-r-10"
-                                        style={{ color: "#3f87f5" }}
-                                      ></i>
-                                      Acceptance Date
-                                    </p>
-                                    <div className="">:</div>
-                                    <p className="col font-12 font-weight-semibold">
-                                      {formatDate(item?.acceptance_date) ||
-                                        "N/A"}
-                                    </p>
-                                  </li>
-                                  {item?.approval_date && (
-                                    <li className="row">
-                                      <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                        <i
-                                          className="fa-solid fa-calendar m-r-10"
-                                          style={{ color: "#3f87f5" }}
-                                        ></i>
-                                        Approval Date
-                                      </p>
-                                      <div className="">:</div>
-                                      <p className="col font-12 font-weight-semibold text-success">
-                                        {formatDate(item?.approval_date) ||
-                                          "N/A"}
-                                      </p>
-                                    </li>
+                
+                 <div className="card">
+                              <div className="card-body">
+                                {/* Search Box */}
+                
+                                <div className={`table-responsive ${loading ? "form" : ""}`}>
+                                  {data?.donation_request?.length > 0 ? (
+                                    <DataTable
+                                      value={data?.donation_request}
+                                      removableSort
+                                      paginator
+                                      rows={50}
+                                      rowsPerPageOptions={[50, 100, 200]}
+                                      emptyMessage="No records found"
+                                      className="p-datatable-custom"
+                                      tableStyle={{ minWidth: "50rem" }}
+                                      sortMode="multiple"
+                                    >
+                                      <Column
+                                        body={(row, { rowIndex }) => rowIndex + 1}
+                                        header="#"
+                                        sortable
+                                      />
+                
+                                      
+                                      <Column
+                                        header="Patient Name"
+                                        field="patientName"
+                                        sortable
+                                        body={(row) => (
+                                          <div className="d-flex">
+                                            <div>{row.patientName}</div>
+                                            <div>
+                                              {row.criticalStatus === 1 && (
+                                                <span className="badge badge-danger ml-2">
+                                                  Critical
+                                                </span>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )}
+                                      />
+                
+                                     
+                                      <Column header="Unit" field="unit" sortable />
+                                      <Column
+                                        body={(row) => capitalizeFirstLetter(row.attendeePhone)}
+                                        header="Attendee Phone"
+                                        field="attendeePhone"
+                                        sortable
+                                      />
+                                     
+                                      <Column
+                                        body={(row) => formatDate(row.request_date)}
+                                        header="Requested Date"
+                                        field="request_date"
+                                        sortable
+                                      />
+                                      <Column
+                                        body={(row) => formatDate(row.requiredDate)}
+                                        header="Required Date"
+                                        field="requiredDate"
+                                        sortable
+                                      />
+                                      <Column
+                                        body={(row) => formatDate(row.acceptance_date)}
+                                        header="Accepted Date"
+                                        field="acceptance_date"
+                                        sortable
+                                      />
+                                      <Column
+                                        body={(row) => row.approval_date?formatDate(row.approval_date ):""}
+                                        header="Approval Date"
+                                        field="approval_date"
+                                        sortable
+                                      />
+                                      <Column
+                                        body={(row) => row.rejection_date?formatDate(row.rejection_date ):""}
+                                        header="Rejection Date"
+                                        field="rejection_date"
+                                        sortable
+                                      />
+                
+                                      <Column
+                                        header="Status"
+                                        field="status"
+                                        body={(row) => (
+                                          <div className="d-flex">
+                                            {row?.status === 0 && (
+                                              <span className="f-16 badge badge-warning mb-0">
+                                                Pending
+                                              </span>
+                                            )}
+                                            {row?.status === 1 && (
+                                              <span className="f-16 badge badge-success mb-0">
+                                                Received
+                                              </span>
+                                            )}
+                                            {row?.status === 2 && (
+                                              <span className="f-16 badge badge-danger mb-0">
+                                                Rejected
+                                              </span>
+                                            )}
+                                            
+                                          </div>
+                                        )}
+                                      />
+                
+                                      <Column
+                                        header="View"
+                                        body={(rowData) => (
+                                          <OverlayTrigger
+                                            placement="bottom"
+                                            overlay={
+                                              <Tooltip id={`tooltip-${rowData.id}`}>
+                                                View
+                                              </Tooltip>
+                                            }
+                                          >
+                                            <Link to={`/admin/blood-request/${rowData.id}`} className="text-warning">
+                                              <i className="fa-solid fa-eye"></i>
+                                            </Link>
+                                          </OverlayTrigger>
+                                        )}
+                                      />
+                                    </DataTable>
+                                  ) : (
+                                    <>
+                                      <div className="col-md-12 alert alert-danger">
+                                        Data not available
+                                      </div>
+                                    </>
                                   )}
-                                  {item?.rejection_date && (
-                                    <li className="row">
-                                      <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                        <i
-                                          className="fa-solid fa-calendar m-r-10"
-                                          style={{ color: "#3f87f5" }}
-                                        ></i>
-                                        Rejection Date
-                                      </p>
-                                      <div className="">:</div>
-                                      <p className="col font-12 font-weight-semibold text-danger">
-                                        {formatDate(item?.rejection_date) ||
-                                          "N/A"}
-                                      </p>
-                                    </li>
-                                  )}
-                                  <li className="row">
-                                    <p className="col-6 font-13 font-weight-semibold text-dark m-b-5">
-                                      <i
-                                        className="fa-solid fa-chart-simple m-r-10"
-                                        style={{ color: "#3f87f5" }}
-                                      ></i>
-                                      Status
-                                    </p>
-
-                                    <div className="">:</div>
-                                    <p className="col font-12 font-weight-semibold">
-                                      {item?.status === 0 ? (
-                                        <span className="f-16 badge badge-warning mb-0">
-                                          Pending
-                                        </span>
-                                      ) : item?.status === 1 ? (
-                                        <span className="f-16 badge badge-success mb-0">
-                                          Received
-                                        </span>
-                                      ) : (
-                                        <span className="f-16 badge badge-danger mb-0">
-                                          Rejected
-                                        </span>
-                                      )}
-                                    </p>
-                                  </li>
-                                </ul>
-                              </div>
-                              <div className="col-md-12">
-                                <ul className="list-unstyled ">
-                                  <li className="row">
-                                    <p className="col-12 font-13 font-weight-semibold text-dark m-b-5">
-                                      <i
-                                        className="fa-solid fa-calendar m-r-10"
-                                        style={{ color: "#3f87f5" }}
-                                      ></i>
-                                      Response
-                                    </p>
-                                    <p className="col font-12 font-weight-semibold">
-                                      {item?.rejection_reason || "N/A"}
-                                    </p>
-                                  </li>
-                                </ul>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) }
-              </div>
-            </div>
+
           </div>
         </div>
       </div>

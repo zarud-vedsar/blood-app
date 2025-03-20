@@ -296,7 +296,7 @@ const BloodRequestViewDetail = () => {
                   </div>
                 ) : (
                   <div className="text-center">
-                    No application details available.
+                    Blood request details not available.
                   </div>
                 )}
               </div>
@@ -454,7 +454,7 @@ const BloodRequestViewDetail = () => {
                   </div>
                 ) : (
                   <div className="text-center">
-                    No application details available.
+                  Requestor details not available.
                   </div>
                 )}
               </div>
