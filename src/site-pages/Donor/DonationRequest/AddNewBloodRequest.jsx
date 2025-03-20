@@ -165,14 +165,18 @@ const AddNewBloodRequest = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
-
     if (!formData.patientName) {
       markError("patientName", "Name is required");
       return setIsSubmit(false);
     }
+    if (!formData?.attendeePhone) {
+      markError("attendeePhone", "Phone number is required");
+      return setIsSubmit(false);
+    }
+    console.log("check")
 
     if (!/^[6-9]\d{9}$/.test(formData.attendeePhone)) {
-      markError("phone", "Valid phone number is required");
+      markError("attendeePhone", "Valid phone number is required");
       return setIsSubmit(false);
     }
 

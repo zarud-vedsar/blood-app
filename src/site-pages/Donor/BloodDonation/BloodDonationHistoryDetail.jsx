@@ -7,6 +7,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
 import { formatDate } from "../../../site-components/Helper/HelperFunction";
 import { toast } from "react-toastify";
+import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -44,8 +45,6 @@ const BloodDonationHistoryDetail = () => {
         if (response?.data?.status === 200) {
           const data = response?.data?.data?.requestDetail;
           setBloodDonationRequestDetail(response?.data?.data[0]);
-
-          toast.error("An error occurred. Please try again.");
         }
       } catch (error) {
         const status = error.response?.data?.status;
@@ -61,32 +60,36 @@ const BloodDonationHistoryDetail = () => {
       }
     };
 
-    fetchData(); 
-  }, [id]); 
+    fetchData();
+  }, [id]);
 
   const handleSubmitRemark = async () => {
     setIsSubmit(true);
 
     try {
-      const bformData = new FormData();
-      
-      bformData.append("data", "rejectDonation_donar");
-      
-      bformData.append("rejection_reason", formData?.remark);
-      bformData.append("loguserid", formData?.loguserid);
-      bformData.append("req_id", bloodDonationRequestDetail?.req_id);
-      bformData.append("historyid", id);
-      
+      const deleteAlert = await DeleteSweetAlert("");
+      if (deleteAlert) {
+        const bformData = new FormData();
 
-      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      if (response?.data?.status === 201 || response?.data?.status === 200) {
+        bformData.append("data", "rejectDonation_donar");
+
+        bformData.append("rejection_reason", formData?.remark);
+        bformData.append("loguserid", formData?.loguserid);
+        bformData.append("req_id", bloodDonationRequestDetail?.req_id);
+        bformData.append("historyid", id);
+
+        const response = await axios.post(
+          `${PHP_API_URL}/doner.php`,
+          bformData
+        );
+        if (response?.data?.status === 201 || response?.data?.status === 200) {
           toast.success(response?.data?.msg, {
-                                                  autoClose: 300, 
-                                                  onClose: window.location.reload(), 
-                                                });
-       
-      } else {
-        toast.error("An error occurred. Please try again.");
+            autoClose: 300,
+            onClose: window.location.reload(),
+          });
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
       }
     } catch (error) {
       const status = error.response?.data?.status;
@@ -104,11 +107,8 @@ const BloodDonationHistoryDetail = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-
     setFormData({ ...formData, [name]: value });
   };
-
- 
 
   return (
     <>
@@ -242,47 +242,47 @@ const BloodDonationHistoryDetail = () => {
             </div>
 
             {bloodDonationRequestDetail?.rejection_reason ? (
-                          <>
-                            <div class="row">
-                              <div class="col-12">
-                                <strong class="f-17 fw-700"> Remark </strong>
-                              </div>
-                              <div class="col-auto fw-16 fw-600">
-                                {bloodDonationRequestDetail?.rejection_reason}
-                              </div>
-                            </div>
-                          </>
-            ):
-            <>
-            <div className="form-group basic mt-1">
-              <label className="label f-17 fw-700" htmlFor="remark">
-                Remark <span className="text-danger">*</span> :
-              </label>
-              <textarea
-                className="form-control"
-                name="remark"
-                id="remark"
-                placeholder="Enter remark"
-                value={formData.remark}
-                onChange={handleInputChange}
-              />
-            </div>
-            
+              <>
+                <div class="row">
+                  <div class="col-12">
+                    <strong class="f-17 fw-700"> Remark </strong>
+                  </div>
+                  <div class="col-auto fw-16 fw-600">
+                    {bloodDonationRequestDetail?.rejection_reason}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="form-group basic mt-1">
+                  <label className="label f-17 fw-700" htmlFor="remark">
+                    Remark <span className="text-danger">*</span> :
+                  </label>
+                  <textarea
+                    className="form-control"
+                    name="remark"
+                    id="remark"
+                    placeholder="Enter remark"
+                    value={formData.remark}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
-            <div class="form-button-group transparent d-flex  align-items-center">
-              <button
-                className="btn btn-danger btn-block"
-                onClick={() => handleSubmitRemark()}
-              >
-                {isSubmit ? (
-                  "Submitting..."
-                ) : (
-                  <span className="fontsize-normal">Reject</span>
+                <div class="form-button-group transparent d-flex  align-items-center">
+                  <button
+                    className="btn btn-danger btn-block btn-lg"
+                    onClick={() => handleSubmitRemark()}
+                  >
+                   Reject  {isSubmit && (
+                  <>
+                    &nbsp; <div className="loader-circle"></div>
+                  </>
                 )}
-              </button>
-            </div>
-            </>
-}
+                    
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

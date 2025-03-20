@@ -77,29 +77,36 @@ const DonationDetailView = () => {
   }, [id]); // Only runs when `id` changes
 
   const handleSubmitRemark = async (status, historyid) => {
-    setIsSubmit(true);
+ 
 
     try {
-      const bformData = new FormData();
-      if (status === 0) {
-        bformData.append("data", "rejectDonation_requestor");
-      } else {
-        bformData.append("data", "confirmDonation");
-      }
-      bformData.append("remark", formData?.remark);
-      bformData.append("loguserid", formData?.loguserid);
-      bformData.append("id", bloodDonationRequestDetail?.requestDetail?.id);
-      bformData.append("historyid", historyid);
-      bformData.append("type", status);
-
-      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      if (response?.data?.status === 201 || response?.data?.status === 200) {
-        setFormData(initializeForm);
-        if (response?.data?.status === 200) {
-          window.location.reload();
+      const deleteAlert = await DeleteSweetAlert();
+      if (deleteAlert) {
+        setIsSubmit(true);
+        const bformData = new FormData();
+        if (status === 0) {
+          bformData.append("data", "rejectDonation_requestor");
+        } else {
+          bformData.append("data", "confirmDonation");
         }
-      } else {
-        toast.error("An error occurred. Please try again.");
+        bformData.append("remark", formData?.remark);
+        bformData.append("loguserid", formData?.loguserid);
+        bformData.append("id", bloodDonationRequestDetail?.requestDetail?.id);
+        bformData.append("historyid", historyid);
+        bformData.append("type", status);
+
+        const response = await axios.post(
+          `${PHP_API_URL}/doner.php`,
+          bformData
+        );
+        if (response?.data?.status === 201 || response?.data?.status === 200) {
+          setFormData(initializeForm);
+          if (response?.data?.status === 200) {
+            window.location.reload();
+          }
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
       }
     } catch (error) {
       const status = error.response?.data?.status;
@@ -402,12 +409,11 @@ const DonationDetailView = () => {
                                   handleSubmitRemark(0, data?.historyid)
                                 }
                               >
-                                {isSubmit ? (
-                                  "Submitting..."
-                                ) : (
-                                  <span className="fontsize-normal">
-                                    Reject
-                                  </span>
+                                Reject{" "}
+                                {isSubmit && (
+                                  <>
+                                    &nbsp; <div className="loader-circle"></div>
+                                  </>
                                 )}
                               </button>
                               <button
@@ -416,12 +422,11 @@ const DonationDetailView = () => {
                                   handleSubmitRemark(1, data?.historyid)
                                 }
                               >
-                                {isSubmit ? (
-                                  "Submitting..."
-                                ) : (
-                                  <span className="fontsize-normal">
-                                    Received
-                                  </span>
+                                Received{" "}
+                                {isSubmit && (
+                                  <>
+                                    &nbsp; <div className="loader-circle"></div>
+                                  </>
                                 )}
                               </button>
                             </div>
