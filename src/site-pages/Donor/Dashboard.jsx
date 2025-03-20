@@ -81,8 +81,7 @@ const Dashboard = () => {
         className="slider"
         style={{
           transform: `translateX(-${currentIndex * 100}%)`, // Moves the images right to left
-        }}
-      >
+        }} >
         {images.map((image, index) => (
           <img
             key={index}
@@ -93,10 +92,10 @@ const Dashboard = () => {
           />
         ))}
       </div>
-      <button onClick={goToPrevious} className="prev-btn">
+      <button onClick={goToPrevious} className="prev-btn d-none">
         &#10094;
       </button>
-      <button onClick={goToNext} className="next-btn">
+      <button onClick={goToNext} className="next-btn d-none">
         &#10095;
       </button>
     </div>
@@ -153,7 +152,7 @@ const Dashboard = () => {
                 <div className="mx-auto text-center py-1">
                   <Link to="/blood-donation/history"> 
                   <img src={ImageFourth} alt="" className="id-dash-b-img" />
-                  <h4 className="mt-1 fw-600">History</h4>
+                  <h4 className="mt-1 fw-600">Donation History</h4>
                   </Link>
                 </div>
               </div>

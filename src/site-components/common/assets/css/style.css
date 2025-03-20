@@ -8498,7 +8498,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .img-fluid {
   width: 100%;
   height: auto;
-  display: block;
   transition: box-shadow 0.5s ease-in-out; /* Smooth transition for shadow */
 }
 
@@ -8528,7 +8527,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .next-btn {
   right: 10px;
 }
-
 .prev-btn:hover,
 .next-btn:hover {
   background-color: rgba(0, 0, 0, 0.8);
