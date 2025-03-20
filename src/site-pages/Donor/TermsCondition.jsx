@@ -1,7 +1,7 @@
 import React from 'react'
 import { goBack } from "../../site-components/Helper/HelperFunction";
-import Slider from "../../site-components/Donor/components/Slider";
 import { IoChevronBackOutline } from "react-icons/io5";
+import DataNotFound from '../../site-components/common/assets/img/data-not-found.png';
 
 const TermsCondition = () => {
   return (
@@ -14,8 +14,14 @@ const TermsCondition = () => {
         </div>
         <div className="pageTitle w-75">Terms & Condition</div>
         <div className="right ">
-          <Slider/>
+          {/* <Slider/> */}
         </div>
+      </div>
+
+      <div id="appCapsule">
+        <section className="section px-2  pb-5 mb-5">
+            <img src={DataNotFound} alt="" className="img-fluid" />
+        </section>
       </div>
     
     </>

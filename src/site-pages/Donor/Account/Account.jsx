@@ -71,6 +71,19 @@ const Account = () => {
                 </Link>
 
                 <Link
+                  to={"/blood-donation/history"}
+                  className="id-link-item"
+                >
+                  <span className="icon">
+                    <ion-icon name="megaphone-outline"></ion-icon>
+                  </span>
+                  <p className="link-text">Donation History</p>
+                  <span className="arrow">
+                  <FaAngleRight className="icons"/>
+                  </span>
+                </Link>
+
+                <Link
                   to={"/terms-condition"}
                   className="id-link-item"
                 >
@@ -83,18 +96,7 @@ const Account = () => {
                   </span>
                 </Link>
 
-                <Link
-                  to={"/blood-donation/history"}
-                  className="id-link-item"
-                >
-                  <span className="icon">
-                    <ion-icon name="megaphone-outline"></ion-icon>
-                  </span>
-                  <p className="link-text">Donation History</p>
-                  <span className="arrow">
-                  <FaAngleRight className="icons"/>
-                  </span>
-                </Link>
+              
               </div>
 
               <div className="d-flex align-items-center id-logout">

@@ -7,6 +7,7 @@ import { formatDate, goBack } from "../../../site-components/Helper/HelperFuncti
 import Slider from "../../../site-components/Donor/components/Slider";
 import Footer from "../../../site-components/Donor/components/Footer";
 import { IoChevronBackOutline } from "react-icons/io5";
+import DataNotFound from '../../../site-components/common/assets/img/data-not-found.png';
 const BloodDonatedHistory = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -49,9 +50,8 @@ const BloodDonatedHistory = () => {
       
       <div className="appHeader d-flex justify-content-around align-items-center">
               <div className="left left-0">
-              <a href="#" class="headerButton " onClick={goBack}>
+              <a href="#" class="headerButton" onClick={goBack}>
               <IoChevronBackOutline />
-                     
                   </a>
               </div>
               <div className="pageTitle w-75">Donation History</div>
@@ -66,9 +66,9 @@ const BloodDonatedHistory = () => {
         <section className="section px-2  pb-5 mb-5">
           {loading && <div className="loader-fetch">Loading...</div>}
           {!loading && donationRequestList.length === 0 && (
-            <p className="text-center pt-2">No data found.</p>
-          )}
+            <img src={DataNotFound} alt="" className="img-fluid" />
 
+          )}
           <ul className="listview image-listview" id="set_fecthed_data">
             {donationRequestList.map((request, index) => (
               <li key={index}>
