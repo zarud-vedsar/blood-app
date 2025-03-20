@@ -649,3 +649,47 @@ function view_donation_history()
         return;
     }
 }
+
+function edit_profile(){
+    global $action;
+    
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $user_id = $AuthendicteRequest['loguserid'];
+    
+    $name= $action->db->setPostRequiredField('name','Name is required');
+    $email= $action->db->setPostRequiredField('email','Email is required');
+    $duplicateemail= $action->db->sql("SELECT id FROM `zuraud_doner` WHERE `email`='$email' AND `id`!='$user_id'");
+    if($duplicateemail){
+        echo $action->db->json(400, "Email already registered with another user");
+        http_response_code(400);
+        return;
+    }
+    $dob= $action->db->setPostRequiredField('dob','Date of Birth  is required');
+    $gender= $action->db->setPostRequiredField('gender','Gender is required');
+    $bloodGroup= $action->db->setPostRequiredField('bloodGroup','Blood Group is required');
+    $state= $action->db->setPostRequiredField('state','State is required');
+    $city= $action->db->setPostRequiredField('city','City is required');
+    $pincode= $action->db->setPostRequiredField('pincode','Pincode is required');
+    $address= $action->db->setPostRequiredField('address','Address is required');
+    $latitude= $action->db->setPostRequiredField('latitude','Latitude is required');
+    $longitude= $action->db->setPostRequiredField('longitude','Longitude is required');
+    
+    $update= $action->db->update('zuraud_doner'," id= $user_id ",['name'=>$name,'email'=>$email,'dob'=>$dob,'gender'=>$gender,'bloodGroup'=>$bloodGroup,'state'=>$state,'city'=>$city,'pincode'=>$pincode,'address'=>$address,'latitude'=>$latitude,'longitude'=>$longitude]);
+    
+    if($update){
+        echo $action->db->json(200, "Profile updated successfully");
+        http_response_code(200);
+        return;
+    
+    }
+    else{
+        echo $action->db->json(500, "Internal Server Error");
+        http_response_code(500);
+        return;
+    }
+}
