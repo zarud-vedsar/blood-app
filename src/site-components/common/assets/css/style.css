@@ -29,7 +29,7 @@ a:hover,
 a:active,
 a:focus {
   outline: 0 !important;
-  color: #3a5f0b;
+  color: red;
   text-decoration: none;
 }
 
@@ -1379,8 +1379,6 @@ a.badge-dark {
   margin: 0;
   color: #27173e;
   background: #fff;
-  border-top: 1px solid #dcdce9;
-  border-bottom: 1px solid #dcdce9;
   line-height: 1.3em;
 }
 

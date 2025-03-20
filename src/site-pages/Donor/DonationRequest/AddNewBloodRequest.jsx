@@ -516,9 +516,9 @@ const AddNewBloodRequest = () => {
                     style={{ marginRight: "5px" }}
                   />
                   I agree to the{" "}
-                  <a href="/terms" target="_blank" style={{color:"#0d6efd"}}>
+                  <Link to="/terms-condition" target="_blank" style={{color:"#0d6efd"}}>
                     Terms and Conditions
-                  </a>
+                  </Link>
                 </label>
                 {error.name === "termsAccepted"&& (
                   <span className="text-danger">{error.msg}</span>

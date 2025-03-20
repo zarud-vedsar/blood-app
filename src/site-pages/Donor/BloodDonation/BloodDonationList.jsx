@@ -3,10 +3,12 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
 import { Link, useNavigate } from "react-router-dom";
-import { formatDate } from "../../../site-components/Helper/HelperFunction";
 import Slider from "../../../site-components/Donor/components/Slider";
 import Footer from "../../../site-components/Donor/components/Footer";
 import userImg from "../../../site-components/common/assets/img/user.png";
+import { formatDate, goBack } from "../../../site-components/Helper/HelperFunction";
+import { IoChevronBackOutline } from "react-icons/io5";
+import DataNotFound from '../../../site-components/common/assets/img/data-not-found.png';
 import { toast } from "react-toastify";
 
 const BloodDonationList = () => {
@@ -84,21 +86,28 @@ const BloodDonationList = () => {
   return (
     <div>
       {/* App Header */}
-      <div className="appHeader border-0">
-        <div className="left">
-          <img src={userImg} alt="User" className="imaged w32" />
-        </div>
-        <div className="right">
-          {/* <Slider />{" "} */}
-        </div>
-      </div>
+          <div className="appHeader d-flex justify-content-around align-items-center">
+                    <div className="left left-0">
+                    <a href="#" class="headerButton" onClick={goBack}>
+                    <IoChevronBackOutline />
+                        </a>
+                    </div>
+                    <div className="pageTitle w-75">Blood Donation List</div>
+                    <div className="right ">
+                    {/* <img src={userImg} alt="User" className="imaged w32" /> */}
+                      {/* <Slider/> */}
+                    </div>
+                  </div>
+      
+      
       {/* * App Header */}
 
       <div id="appCapsule">
         <section className="section px-2  pb-5 mb-5">
           {loading && <div className="loader-fetch">Loading...</div>}
           {!loading && donationRequestList.length === 0 && (
-            <p className="text-center pt-2">No data found.</p>
+            <img src={DataNotFound} alt="" className="img-fluid"/>
+            // <p className="text-center pt-2">No data found.</p>
           )}
 
           <ul className="listview image-listview" id="set_fecthed_data">

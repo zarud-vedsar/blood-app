@@ -120,7 +120,7 @@ function DonorRoute() {
           />
           <Route
             path="/terms-condition"
-            element={<ProtectedRoute element={<TermsCondition/>} />}
+              element={<TermsCondition/>} 
           />
         </Routes>
       </Suspense>

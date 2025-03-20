@@ -3,6 +3,7 @@ import React, { useState, lazy, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
+import { capitalizeFirstLetter } from "../../../site-components/Helper/HelperFunction";
 import { toast } from "react-toastify";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -171,7 +172,7 @@ const DonationDetailView = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.patientName}{" "}
+                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.patientName)}{" "}
                 {bloodDonationRequestDetail?.requestDetail?.criticalStatus && (
                   <span className="badge badge-danger mb-0">Critical</span>
                 )}
@@ -228,7 +229,7 @@ const DonationDetailView = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.state}
+                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.state)}
               </div>
             </div>
             <div class="row">
@@ -237,7 +238,7 @@ const DonationDetailView = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.city}
+                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.city)}
               </div>
             </div>
             <div class="row mb-1">
@@ -246,7 +247,7 @@ const DonationDetailView = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.address}
+                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.address)}
               </div>
             </div>
             <div class="row">
@@ -254,7 +255,7 @@ const DonationDetailView = () => {
                 <strong class="f-17 fw-700"> Additional Note: </strong>
               </div>
               <div class="col-12 fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.additionalNote}
+                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.additionalNote)}
               </div>
             </div>
             </div>
@@ -279,7 +280,7 @@ const DonationDetailView = () => {
                             <strong class="f-17 fw-700"> Name </strong>
                           </div>
                           <div class="col-1">:</div>
-                          <div class="col-auto fw-16 fw-600">{data?.name}</div>
+                          <div class="col-auto fw-16 fw-600">{capitalizeFirstLetter(data?.name)}</div>
                         </div>
                         <div class="row ">
                           <div class="col-5">
@@ -287,7 +288,7 @@ const DonationDetailView = () => {
                           </div>
                           <div class="col-1">:</div>
                           <div class="col-auto fw-16 fw-600">
-                            {data?.gender}
+                            {capitalizeFirstLetter(data?.gender)}
                           </div>
                         </div>
                         <div class="row ">
@@ -309,7 +310,7 @@ const DonationDetailView = () => {
                             <strong class="f-17 fw-700"> City</strong>
                           </div>
                           <div class="col-1">:</div>
-                          <div class="col-auto fw-16 fw-600">{data?.city}</div>
+                          <div class="col-auto fw-16 fw-600">{capitalizeFirstLetter(data?.city)}</div>
                         </div>
                         <div class="row ">
                           <div class="col-5">
@@ -325,7 +326,7 @@ const DonationDetailView = () => {
                             <strong class="f-17 fw-700"> State</strong>
                           </div>
                           <div class="col-1">:</div>
-                          <div class="col-auto fw-16 fw-600">{data?.state}</div>
+                          <div class="col-auto fw-16 fw-600">{capitalizeFirstLetter(data?.state)}</div>
                         </div>
                         <div class="row mb-1 ">
                           <div class="col-5">
@@ -333,7 +334,7 @@ const DonationDetailView = () => {
                           </div>
                           <div class="col-1">:</div>
                           <div class="col-auto fw-16 fw-600">
-                            {data?.address}
+                            {capitalizeFirstLetter(data?.address)}
                           </div>
                         </div>
 
@@ -344,7 +345,7 @@ const DonationDetailView = () => {
                                 <strong class="f-17 fw-700"> Remark: </strong>
                               </div>
                               <div class="col-12 fw-16 fw-600">
-                                {data?.rejection_reason}
+                                {capitalizeFirstLetter(data?.rejection_reason)}
                               </div>
                             </div>
                           </>

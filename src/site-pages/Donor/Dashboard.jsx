@@ -14,9 +14,13 @@ const Dashboard = () => {
     <>
       <div className="appHeader border-0">
         <div className="left">
-          <img src={userImg} alt="User" className="imaged w32" />
+          {/* <img src={userImg} alt="User" className="imaged w32" /> */}
         </div>
         <div className="right">
+          <Link to="/account">
+          <img src={userImg} alt="User" className="imaged w32" />
+          </Link>
+          
           {/* <Slider />{" "} */}
         </div>
       </div>
@@ -45,6 +49,8 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
+
+          
 
           <div className="row mt-2">
             <div className="col-6">
