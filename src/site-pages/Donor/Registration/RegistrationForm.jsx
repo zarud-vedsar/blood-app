@@ -67,8 +67,8 @@ const RegistrationForm = () => {
       return setIsSubmit(false);
     }
     
-    if (!/^\d{10}$/.test(formData.phone)) {
-      markError("phone", "Phone number must be exactly 10 digits.");
+    if (!/^[6-9]\d{9}$/.test(formData.phone)) {
+      markError("phone", "Valid phone number is required");
       return setIsSubmit(false);
     }
 
@@ -86,10 +86,13 @@ const RegistrationForm = () => {
 
       const actualAge =
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-      if (actualAge <= 16) {
+  
+        
+      if (actualAge < 16) {
         markError("dob", "Age is must be greater than 16.");
         return setIsSubmit(false);
       } 
+
     }
 
     if (!formData.gender) {
@@ -116,7 +119,8 @@ const RegistrationForm = () => {
     markError("", "");
 
     if (!formData.termsAccepted) {
-      markError("termsAccepted", "You must accept the terms");
+      markError("termsAccepted", "You must accept the terms.");
+      toast.error("You must accept the terms")
       return setIsSubmit(false);
     }
 
@@ -169,11 +173,14 @@ const RegistrationForm = () => {
 
       const actualAge =
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-      if (actualAge <= 16) {
-        markError("dob", "Age is must be greater than 16.");
-      } else {
-        markError("", "");
-      }
+        setTimeout(() => {
+          if (actualAge < 16) {
+            markError("dob", "Age is must be greater than 16.");
+          } else {
+            markError("", "");
+          }
+        }, 1000);
+     
     }
 
     setFormData({ ...formData, [name]: value });

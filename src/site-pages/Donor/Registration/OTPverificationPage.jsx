@@ -94,7 +94,7 @@ const OTPVerificationPage = () => {
       <div className="am-content">
         <form className="otp-form " onSubmit={handleSubmit}>
           <h3 className="otp-title">Enter OTP</h3>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex align-items-center flex-column">
             <OtpInput
               value={otp}
               onChange={handleOtpChange}
@@ -107,7 +107,7 @@ const OTPVerificationPage = () => {
                 <input {...props} className="otp-input" />
               )}
             />
-            {error && <span className="text-danger">{error}</span>}
+            {error && <span className="text-danger ">{error}</span>}
           </div>
           <div className="timer-container">
             {isResendDisabled ? (

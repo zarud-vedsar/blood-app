@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import userImg from "../../site-components/common/assets/img/user.png";
-import Slider from "../../site-components/Donor/components/Slider";
 import Footer from "../../site-components/Donor/components/Footer";
 import { useDonor } from "../../site-components/Donor/ContextApi/DonorContext";
 import { Link } from "react-router-dom";
 import ImageF from "../../site-components/common/assets/img/dash-1.png";
-import ImageS from "../../site-components/common/assets/img/dash-2.png";
 import ImageT from "../../site-components/common/assets/img/dash-3.png";
 import ImageFourth from "../../site-components/common/assets/img/dash-4.png";
 import ImageFifth from "../../site-components/common/assets/img/dash-5.png";
