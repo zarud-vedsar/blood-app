@@ -6,10 +6,11 @@ import {
   PHP_API_URL,
   PINCODE_URL,
 } from "../../../site-components/Helper/Constant";
-import IsDonorLoggedIn from "../IsDonorLoggedIn";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { FaCalendarAlt } from "react-icons/fa";
 import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
+import secureLocalStorage from "react-secure-storage";
+import { toast } from "react-toastify";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -22,12 +23,12 @@ const genderOptions = [
 ];
 
 const EditProfile = () => {
-  const { donor } = useDonor();
+  const { donor, setDonor } = useDonor();
   const [loading, setLoading] = useState();
+  const loguserid = secureLocalStorage.getItem("loguserid");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-   
     dob: "",
     gender: "",
     bloodGroup: "",
@@ -43,7 +44,7 @@ const EditProfile = () => {
       ...prev,
       name: donor?.name,
       email: donor?.email,
-      
+
       dob: donor?.dob,
       gender: donor?.gender,
       bloodGroup: donor?.bloodGroup,
@@ -128,7 +129,7 @@ const EditProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    console.log("che")
+
     if (!formData.name) {
       markError("name", "Name is required.");
       return setIsSubmit(false);
@@ -142,7 +143,7 @@ const EditProfile = () => {
       markError("email", "Invalid email address.");
       return setIsSubmit(false);
     }
-    
+
     if (!formData.dob) {
       markError("dob", "Date of Birth is required.");
       return setIsSubmit(false);
@@ -171,7 +172,7 @@ const EditProfile = () => {
       markError("bloodGroup", "Blood group is required");
       return setIsSubmit(false);
     }
-    
+
     if (!formData?.pincode) {
       markError("pincode", "Vaild Pincode is required");
 
@@ -200,14 +201,27 @@ const EditProfile = () => {
     try {
       const bformData = new FormData();
       bformData.append("data", "edit_profile");
+      bformData.append("loguserid", loguserid);
       Object.keys(formData).forEach((key) => {
         bformData.append(`${key}`, formData[key]);
       });
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
-        setTimeout(() => {
-          navigate(`/otp-verification/${response?.data?.data?.id}`);
-        }, 300);
+        toast.success(response?.data?.msg, { autoClose: 300 });
+        setDonor((prev) => ({
+          ...prev,
+          name: formData?.name,
+          email: formData?.email,
+          dob: formData?.dob,
+          gender: formData?.gender,
+          bloodGroup: formData?.bloodGroup,
+          state: formData?.state,
+          city: formData?.city,
+          pincode: formData?.pincode,
+          address: formData?.address,
+          latitude: formData?.latitude,
+          longitude: formData?.longitude,
+        }));
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -228,8 +242,6 @@ const EditProfile = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-   
-
     if (name === "dob") {
       const today = new Date();
       const selectedDate = new Date(value);
@@ -239,14 +251,13 @@ const EditProfile = () => {
 
       const actualAge =
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-        setTimeout(() => {
-          if (actualAge < 16) {
-            markError("dob", "Age is must be greater than 16.");
-          } else {
-            markError("", "");
-          }
-        }, 1000);
-     
+      setTimeout(() => {
+        if (actualAge < 16) {
+          markError("dob", "Age is must be greater than 16.");
+        } else {
+          markError("", "");
+        }
+      }, 1000);
     }
 
     setFormData({ ...formData, [name]: value });
@@ -294,8 +305,6 @@ const EditProfile = () => {
                   <span className="text-danger">{error.msg}</span>
                 )}
               </div>
-
-              
 
               <div className="form-group basic">
                 <label className="label" htmlFor="dob">
