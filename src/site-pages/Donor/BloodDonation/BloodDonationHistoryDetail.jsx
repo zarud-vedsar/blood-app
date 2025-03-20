@@ -6,6 +6,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 
 import secureLocalStorage from "react-secure-storage";
 import { formatDate } from "../../../site-components/Helper/HelperFunction";
+import { toast } from "react-toastify";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -79,9 +80,11 @@ const BloodDonationHistoryDetail = () => {
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 201 || response?.data?.status === 200) {
-        setTimeout(() => {
-          window.location.reload();
-        }, 300);
+          toast.success(response?.data?.msg, {
+                                                  autoClose: 300, 
+                                                  onClose: window.location.reload(), 
+                                                });
+       
       } else {
         toast.error("An error occurred. Please try again.");
       }

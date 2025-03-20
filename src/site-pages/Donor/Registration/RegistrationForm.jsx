@@ -6,6 +6,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { FaCalendarAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -66,8 +67,8 @@ const RegistrationForm = () => {
       return setIsSubmit(false);
     }
     
-    if (!/^\d{10}$/.test(formData.phone)) {
-      markError("phone", "Phone number must be exactly 10 digits.");
+    if (!/^[6-9]\d{9}$/.test(formData.phone)) {
+      markError("phone", "Valid phone number is required");
       return setIsSubmit(false);
     }
 
@@ -85,10 +86,13 @@ const RegistrationForm = () => {
 
       const actualAge =
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-      if (actualAge <= 16) {
+  
+        
+      if (actualAge < 16) {
         markError("dob", "Age is must be greater than 16.");
         return setIsSubmit(false);
       } 
+
     }
 
     if (!formData.gender) {
@@ -115,7 +119,8 @@ const RegistrationForm = () => {
     markError("", "");
 
     if (!formData.termsAccepted) {
-      markError("termsAccepted", "You must accept the terms");
+      markError("termsAccepted", "You must accept the terms.");
+      toast.error("You must accept the terms")
       return setIsSubmit(false);
     }
 
@@ -127,9 +132,12 @@ const RegistrationForm = () => {
       });
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
-        setTimeout(() => {
-          navigate(`/otp-verification/${response?.data?.data?.id}`);
-        }, 300);
+
+         toast.success(response?.data?.msg, {
+                  autoClose: 300, 
+                  onClose: () => navigate(`/otp-verification/${response?.data?.data?.id}`), 
+                });
+        
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -165,11 +173,14 @@ const RegistrationForm = () => {
 
       const actualAge =
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-      if (actualAge <= 16) {
-        markError("dob", "Age is must be greater than 16.");
-      } else {
-        markError("", "");
-      }
+        setTimeout(() => {
+          if (actualAge < 16) {
+            markError("dob", "Age is must be greater than 16.");
+          } else {
+            markError("", "");
+          }
+        }, 1000);
+     
     }
 
     setFormData({ ...formData, [name]: value });
@@ -357,7 +368,7 @@ const RegistrationForm = () => {
                   />
                   <div>
                   I agree to the{" "}
-                  <a href="/terms" target="_blank" style={{color:"#0d6efd"}}>
+                  <a href="/terms-condition" target="_blank" style={{color:"#0d6efd"}}>
                     Terms and Conditions
                   </a>
                     

@@ -5,6 +5,7 @@ import secureLocalStorage from "react-secure-storage";
 import { useDonor } from "../../site-components/Donor/ContextApi/DonorContext";
 import { PHP_API_URL } from "../../site-components/Helper/Constant";
 import PageLoader from "../../site-components/Donor/components/PageLoader";
+import { toast } from "react-toastify";
 
 const ProtectedRoute = ({ element }) => {
   const { donor, setDonor } = useDonor(); // Assuming useDonor returns an object

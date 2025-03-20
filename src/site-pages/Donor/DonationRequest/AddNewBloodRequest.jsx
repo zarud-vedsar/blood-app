@@ -7,10 +7,8 @@ import secureLocalStorage from "react-secure-storage";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { goBack } from "../../../site-components/Helper/HelperFunction";
 import { FaCalendarAlt } from "react-icons/fa";
-import Slider from "../../../site-components/Donor/components/Slider";
-const HeaderWithBack = lazy(() =>
-  import("../../../site-components/Donor/components/HeaderWithBack")
-);
+import { toast } from "react-toastify";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 const AddNewBloodRequest = () => {
   const {id} = useParams();
@@ -110,6 +108,7 @@ const AddNewBloodRequest = () => {
   useEffect(() => getLocation(), []);
 
   useEffect(() => {
+    
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -154,8 +153,9 @@ const AddNewBloodRequest = () => {
         setLoading(false);
       }
     };
-  
-    fetchData(); // Call the async function
+  if(id){
+    fetchData(); 
+  }// Call the async function
   }, [id]); // Only runs when `id` changes
   
 
@@ -169,8 +169,8 @@ const AddNewBloodRequest = () => {
       return setIsSubmit(false);
     }
 
-    if (!/^\d{10}$/.test(formData.attendeePhone)) {
-      markError("phone", "Phone number must be exactly 10 digits");
+    if (!/^[6-9]\d{9}$/.test(formData.attendeePhone)) {
+      markError("phone", "Valid phone number is required");
       return setIsSubmit(false);
     }
 
@@ -229,6 +229,9 @@ const AddNewBloodRequest = () => {
       });
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 201 || response?.data?.status === 200) {
+
+        toast.success(response?.data?.msg);
+
         setFormData(initializeForm);
         if(response?.data?.status === 200){
           window.history.back();
@@ -270,13 +273,13 @@ const AddNewBloodRequest = () => {
     <div className="appHeader d-flex justify-content-around align-items-center">
         <div className="left left-0">
         <a href="#" class="headerButton " onClick={goBack}>
-                <ion-icon name="arrow-back-outline" role="img" class="md hydrated"
-                    aria-label="arrow back outline"></ion-icon>
+        <IoChevronBackOutline />
+              
             </a>
         </div>
         <div className="pageTitle w-75">Request for blood</div>
         <div className="right ">
-          <Slider/>
+          {/* <Slider/> */}
         </div>
       </div>
 
@@ -513,9 +516,9 @@ const AddNewBloodRequest = () => {
                     style={{ marginRight: "5px" }}
                   />
                   I agree to the{" "}
-                  <a href="/terms" target="_blank" style={{color:"#0d6efd"}}>
+                  <Link to="/terms-condition" target="_blank" style={{color:"#0d6efd"}}>
                     Terms and Conditions
-                  </a>
+                  </Link>
                 </label>
                 {error.name === "termsAccepted"&& (
                   <span className="text-danger">{error.msg}</span>

@@ -29,7 +29,7 @@ a:hover,
 a:active,
 a:focus {
   outline: 0 !important;
-  color: #3a5f0b;
+  color: red;
   text-decoration: none;
 }
 
@@ -47,11 +47,12 @@ a:focus {
   left: 0;
   right: 0;
   z-index: 999;
-  background: #ffffff;
-  color: #27173e;
+  background: #b42b27;
+  color: white;
   border-bottom: 1px solid #dcdce9;
   padding: 0px 15px;
   gap: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow */
 }
 
 .appHeader:before {
@@ -98,7 +99,7 @@ a:focus {
   margin-right: 0px ;
 }
 .id-back-icon{
-  color: #161129;
+  color: white;
 }
 
 .appHeader .left .headerButton,
@@ -109,7 +110,7 @@ a:focus {
   justify-content: center;
   padding: 10px 0px;
   align-items: center;
-  color: black;
+  color: white;
   position: relative;
   font-size: 22px !important;
 }
@@ -1379,8 +1380,6 @@ a.badge-dark {
   margin: 0;
   color: #27173e;
   background: #fff;
-  border-top: 1px solid #dcdce9;
-  border-bottom: 1px solid #dcdce9;
   line-height: 1.3em;
 }
 
@@ -8408,10 +8407,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-top: 3px solid #3498db;
   width: 20px;
   height: 20px;
-  -webkit-animation: spinc 1s linear infinite;
-  /* Safari */
   animation: spinc 1s linear infinite;
-}.id-dash-b-img{
+}
+
+@keyframes spinc {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.id-dash-b-img{
   height: 60px;
 }
 
@@ -8458,4 +8466,77 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .id-dash-top-color{
   height: 80px;
   background-color: #b52a27;
+}
+
+.id-dash-banner-img{
+  border: 2px solid #b52a27;
+  height: 157px ;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.id-header-user-img{
+  background-color: white;
+  padding: 5px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* src/styles/slider.css */
+.slider-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  overflow: hidden; /* Prevents images from going outside of the container */
+}
+
+.slider {
+  display: flex;
+  transition: transform 1s ease-in-out; /* Smooth transition for sliding */
+}
+
+.img-fluid {
+  width: 100%;
+  height: auto;
+  transition: box-shadow 0.5s ease-in-out; /* Smooth transition for shadow */
+}
+
+/* Add shadow when image is in focus */
+.slider img.shadow {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.prev-btn,
+.next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.prev-btn {
+  left: 10px;
+}
+
+.next-btn {
+  right: 10px;
+}
+.prev-btn:hover,
+.next-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+@keyframes slideRightToLeft {
+  0% {
+    transform: translateX(100%); /* Start from the right */
+  }
+  100% {
+    transform: translateX(0); /* End at the original position */
+  }
 }

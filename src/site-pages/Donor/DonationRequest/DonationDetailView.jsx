@@ -3,6 +3,8 @@ import React, { useState, lazy, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
+import { capitalizeFirstLetter } from "../../../site-components/Helper/HelperFunction";
+import { toast } from "react-toastify";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -55,7 +57,6 @@ const DonationDetailView = () => {
             pincode: data?.pincode,
             address: data?.address,
           }));
-          toast.error("An error occurred. Please try again.");
         }
       } catch (error) {
         const status = error.response?.data?.status;
@@ -163,14 +164,15 @@ const DonationDetailView = () => {
       <HeaderWithBack title={"Request Detail"} />
       <div className="am-content">
         <div className="card">
-          <div className="card-body">
+          <div className="card-body px-0">
+            <div className="px-3">
             <div class="row">
               <div class="col-5">
                 <strong class="f-17 fw-700">Patient Name</strong>
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.patientName}{" "}
+                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.patientName)}{" "}
                 {bloodDonationRequestDetail?.requestDetail?.criticalStatus && (
                   <span className="badge badge-danger mb-0">Critical</span>
                 )}
@@ -227,7 +229,7 @@ const DonationDetailView = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.state}
+                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.state)}
               </div>
             </div>
             <div class="row">
@@ -236,81 +238,82 @@ const DonationDetailView = () => {
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.city}
+                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.city)}
               </div>
             </div>
-            <div class="row mb-2">
+            <div class="row mb-1">
               <div class="col-5">
                 <strong class="f-17 fw-700"> Address </strong>
               </div>
               <div class="col-1">:</div>
               <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.address}
+                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.address)}
               </div>
             </div>
             <div class="row">
               <div class="col-12">
-                <strong class="f-17 fw-700"> Additional Note </strong>
+                <strong class="f-17 fw-700"> Additional Note: </strong>
               </div>
-              <div class="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requestDetail?.additionalNote}
+              <div class="col-12 fw-16 fw-600">
+                {capitalizeFirstLetter(bloodDonationRequestDetail?.requestDetail?.additionalNote)}
               </div>
+            </div>
             </div>
 
             {bloodDonationRequestDetail?.doner &&
               bloodDonationRequestDetail?.doner?.length > 0 && (
                 <>
                   <div class="row mt-2">
-                    <div class="col-12">
-                      <strong class="f-17 fw-700">Donor </strong>
+                    <div class="col-12 id-donor-heading">
+                      <strong class="f-18 fw-700 px-3">Donor </strong>
                     </div>
                   </div>
                   {bloodDonationRequestDetail?.doner?.map((data, index) => (
                     <div
                       className="card mb-3"
                       key={index}
-                      style={{ background: "#eaeaea" }}
+                      style={{ background: "rgb(234 234 234 / 46%)", borderRadius:"0px" }}
                     >
                       <div className="card-body">
                         <div class="row ">
-                          <div class="col-4">
+                          <div class="col-5">
                             <strong class="f-17 fw-700"> Name </strong>
                           </div>
                           <div class="col-1">:</div>
-                          <div class="col-auto fw-16 fw-600">{data?.name}</div>
+                          <div class="col-auto fw-16 fw-600">{capitalizeFirstLetter(data?.name)}</div>
                         </div>
                         <div class="row ">
-                          <div class="col-4">
+                          <div class="col-5">
                             <strong class="f-17 fw-700"> Gender </strong>
                           </div>
                           <div class="col-1">:</div>
                           <div class="col-auto fw-16 fw-600">
-                            {data?.gender}
+                            {capitalizeFirstLetter(data?.gender)}
                           </div>
                         </div>
                         <div class="row ">
-                          <div class="col-4">
+                          <div class="col-5">
                             <strong class="f-17 fw-700"> Phone </strong>
                           </div>
                           <div class="col-1">:</div>
                           <div class="col-auto fw-16 fw-600">{data?.phone}</div>
                         </div>
                         <div class="row ">
-                          <div class="col-4">
+                          <div class="col-5">
                             <strong class="f-17 fw-700"> Email </strong>
                           </div>
                           <div class="col-1">:</div>
                           <div class="col-auto fw-16 fw-600">{data?.email}</div>
                         </div>
                         <div class="row ">
-                          <div class="col-4">
+                          <div class="col-5">
                             <strong class="f-17 fw-700"> City</strong>
                           </div>
                           <div class="col-1">:</div>
-                          <div class="col-auto fw-16 fw-600">{data?.city}</div>
+                          <div class="col-auto fw-16 fw-600">{capitalizeFirstLetter(data?.city)}</div>
                         </div>
                         <div class="row ">
-                          <div class="col-4">
+                          <div class="col-5">
                             <strong class="f-17 fw-700"> PinCode</strong>
                           </div>
                           <div class="col-1">:</div>
@@ -319,19 +322,19 @@ const DonationDetailView = () => {
                           </div>
                         </div>
                         <div class="row ">
-                          <div class="col-4">
+                          <div class="col-5">
                             <strong class="f-17 fw-700"> State</strong>
                           </div>
                           <div class="col-1">:</div>
-                          <div class="col-auto fw-16 fw-600">{data?.state}</div>
+                          <div class="col-auto fw-16 fw-600">{capitalizeFirstLetter(data?.state)}</div>
                         </div>
-                        <div class="row ">
-                          <div class="col-4">
+                        <div class="row mb-1 ">
+                          <div class="col-5">
                             <strong class="f-17 fw-700"> Address</strong>
                           </div>
                           <div class="col-1">:</div>
                           <div class="col-auto fw-16 fw-600">
-                            {data?.address}
+                            {capitalizeFirstLetter(data?.address)}
                           </div>
                         </div>
 
@@ -339,10 +342,10 @@ const DonationDetailView = () => {
                           <>
                             <div class="row">
                               <div class="col-12">
-                                <strong class="f-17 fw-700"> Remark </strong>
+                                <strong class="f-17 fw-700"> Remark: </strong>
                               </div>
-                              <div class="col-auto fw-16 fw-600">
-                                {data?.rejection_reason}
+                              <div class="col-12 fw-16 fw-600">
+                                {capitalizeFirstLetter(data?.rejection_reason)}
                               </div>
                             </div>
                           </>
@@ -437,7 +440,20 @@ const DonationDetailView = () => {
             </div>
           </div>
         </div>
+        <style>
+          {`
+            .id-donor-heading {
+                background: #ff396f;
+    color: white;
+    margin-bottom: 9px;
+                 
+               }
+
+
+          `}
+        </style>
       </div>
+     
     </>
   );
 };

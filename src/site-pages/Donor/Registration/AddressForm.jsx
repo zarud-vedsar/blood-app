@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
 import secureLocalStorage from "react-secure-storage";
 import axios from "axios";
-import { PHP_API_URL, PINCODE_URL } from "../../../site-components/Helper/Constant";
+import {
+  PHP_API_URL,
+  PINCODE_URL,
+} from "../../../site-components/Helper/Constant";
+import { toast } from "react-toastify";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -18,11 +22,11 @@ const AddressForm = () => {
     latitude: null,
     longitude: null,
   });
-  const getLocation=()=>{
+  const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setFormData((prev)=>({
+          setFormData((prev) => ({
             ...prev,
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
@@ -35,7 +39,7 @@ const AddressForm = () => {
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
-  }
+  };
   useEffect(() => getLocation(), []);
   const navigate = useNavigate();
   const [loading, setLoading] = useState();
@@ -48,10 +52,7 @@ const AddressForm = () => {
     setError({ name: name, msg: msg });
   };
 
-
-
   const searchPincode = async (e) => {
-    
     if (!/^\d{0,6}$/.test(e.target.value)) {
       markError("pincode", "Pincode must be a 6-digit number");
       return;
@@ -62,9 +63,7 @@ const AddressForm = () => {
     if (e.target.value.length < 6) return;
     setLoading(true);
     try {
-      const response = await axios.get(
-        `${PINCODE_URL}/${e.target.value}`
-      );
+      const response = await axios.get(`${PINCODE_URL}/${e.target.value}`);
       if (
         response?.data[0]?.Status === "Success" &&
         response?.data[0]?.PostOffice[0]?.Country === "India"
@@ -78,7 +77,7 @@ const AddressForm = () => {
         markError("pincode", "Please provide valid pincode");
 
         setFormData((prev) => ({ ...prev, state: "", city: "" }));
-        toast.error("An error occurred. Please try again.");
+        toast.error("Please provide valid pincode.");
       }
     } catch (error) {
       const status = error.response?.data?.status;
@@ -107,7 +106,7 @@ const AddressForm = () => {
     if (formData?.pincode && formData?.pincode?.length < 6) {
       markError("pincode", "Pincode must be a 6-digit number");
       return setIsSubmit(false);
-    } 
+    }
     if (!formData?.state) {
       markError("state", "State is required");
 
@@ -124,8 +123,6 @@ const AddressForm = () => {
       return setIsSubmit(false);
     }
 
-    
-
     try {
       const bformData = new FormData();
       bformData.append("data", "setlocation");
@@ -139,9 +136,10 @@ const AddressForm = () => {
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
         setDonor((prev) => ({ ...prev, ...formData }));
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 300);
+        toast.success(response?.data?.msg, {
+          autoClose: 300,
+          onClose: () => navigate("/dashboard"),
+        });
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -188,17 +186,24 @@ const AddressForm = () => {
                 <label className="label" htmlFor="state">
                   State <span className="text-danger">*</span>
                 </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="state"
-                  id="state"
-                  placeholder="Enter state"
-                  value={formData.state}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, state: e.target.value }))
-                  }
-                />
+                {loading ? (
+                  <div className="loader-circle"></div>
+                ) : (
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="state"
+                    id="state"
+                    placeholder="Enter state"
+                    value={formData.state}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        state: e.target.value,
+                      }))
+                    }
+                  />
+                )}
                 {error.name === "state" && (
                   <span className="text-danger">{error.msg}</span>
                 )}
@@ -207,17 +212,21 @@ const AddressForm = () => {
                 <label className="label" htmlFor="city">
                   City <span className="text-danger">*</span>
                 </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="city"
-                  id="city"
-                  placeholder="Enter city"
-                  value={formData.city}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, city: e.target.value }))
-                  }
-                />
+                {loading ? (
+                  <div className="loader-circle"></div>
+                ) : (
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="city"
+                    id="city"
+                    placeholder="Enter city"
+                    value={formData.city}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, city: e.target.value }))
+                    }
+                  />
+                )}
                 {error.name === "city" && (
                   <span className="text-danger">{error.msg}</span>
                 )}
@@ -251,12 +260,12 @@ const AddressForm = () => {
                   className="btn btn-dark btn-block btn-lg"
                   disabled={isSubmit}
                 >
-                  Submit {isSubmit && (
-                            <>
-                              &nbsp; <div className="loader-circle"></div>
-                            </>
-                          )}
-                  
+                  Submit{" "}
+                  {isSubmit && (
+                    <>
+                      &nbsp; <div className="loader-circle"></div>
+                    </>
+                  )}
                 </button>
               </div>
             </div>

@@ -1,9 +1,14 @@
 import React from "react";
 import { useState } from "react";
-import { goBack } from "../../../site-components/Helper/HelperFunction";
+import {
+  capitalizeFirstLetter,
+  goBack,
+} from "../../../site-components/Helper/HelperFunction";
 import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
 import secureLocalStorage from "react-secure-storage";
 import { Link, useNavigate } from "react-router-dom";
+import { FaAngleRight } from "react-icons/fa6";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 const Account = () => {
   const { donor } = useDonor();
@@ -25,12 +30,7 @@ const Account = () => {
       <div className="appHeader d-flex justify-content-around align-items-center">
         <div className="left left-0">
           <a href="#" class="headerButton " onClick={goBack}>
-            <ion-icon
-              name="arrow-back-outline"
-              role="img"
-              class="md hydrated"
-              aria-label="arrow back outline"
-            ></ion-icon>
+            <IoChevronBackOutline />
           </a>
         </div>
         <div className="pageTitle w-75">Account</div>
@@ -46,17 +46,21 @@ const Account = () => {
           <div className="container">
             <div className="row">
               <div className="col-12 d-flex flex-column justify-content-center align-items-center mt-3">
-                <img
-                  src="https://media.istockphoto.com/id/1437816897/photo/business-woman-manager-or-human-resources-portrait-for-career-success-company-we-are-hiring.jpg?s=612x612&w=0&k=20&c=tyLvtzutRh22j9GqSGI33Z4HpIwv9vL_MZw_xOE19NQ="
-                  alt=""
-                  className="id-profile-img"
-                />
+                <div className="id-profile-img d-flex justify-content-center align-items-center">
+                  {/* Display first letter of the name */}
+                  <span className="user-initial">
+                    {donor?.name ? donor?.name[0].toUpperCase() : ""}
+                  </span>
+                </div>
                 <div className="text-center my-2">
-                  <h2 className="mb-0">{donor?.name}</h2>
+                  <h2 className="mb-0">{capitalizeFirstLetter(donor?.name)}</h2>
                   <a href="mailto:admin@gmail.com">{donor?.email}</a>
                 </div>
-                <Link to={`/edit-profile`} className="btn btn-dark ">Edit Profile</Link>
+                <Link to={`/edit-profile`} className="btn btn-dark">
+                  Edit Profile
+                </Link>
               </div>
+
               <div className="id-link-wrapper mt-5">
                 <Link
                   to={"/blood-donation-request/add-new"}
@@ -67,47 +71,40 @@ const Account = () => {
                   </span>
                   <p className="link-text">Request For Blood</p>
                   <span className="arrow">
-                    <ion-icon name="arrow-forward"></ion-icon>
+                    <FaAngleRight className="icons" />
                   </span>
                 </Link>
 
-                <Link
-                  to={""}
-                  className="id-link-item"
-                >
-                  <span className="icon">
-                    <ion-icon name="megaphone-outline"></ion-icon>
-                  </span>
-                  <p className="link-text">Terms & Conditions</p>
-                  <span className="arrow">
-                    <ion-icon name="arrow-forward"></ion-icon>
-                  </span>
-                </Link>
-
-                <Link
-                  to={"/blood-donation/history"}
-                  className="id-link-item"
-                >
+                <Link to={"/blood-donation/history"} className="id-link-item">
                   <span className="icon">
                     <ion-icon name="megaphone-outline"></ion-icon>
                   </span>
                   <p className="link-text">Donation History</p>
                   <span className="arrow">
-                    <ion-icon name="arrow-forward"></ion-icon>
+                    <FaAngleRight className="icons" />
+                  </span>
+                </Link>
+
+                <Link to={"/terms-condition"} className="id-link-item">
+                  <span className="icon">
+                    <ion-icon name="megaphone-outline"></ion-icon>
+                  </span>
+                  <p className="link-text">Terms & Conditions</p>
+                  <span className="arrow">
+                    <FaAngleRight className="icons" />
                   </span>
                 </Link>
               </div>
 
               <div className="d-flex align-items-center id-logout">
-                  <ion-icon name="log-out-outline"></ion-icon>
-                  <button
-                    className="btn id-side-logout-btn px-2"
-                    onClick={logout}
-                  >
-                    Logout
-                  </button>
-                </div>
-
+                <ion-icon name="log-out-outline"></ion-icon>
+                <button
+                  className="btn id-side-logout-btn px-2"
+                  onClick={logout}
+                >
+                  Logout
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -118,11 +115,13 @@ const Account = () => {
          width: 115px;
          border-radius: 50%;
          }
+
          .id-link-item{
          display: flex;
          align-items: center;
          gap:10px;
          }
+
          .id-link-wrapper .id-link-item span ion-icon{
          padding: 10px;
          background-color: #00000014;
@@ -130,6 +129,13 @@ const Account = () => {
          color: #e20014;
          font-size: 20px;
          }
+         .id-link-item .arrow .icons{
+         background: #ebebeb;
+    font-size: 24px;
+    padding: 5px;
+    border-radius: 50%;
+         }
+
          .id-link-right{
          margin-left: auto;
          }
@@ -158,12 +164,9 @@ const Account = () => {
    margin-bottom: 8px;
 }
 
-.id-link-item:hover .icon, 
-.id-link-item:hover .arrow {
-   color: #fff;
-}
+
    .id-logout ion-icon{
-       padding: 10px;
+    padding: 10px;
     background: #ebebeb;
     border-radius: 50%;
     font-size: 20px;
@@ -171,22 +174,32 @@ const Account = () => {
    }
 
    .id-logout{
-   padding: 0px 4px
+   padding: 0px 25px
    
-   }
-
-@media (max-width: 768px) {
-   .id-link-wrapper {
-      padding: 10px 0px;
    }
 
    .id-link-item {
       padding: 6px;
    }
 
-
+      .id-profile-img {
+ width: 100px;
+    height: 100px;
+    background-color: #cb848a61;
+    border-radius: 50%;
+    color: #282828;
+    font-size: 86px;
+    font-weight: bold;
+    border: 1px solid #28282842;
+}
+.user-initial {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
+}
         `}
         </style>
       </div>

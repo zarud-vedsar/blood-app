@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import  secureLocalStorage  from  "react-secure-storage";
+import { toast } from "react-toastify";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -57,9 +58,11 @@ const OTPVerificationPage = () => {
       if (response?.data?.status === 200) {
         setDonor(response?.data?.data)
         secureLocalStorage.setItem("loguserid",response?.data?.data?.id)
-        setTimeout(() => {
-          navigate("/address");
-        }, 300);
+         toast.success(response?.data?.msg, {
+                          autoClose: 300, 
+                          onClose: () => navigate("/address"), 
+                        });
+       
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -91,7 +94,7 @@ const OTPVerificationPage = () => {
       <div className="am-content">
         <form className="otp-form " onSubmit={handleSubmit}>
           <h3 className="otp-title">Enter OTP</h3>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex align-items-center flex-column">
             <OtpInput
               value={otp}
               onChange={handleOtpChange}
@@ -104,7 +107,7 @@ const OTPVerificationPage = () => {
                 <input {...props} className="otp-input" />
               )}
             />
-            {error && <span className="text-danger">{error}</span>}
+            {error && <span className="text-danger ">{error}</span>}
           </div>
           <div className="timer-container">
             {isResendDisabled ? (

@@ -17,9 +17,10 @@ import BloodDonatedHistory from "../site-pages/Donor/BloodDonation/BloodDonatedH
 import BloodDonationDetailView from "../site-pages/Donor/BloodDonation/BloodDonationDetailView";
 import BloodDonationHistoryDetail from "../site-pages/Donor/BloodDonation/BloodDonationHistoryDetail";
 import PageLoader from "../site-components/Donor/components/PageLoader";
-import { Slide, ToastContainer } from "react-toastify";
+import { Slide, ToastContainer, Zoom } from "react-toastify";
 import Account from "../site-pages/Donor/Account/Account";
 import EditProfile from "../site-pages/Donor/Account/EditProfile";
+import TermsCondition from "../site-pages/Donor/TermsCondition";
 const Login = lazy(() => import("../site-pages/Donor/Registration/Login"));
 const RegistrationForm = lazy(() =>
   import("../site-pages/Donor/Registration/RegistrationForm")
@@ -56,8 +57,8 @@ function DonorRoute() {
         closeOnClick
         pauseOnHover
         draggable
-        //autoClose={500}
-        transition={Slide} 
+        autoClose={500}
+        transition={Zoom} 
         toastClassName="custom-toast"
       />
         <Routes>
@@ -116,6 +117,10 @@ function DonorRoute() {
           <Route
             path="/edit-profile"
             element={<ProtectedRoute element={<EditProfile/>} />}
+          />
+          <Route
+            path="/terms-condition"
+              element={<TermsCondition/>} 
           />
         </Routes>
       </Suspense>
