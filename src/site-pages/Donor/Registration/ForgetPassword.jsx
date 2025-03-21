@@ -240,7 +240,7 @@ const ForgetPassword = () => {
                           <div className="input-affix">
                             <i className="prefix-icon anticon "></i>
                             <input
-                              type="text"
+                              type="number"
                               name="phone"
                               className="form-control"
                               id="phone"
