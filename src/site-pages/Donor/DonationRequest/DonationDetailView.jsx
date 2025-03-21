@@ -3,7 +3,10 @@ import React, { useState, lazy, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
-import { capitalizeFirstLetter, formatDate } from "../../../site-components/Helper/HelperFunction";
+import {
+  capitalizeFirstLetter,
+  formatDate,
+} from "../../../site-components/Helper/HelperFunction";
 import { toast } from "react-toastify";
 import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
 const HeaderWithBack = lazy(() =>
@@ -77,7 +80,6 @@ const DonationDetailView = () => {
   }, [id]); // Only runs when `id` changes
 
   const handleSubmitRemark = async (status, historyid) => {
-
     try {
       const deleteAlert = await DeleteSweetAlert();
       if (deleteAlert) {
@@ -189,7 +191,6 @@ const DonationDetailView = () => {
                   {capitalizeFirstLetter(
                     bloodDonationRequestDetail?.requestDetail?.patientName
                   )}{" "}
-                 
                 </div>
               </div>
               <div className="row">
@@ -203,11 +204,28 @@ const DonationDetailView = () => {
               </div>
               <div className="row">
                 <div className="col-5">
+                  <strong className="f-17 fw-700">Requested Date</strong>
+                </div>
+                <div className="col-1">:</div>
+                <div className="col-auto fw-16 fw-600">
+                  {bloodDonationRequestDetail?.requestDetail?.request_date
+                    ? formatDate(
+                        bloodDonationRequestDetail?.requestDetail?.request_date
+                      )
+                    : "NA"}
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-5">
                   <strong className="f-17 fw-700">Required Date</strong>
                 </div>
                 <div className="col-1">:</div>
                 <div className="col-auto fw-16 fw-600">
-                  {bloodDonationRequestDetail?.requestDetail?.requiredDate ? formatDate(bloodDonationRequestDetail?.requestDetail?.requiredDate) : "NA"}
+                  {bloodDonationRequestDetail?.requestDetail?.requiredDate
+                    ? formatDate(
+                        bloodDonationRequestDetail?.requestDetail?.requiredDate
+                      )
+                    : "NA"}
                 </div>
               </div>
               <div className="row">
@@ -270,15 +288,26 @@ const DonationDetailView = () => {
                   )}
                 </div>
               </div>
-              <div className="row mb-1">
-                <div className="col-12">
-                {bloodDonationRequestDetail?.requestDetail
-                    ?.criticalStatus && (
-                    <span className="badge badge-danger mb-0">Critical</span>
-                  )}
+              {bloodDonationRequestDetail?.requestDetail?.approve_date && (
+                <div className="row">
+                  <div className="col-5">
+                    <strong className="f-17 fw-700"> Donation Date </strong>
+                  </div>
+                  <div className="col-1">:</div>
+                  <div className="col-auto fw-16 fw-600 text-success">
+                    {formatDate(
+                      bloodDonationRequestDetail?.requestDetail?.approve_date
+                    )}
+                  </div>
                 </div>
-             
-              </div>
+              )}
+              {bloodDonationRequestDetail?.requestDetail?.criticalStatus===1 && (
+                <div className="row mb-1">
+                  <div className="col-12">
+                    <span className="badge badge-danger mb-0">Critical</span>
+                  </div>
+                </div>
+              )}
               <div className="row">
                 <div className="col-12">
                   <strong className="f-17 fw-700"> Additional Note: </strong>
@@ -320,6 +349,15 @@ const DonationDetailView = () => {
                         </div>
                         <div className="row ">
                           <div className="col-5">
+                            <strong className="f-17 fw-700"> User Id </strong>
+                          </div>
+                          <div className="col-1">:</div>
+                          <div className="col-auto fw-16 fw-600">
+                            {data?.uniqueId}
+                          </div>
+                        </div>
+                        <div className="row ">
+                          <div className="col-5">
                             <strong className="f-17 fw-700"> Gender </strong>
                           </div>
                           <div className="col-1">:</div>
@@ -332,14 +370,18 @@ const DonationDetailView = () => {
                             <strong className="f-17 fw-700"> Phone </strong>
                           </div>
                           <div className="col-1">:</div>
-                          <div className="col-auto fw-16 fw-600">{data?.phone}</div>
+                          <div className="col-auto fw-16 fw-600">
+                            {data?.phone}
+                          </div>
                         </div>
                         <div className="row ">
                           <div className="col-5">
                             <strong className="f-17 fw-700"> Email </strong>
                           </div>
                           <div className="col-1">:</div>
-                          <div className="col-auto fw-16 fw-600">{data?.email}</div>
+                          <div className="col-auto fw-16 fw-600">
+                            {data?.email}
+                          </div>
                         </div>
                         <div className="row ">
                           <div className="col-5">
@@ -368,7 +410,7 @@ const DonationDetailView = () => {
                             {capitalizeFirstLetter(data?.state)}
                           </div>
                         </div>
-                        <div className="row mb-1 ">
+                        <div className="row ">
                           <div className="col-5">
                             <strong className="f-17 fw-700"> Address</strong>
                           </div>
@@ -377,12 +419,78 @@ const DonationDetailView = () => {
                             {capitalizeFirstLetter(data?.address)}
                           </div>
                         </div>
+                        <div className="row">
+                          <div className="col-5">
+                            <strong className="f-17 fw-700">
+                              Accepted Date
+                            </strong>
+                          </div>
+                          <div className="col-1">:</div>
+                          <div className="col-auto fw-16 fw-600">
+                            {data?.acceptance_date
+                              ? formatDate(data?.acceptance_date)
+                              : "NA"}
+                          </div>
+                        </div>
+                        {data?.approval_date && (
+                          <div className="row">
+                            <div className="col-5">
+                              <strong className="f-17 fw-700">
+                                Donation Date
+                              </strong>
+                            </div>
+                            <div className="col-1">:</div>
+                            <div className="col-auto fw-16 fw-600 text-success">
+                              {data?.approval_date
+                                ? formatDate(data?.approval_date)
+                                : "NA"}
+                            </div>
+                          </div>
+                        )}
+                        {data?.rejection_date && (
+                          <div className="row  ">
+                            <div className="col-5">
+                              <strong className="f-17 fw-700">
+                                {" "}
+                                Rejected Date
+                              </strong>
+                            </div>
+                            <div className="col-1">:</div>
+                            <div className="col-auto fw-16 fw-600 text-danger">
+                              {capitalizeFirstLetter(data?.rejection_date)}
+                            </div>
+                          </div>
+                        )}
+                        <div className="row  ">
+                          <div className="col-5">
+                            <strong className="f-17 fw-700"> Status</strong>
+                          </div>
+                          <div className="col-1">:</div>
+                          <div className="col-auto fw-16 fw-600 text-danger">
+                            {data?.status === 0 && (
+                              <p className="f-16 text-warning mb-0">
+                                Not donated yet.
+                              </p>
+                            )}
+                            {data?.status === 1 && (
+                              <p className="f-16 text-success mb-0">
+                                Donation received
+                              </p>
+                            )}
+                            {data?.status === 2 && (
+                              <p className="f-16 text-danger mb-0">Rejected</p>
+                            )}
+                          </div>
+                        </div>
 
                         {data?.rejection_reason ? (
                           <>
                             <div className="row">
                               <div className="col-12">
-                                <strong className="f-17 fw-700"> Remark: </strong>
+                                <strong className="f-17 fw-700">
+                                  {" "}
+                                  Remark:{" "}
+                                </strong>
                               </div>
                               <div className="col-12 fw-16 fw-600">
                                 {capitalizeFirstLetter(data?.rejection_reason)}
@@ -468,7 +576,7 @@ const DonationDetailView = () => {
                 </div>
               ) : bloodDonationRequestDetail?.requestDetail?.status === 1 ? (
                 <div className="bg-info d-block w-100 p-1 text-center">
-                  Accepted By Someone
+                  Accepted by {bloodDonationRequestDetail?.doner[0]?.name}
                 </div>
               ) : (
                 <div className="bg-success d-block w-100 p-1 text-center rounded">

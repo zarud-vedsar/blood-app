@@ -400,7 +400,7 @@ function view_MyDonationReqById()
     
     if ($donationReq) {
          
-        $doner = $action->db->sql("SELECT d.`id`,d.`uniqueId`,d.`name`,d.`email`,d.`phone`,d.`dob`,d.`gender`,d.`bloodGroup`,d.`address`,d.`pincode`,d.`state`,d.`city`,d.bloodGroup,ad.id AS historyid,ad.status,ad.rejection_reason,ad.rejection_date,ad.approval_date,ad.rejected_by FROM `zuraud_doner` d JOIN `approved_donations` ad ON ad.user_id = '{$donationReq[0]['doner']}' AND ad.req_id= $id  WHERE d.`id`='" . $donationReq[0]['doner'] . "' AND d.`reg_status`=1 ORDER BY ad.id desc") ?: [];
+        $doner = $action->db->sql("SELECT d.`id`,d.`uniqueId`,d.`name`,d.`email`,d.`phone`,d.`dob`,d.`gender`,d.`bloodGroup`,d.`address`,d.`pincode`,d.`state`,d.`city`,d.bloodGroup,ad.id AS historyid,ad.status,ad.acceptance_date, ad.rejection_reason,ad.rejection_date,ad.approval_date,ad.rejected_by FROM `zuraud_doner` d JOIN `approved_donations` ad ON ad.user_id = '{$donationReq[0]['doner']}' AND ad.req_id= $id  WHERE d.`id`='" . $donationReq[0]['doner'] . "' AND d.`reg_status`=1 ORDER BY ad.id desc") ?: [];
         echo $action->db->json(200, "Donation Request fetched successfully", '', ['requestDetail' => $donationReq[0],  'doner' => $doner]);
         http_response_code(200);
         return;

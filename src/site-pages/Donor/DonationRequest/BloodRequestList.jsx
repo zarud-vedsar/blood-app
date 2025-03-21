@@ -152,7 +152,7 @@ const BloodRequestList = () => {
                             <p className="f-16 text-warning mb-0">Waiting for Donor</p>
                           )}
                           {request?.status === 1 && (
-                            <p className="f-16 text-success mb-0">Donor has not donated yet</p>
+                            <p className="f-16 text-success mb-0">Donor has not donated yet.</p>
                           )}
                           {request?.status === 2 && (
                             <p className="f-16 text-info mb-0">Donation received</p>
