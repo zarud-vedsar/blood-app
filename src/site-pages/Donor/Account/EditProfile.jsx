@@ -59,6 +59,7 @@ const EditProfile = () => {
   const searchPincode = async (e) => {
     if (!/^\d{0,6}$/.test(e.target.value)) {
       markError("pincode", "Pin Code must be a 6-digit number");
+      toast.error("Pin Code must be a 6-digit number");
       return;
     } else {
       setFormData({ ...formData, pincode: e.target.value });
@@ -132,20 +133,25 @@ const EditProfile = () => {
 
     if (!formData.name) {
       markError("name", "Name is required.");
+      toast.error("Name is required.");
+
       return setIsSubmit(false);
     }
 
     if (!formData.email) {
       markError("email", "Email is required.");
+      toast.error("Email is required.");
       return setIsSubmit(false);
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       markError("email", "Invalid email address.");
+      toast.error("Invalid email address.");
       return setIsSubmit(false);
     }
 
     if (!formData.dob) {
       markError("dob", "Date of Birth is required.");
+      toast.error("Date of Birth is required.");
       return setIsSubmit(false);
     }
 
@@ -160,40 +166,50 @@ const EditProfile = () => {
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
       if (actualAge < 16) {
         markError("dob", "Age is must be greater than 16.");
+        toast.error("Age is must be greater than 16.");
         return setIsSubmit(false);
       }
     }
 
     if (!formData.gender) {
       markError("gender", "Gender is required");
+      toast.error("Gender is required");
+
       return setIsSubmit(false);
     }
     if (!formData.bloodGroup) {
       markError("bloodGroup", "Blood group is required");
+      toast.error("Blood group is required");
       return setIsSubmit(false);
     }
 
     if (!formData?.pincode) {
       markError("pincode", "Vaild pin code is required");
+      toast.error("Vaild pin code is required");
 
       return setIsSubmit(false);
     }
     if (formData?.pincode && formData?.pincode?.length < 6) {
       markError("pincode", "Pin Code must be a 6-digit number");
+      toast.error("Pin Code must be a 6-digit number");
       return setIsSubmit(false);
     }
     if (!formData?.state) {
       markError("state", "State is required");
+      toast.error("State is required");
 
       return setIsSubmit(false);
     }
     if (!formData?.city) {
       markError("city", "City is required");
+      toast.error("City is required");
+
 
       return setIsSubmit(false);
     }
     if (!formData?.address) {
       markError("address", "Address is required");
+      toast.error("Address is required");
 
       return setIsSubmit(false);
     }
@@ -254,6 +270,7 @@ const EditProfile = () => {
       setTimeout(() => {
         if (actualAge < 16) {
           markError("dob", "Age is must be greater than 16.");
+          toast.error("Age is must be greater than 16.");
         } else {
           markError("", "");
         }
