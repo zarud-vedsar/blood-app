@@ -106,7 +106,7 @@ const AddNewBloodRequest = () => {
     }
   };
 
-  useEffect(() => getLocation(), []);
+  // useEffect(() => getLocation(), []);
 
   useEffect(() => {
     const fetchData = async () => {

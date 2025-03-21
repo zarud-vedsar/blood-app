@@ -53,7 +53,7 @@ const EditProfile = () => {
       pincode: donor?.pincode,
       address: donor?.address,
     }));
-    getLocation();
+  //getLocation();
   }, [donor]);
 
   const searchPincode = async (e) => {

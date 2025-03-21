@@ -40,7 +40,7 @@ const AddressForm = () => {
       console.log("Geolocation is not supported by this browser.");
     }
   };
-  useEffect(() => getLocation(), []);
+  // useEffect(() => getLocation(), []);
   const navigate = useNavigate();
   const [loading, setLoading] = useState();
   const [isSubmit, setIsSubmit] = useState();
