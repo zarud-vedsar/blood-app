@@ -45,7 +45,7 @@ const Footer = () => {
       >
         <div className="col">
         <ion-icon name="person"></ion-icon>
-          <strong className="mt-1">Account</strong>
+          <strong className="mt-1">Settings</strong>
         </div>
       </Link>
 
