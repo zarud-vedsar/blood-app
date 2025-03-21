@@ -39,7 +39,6 @@ const Dashboard = () => {
     return () => clearInterval(interval);
   }, []);
 
-  console.log(donor);
 
   return (
     <>

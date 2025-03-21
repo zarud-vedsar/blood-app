@@ -206,7 +206,7 @@ const DonorDetailView = () => {
                                   className="fa-solid fa-map-pin m-r-10 "
                                   style={{ color: "#3f87f5" }}
                                 ></i>
-                                <span>Pincode</span>
+                                <span>Pin Code</span>
                               </p>
                               <div className="">:</div>
                               <p className="col font-12 font-weight-semibold">

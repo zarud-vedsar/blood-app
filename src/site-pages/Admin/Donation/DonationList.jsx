@@ -240,7 +240,7 @@ function DonationList() {
                                 value: formData.pincode,
                                 label: formData.pincode,
                               }
-                            : { value: "", label: "Select Pincode" }
+                            : { value: "", label: "Select Pin Code" }
                         }
                       />
                     </div>
@@ -414,7 +414,7 @@ function DonationList() {
 
                       <Column
                         body={(row) => capitalizeFirstLetter(row.pincode)}
-                        header="PinCode"
+                        header="Pin Code"
                         field="pincode"
                         sortable
                       />

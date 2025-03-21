@@ -55,9 +55,9 @@ const Login = () => {
       if (response?.data?.status === 200) {
         setAdminDetail(response?.data?.data);
         secureLocalStorage.setItem("loguserid", response?.data?.data?.id);
-
+        toast.success(response?.data?.msg);
         setTimeout(() => {
-          navigate(`/admin/dashboard`);
+          window.location.reload();
         }, 300);
       } else {
         toast.error("An error occurred. Please try again.");
