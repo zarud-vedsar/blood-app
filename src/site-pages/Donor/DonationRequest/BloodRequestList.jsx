@@ -43,7 +43,7 @@ const BloodRequestList = () => {
         if (response?.data?.status === 200) {
           toast.success(response?.data?.msg, {
             autoClose: 500,
-            onClose: window.location.reload(),
+            onClose: ()=>window.location.reload(),
           });
         } else {
           toast.error("An error occurred. Please try again.");

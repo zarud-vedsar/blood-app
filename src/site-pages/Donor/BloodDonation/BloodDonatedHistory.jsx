@@ -102,16 +102,21 @@ const BloodDonatedHistory = () => {
                           </p>
 
                           {request?.status === 0 && (
-                            <p className="f-16 text-warning mb-0">Pending</p>
-                          )}
-                          {request?.status === 1 && (
-                            <p className="f-16 text-success mb-0">
-                              Donated Successfully
-                            </p>
-                          )}
-                          {request?.status === 2 && (
-                            <p className="f-16 text-danger mb-0">Rejectd</p>
-                          )}
+                              <p className="f-16 text-warning mb-0">
+                                Not donated yet.
+                              </p>
+                            )}
+                            {request?.status === 1 && (
+                              <p className="f-16 text-success mb-0">
+                                Donation received
+                              </p>
+                            )}
+                            {request?.status === 2 && (
+                              <p className="f-16 text-danger mb-0">
+                                Rejected 
+                              
+                              </p>
+                            )}
                         </div>
                       </div>
                       <div>

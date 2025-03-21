@@ -3,9 +3,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
 import { Link, useNavigate } from "react-router-dom";
-import Slider from "../../../site-components/Donor/components/Slider";
 import Footer from "../../../site-components/Donor/components/Footer";
-import userImg from "../../../site-components/common/assets/img/user.png";
 import {
   formatDate,
   goBack,
@@ -14,7 +12,6 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import DataNotFound from "../../../site-components/common/assets/img/data-not-found.png";
 import { toast } from "react-toastify";
 import { BiSolidDonateBlood } from "react-icons/bi";
-import { FaAngleDoubleRight } from "react-icons/fa";
 import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
 const BloodDonationList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
@@ -26,7 +23,7 @@ const BloodDonationList = () => {
   const acceptRequest = async (id) => {
     setIsSubmit(true);
     try {
-      const deleteAlert = await DeleteSweetAlert(" ");
+      const deleteAlert = await DeleteSweetAlert("Are you willing to donate?"," ");
       if (deleteAlert) {
         const bformData = new FormData();
         bformData.append("data", "acceptDonationReq");
@@ -41,7 +38,7 @@ const BloodDonationList = () => {
         if (response?.data?.status === 200) {
           toast.success(response?.data?.msg, {
             autoClose: 500,
-            onClose: navigate("/blood-donation/history"),
+            onClose:()=> window.location.reload(),
           });
         } else {
           toast.error("An error occurred. Please try again.");
