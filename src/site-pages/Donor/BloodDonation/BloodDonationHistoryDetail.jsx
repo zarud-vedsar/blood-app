@@ -288,7 +288,7 @@ const BloodDonationHistoryDetail = () => {
               <>
                 <div className="row">
                   <div className="col-12">
-                    <strong className="f-17 fw-700"> Remark </strong>
+                    <strong className="f-17 fw-700"> Rejection Reason </strong>
                   </div>
                   <div className="col-auto fw-16 fw-600">
                     {bloodDonationRequestDetail?.rejection_reason}

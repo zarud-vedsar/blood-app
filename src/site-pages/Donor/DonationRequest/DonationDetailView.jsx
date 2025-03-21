@@ -96,7 +96,6 @@ const DonationDetailView = () => {
         } else {
           bformData.append("data", "confirmDonation");
 
-          bformData.append("remark", deleteAlert?.remark);
         }
 
         bformData.append("loguserid", formData?.loguserid);
@@ -514,7 +513,7 @@ const DonationDetailView = () => {
                               <div className="col-12">
                                 <strong className="f-17 fw-700">
                                   {" "}
-                                  Remark:{" "}
+                                  Rejection Reason:{" "}
                                 </strong>
                               </div>
                               <div className="col-12 fw-16 fw-600">

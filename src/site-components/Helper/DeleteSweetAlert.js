@@ -24,15 +24,15 @@ export const SubmitRemarkSweetAlert = async (status, msg) => {
   const { value: remark } = await Swal.fire({
     title: msg ? msg : "Are you sure?",
     icon: "warning",
-    input: "text",
-    inputPlaceholder: "Enter your remark...",
+    input: status === 0 ? "text" : null, 
+    inputPlaceholder: "Enter rejection reason...",
     showCancelButton: true,
     confirmButtonColor: "#00c9a7",
     cancelButtonColor: "#d33",
     confirmButtonText: "Yes, Proceed",
     inputValidator: (remark) => {
       if (status === 0 && !remark) {
-        return "Please provide reason for rejection!";
+        return "Please provide a reason for rejection!";
       }
     },
   });
@@ -43,3 +43,4 @@ export const SubmitRemarkSweetAlert = async (status, msg) => {
     return { confirmed: false, remark: null };
   }
 };
+
