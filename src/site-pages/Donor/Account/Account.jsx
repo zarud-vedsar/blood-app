@@ -23,13 +23,12 @@ const Account = () => {
       navigate("/info");
     }, 300);
   };
-  console.log(donor);
 
   return (
     <>
       <div className="appHeader d-flex justify-content-around align-items-center">
         <div className="left left-0">
-          <a href="#" class="headerButton " onClick={goBack}>
+          <a href="#" className="headerButton " onClick={goBack}>
             <IoChevronBackOutline />
           </a>
         </div>
@@ -53,11 +52,14 @@ const Account = () => {
                   </span>
                 </div>
                 <div className="text-center my-2">
-                  <h2 className="mb-0">{capitalizeFirstLetter(donor?.name)}</h2>
-                  <a href="mailto:admin@gmail.com">{donor?.email}</a>
+                <Link to={`/change-phone-number`} >
+                {donor?.phone} <i class="fa-solid fa-pen-to-square " style={{marginLeft:"5px"}}></i> 
+                </Link>
+                 
+                  
                 </div>
                 <Link to={`/edit-profile`} className="btn btn-dark">
-                  Edit Profile
+                <i class="fa-solid fa-pen-to-square " style={{marginRight:"5px"}}></i>  Edit Profile
                 </Link>
               </div>
 

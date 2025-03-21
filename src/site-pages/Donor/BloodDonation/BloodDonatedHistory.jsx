@@ -8,6 +8,7 @@ import Slider from "../../../site-components/Donor/components/Slider";
 import { toast } from "react-toastify";
 import { IoChevronBackOutline } from "react-icons/io5";
 import DataNotFound from '../../../site-components/common/assets/img/data-not-found.png';
+import { FaAngleRight } from "react-icons/fa";
 const BloodDonatedHistory = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -50,7 +51,7 @@ const BloodDonatedHistory = () => {
       
       <div className="appHeader d-flex justify-content-around align-items-center">
               <div className="left left-0">
-              <a href="#" class="headerButton" onClick={goBack}>
+              <a href="#" className="headerButton" onClick={goBack}>
               <IoChevronBackOutline />
                   </a>
               </div>
@@ -113,8 +114,16 @@ const BloodDonatedHistory = () => {
                           )}
                         </div>
                       </div>
-                      <div></div>
+                      <div>
+                     
+                      </div>
                     </div>
+                  </Link>
+                  <Link
+                    to={`/blood-donation/history/detail/${request.historyid}`}>
+                  <span className="arrow " style={{marginRight:"15px"}}>
+                    <FaAngleRight className="icons" />
+                  </span>
                   </Link>
                 </div>
               </li>

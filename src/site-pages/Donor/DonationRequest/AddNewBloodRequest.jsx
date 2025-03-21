@@ -173,7 +173,6 @@ const AddNewBloodRequest = () => {
       markError("attendeePhone", "Phone number is required");
       return setIsSubmit(false);
     }
-    console.log("check")
 
     if (!/^[6-9]\d{9}$/.test(formData.attendeePhone)) {
       markError("attendeePhone", "Valid phone number is required");
@@ -221,6 +220,7 @@ const AddNewBloodRequest = () => {
     }
     if (!formData.termsAccepted) {
       markError("termsAccepted", "You must accept the terms");
+      toast.error("You must accept the terms");
       return setIsSubmit(false);
     }
 
@@ -273,14 +273,14 @@ const AddNewBloodRequest = () => {
     <>
       <div className="appHeader d-flex justify-content-around align-items-center">
         <div className="left left-0">
-          <a href="#" class="headerButton " onClick={goBack}>
+          <a href="#" className="headerButton " onClick={goBack}>
             <IoChevronBackOutline />
           </a>
         </div>
         <div className="pageTitle w-75">Request for blood</div>
         <div className="right ">
           <Link to="/blood-donation-request/request-list">
-            <i class="fa-solid fa-list text-white"></i>
+            <i className="fa-solid fa-list text-white"></i>
           </Link>
         </div>
       </div>

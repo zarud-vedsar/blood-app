@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { IoChevronBackOutline } from "react-icons/io5";
 import DataNotFound from "../../../site-components/common/assets/img/data-not-found.png";
 import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
+import { FaAngleRight } from "react-icons/fa";
 const BloodRequestList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -37,7 +38,6 @@ const BloodRequestList = () => {
           bformData
         );
 
-        
         if (response?.data?.status === 200) {
           toast.success(response?.data?.msg, {
             autoClose: 300,
@@ -99,7 +99,7 @@ const BloodRequestList = () => {
       {/* App Header */}
       <div className="appHeader d-flex justify-content-around align-items-center">
         <div className="left left-0">
-          <a href="#" class="headerButton " onClick={goBack}>
+          <a href="#" className="headerButton " onClick={goBack}>
             <IoChevronBackOutline />
           </a>
         </div>
@@ -160,12 +160,11 @@ const BloodRequestList = () => {
                           )}
                         </div>
                       </div>
-                      <div></div>
                     </div>
                   </Link>
 
                   {/* Dropdown Button */}
-                  {request.status === 0 && (
+                  {request.status === 0 ? (
                     <div className="d-flex align-items-center dropdown">
                       <button
                         data-bs-toggle="dropdown"
@@ -203,6 +202,14 @@ const BloodRequestList = () => {
                         </div>
                       </div>
                     </div>
+                  ) : (
+                    <Link
+                      to={`/blood-donation-request/detail-view/${request.id}`}
+                    >
+                      <span className="arrow " style={{ marginRight: "15px" }}>
+                        <FaAngleRight className="icons" />
+                      </span>
+                    </Link>
                   )}
                 </div>
               </li>
