@@ -278,7 +278,7 @@ const AddNewBloodRequest = () => {
         return;
       }
       if (!/^[6-9]\d{9}$/.test(value)) {
-        markError("attendeePhone", "Valid Phone Number is required");
+        markError("attendeePhone", "Valid phone number is required");
       } else {
         markError("", "");
       }

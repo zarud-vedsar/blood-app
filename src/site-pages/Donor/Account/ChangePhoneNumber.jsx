@@ -47,8 +47,8 @@ const ChangePhoneNumber = () => {
     setIsSubmit(true);
 
     if (!formData.phone || !/^[6-9]\d{9}$/.test(formData?.phone)) {
-      markError("phone", "Valid Phone Number is required.");
-      toast.error("Valid Phone Number is required");
+      markError("phone", "Valid phone number is required.");
+      toast.error("Valid phone number is required");
       return setIsSubmit(false);
     }
 
@@ -150,7 +150,7 @@ const ChangePhoneNumber = () => {
         return;
       }
       if (!/^[6-9]\d{9}$/.test(value)) {
-        markError("phone", "Valid Phone Number is required");
+        markError("phone", "Valid phone number is required");
       } else {
         markError("", "");
       }

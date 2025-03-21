@@ -179,7 +179,7 @@ const RegistrationForm = () => {
         return;
       }
       if (!/^[6-9]\d{9}$/.test(value)) {
-        markError("phone", "Valid Phone Number is required");
+        markError("phone", "Valid phone number is required");
       } else {
         markError("", "");
       }
