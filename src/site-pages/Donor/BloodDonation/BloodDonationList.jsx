@@ -154,7 +154,7 @@ const BloodDonationList = () => {
                       <div></div>
                     </div>
                   </Link>
-                    <FaAngleDoubleRight style={{fontSize:"20px"}} />  
+                 
 
                   <button
                     className="btn"

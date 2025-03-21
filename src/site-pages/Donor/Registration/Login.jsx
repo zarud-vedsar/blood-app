@@ -102,10 +102,10 @@ const Login = () => {
               margin: "auto 0px",
               fontSize: "x-large",
               fontWeight: "600",
-              color: "rgb(13, 110, 253)",
+              color: "#000",
             }}
           >
-            Welcome Back
+            Welcome Back!
           </p>
         </div>
         <div className="section mb-5 p-2">
