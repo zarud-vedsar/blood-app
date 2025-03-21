@@ -55,6 +55,7 @@ const AddressForm = () => {
   const searchPincode = async (e) => {
     if (!/^\d{0,6}$/.test(e.target.value)) {
       markError("pincode", "Pin code must be a 6-digit number");
+      toast.error("Pin code must be a 6-digit number");
       return;
     } else {
       setFormData({ ...formData, pincode: e.target.value });
@@ -100,25 +101,30 @@ const AddressForm = () => {
     setIsSubmit(true);
     if (!formData?.pincode) {
       markError("pincode", "Vaild pin code is required");
+      toast.error("Vaild pin code is required");
 
       return setIsSubmit(false);
     }
     if (formData?.pincode && formData?.pincode?.length < 6) {
       markError("pincode", "Pin code must be a 6-digit number");
+      toast.error("Pin code must be a 6-digit number");
       return setIsSubmit(false);
     }
     if (!formData?.state) {
       markError("state", "State is required");
+      toast.error("State is required");
 
       return setIsSubmit(false);
     }
     if (!formData?.city) {
       markError("city", "City is required");
+      toast.error("City is required");
 
       return setIsSubmit(false);
     }
     if (!formData?.address) {
       markError("address", "Address is required");
+      toast.error("Address is required");
 
       return setIsSubmit(false);
     }

@@ -51,29 +51,35 @@ const RegistrationForm = () => {
     
     if (!formData.name) {
       markError("name", "Name is required.");
+      toast.error("Name is required.");
       return setIsSubmit(false);
     }
 
     if (!formData.email) {
       markError("email", "Email is required.");
+      toast.error("Email is required.");
       return setIsSubmit(false);
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       markError("email", "Invalid email address.");
+      toast.error("Invalid email address.");
       return setIsSubmit(false);
     }
     if (!formData.phone) {
       markError("phone", "Phone Number is required.");
+      toast.error("Phone Number is required.");
       return setIsSubmit(false);
     }
     
     if (!/^[6-9]\d{9}$/.test(formData.phone)) {
       markError("phone", "Valid phone number is required");
+      toast.error("Valid phone number is required");
       return setIsSubmit(false);
     }
 
     if (!formData.dob) {
       markError("dob", "Date of Birth is required.");
+      toast.error("Date of Birth is required.");
       return setIsSubmit(false);
     }
 
@@ -90,6 +96,7 @@ const RegistrationForm = () => {
         
       if (actualAge < 16) {
         markError("dob", "Age is must be greater than 16.");
+        toast.error("Age is must be greater than 16.");
         return setIsSubmit(false);
       } 
 
@@ -97,23 +104,29 @@ const RegistrationForm = () => {
 
     if (!formData.gender) {
       markError("gender", "Gender is required");
+      toast.error("Gender is required");
+
       return setIsSubmit(false);
     }
     if (!formData.bloodGroup) {
       markError("bloodGroup", "Blood group is required");
+      toast.error("Blood group is required");
       return setIsSubmit(false);
     }
     if (!formData.password) {
       markError("password", "Password is required.");
+      toast.error("Password is required.");
       return setIsSubmit(false);
     }
     if (!formData.cpassword) {
       markError("cpassword", "Confirm password is required.");
+      toast.error("Confirm password is required.");
       return setIsSubmit(false);
     }
 
     if (formData.password !== formData.cpassword) {
       markError("cpassword", "Confirm password must be same as password.");
+      toast.error("Confirm password must be same as password.");
       return setIsSubmit(false);
     }
     markError("", "");

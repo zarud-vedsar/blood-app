@@ -32,15 +32,18 @@ const Login = () => {
 
     if (!formData.phone) {
       markError("phone", "Phone Number is required");
+      toast.error("Phone Number is required");
       return setIsSubmit(false);
     }
     if (!/^[6-9]\d{9}$/.test(formData.phone)) {
       markError("phone", "Phone number must be valid.");
+      toast.error("Phone number must be valid.");
       return setIsSubmit(false);
     }
 
     if (!formData.password) {
       markError("password", "Password is required.");
+      toast.error("Password is required.");
       return setIsSubmit(false);
     }
 
