@@ -9,6 +9,7 @@ import secureLocalStorage from "react-secure-storage";
 import { Link, useNavigate } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { FaEdit } from "react-icons/fa";
 
 const Account = () => {
   const { donor } = useDonor();

@@ -120,6 +120,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="col-6">
+             
               <div
                 className="card"
                 style={{ boxShadow: "rgb(0 0 0 / 6%) 0px 4px 8px, rgb(0 0 0 / 10%) 0px 4px 16px",}}

@@ -13,6 +13,8 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import DataNotFound from "../../../site-components/common/assets/img/data-not-found.png";
 import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
 import { FaAngleRight } from "react-icons/fa";
+import { FaCircleArrowRight } from "react-icons/fa6";
+import { FaAngleDoubleRight } from "react-icons/fa";
 const BloodRequestList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -162,6 +164,7 @@ const BloodRequestList = () => {
                       </div>
                     </div>
                   </Link>
+                   <FaAngleDoubleRight style={{fontSize:"20px"}} />  
 
                   {/* Dropdown Button */}
                   {request.status === 0 ? (
