@@ -198,6 +198,11 @@ const ForgetPassword = () => {
       if (!/^\d{0,10}$/.test(value)) {
         return;
       }
+      if (!/^[6-9]\d{9}$/.test(value)) {
+        markError("phone", "Valid Phone Number is required");
+      } else {
+        markError("", "");
+      }
     }
     setFormData({ ...formData, [name]: value });
   };

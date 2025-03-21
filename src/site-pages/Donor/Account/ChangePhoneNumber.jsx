@@ -47,11 +47,12 @@ const ChangePhoneNumber = () => {
     setIsSubmit(true);
 
     if (!formData.phone || !/^[6-9]\d{9}$/.test(formData?.phone)) {
-      markError("phone", "Valid Phone Number is required");
+      markError("phone", "Valid Phone Number is required.");
+      toast.error("Valid Phone Number is required");
       return setIsSubmit(false);
     }
 
-    if(formData?.phone === donor?.phone){
+    if (formData?.phone === donor?.phone) {
       markError("phone", "Please enter new phone number.");
       toast.error("Please enter new phone number");
       return setIsSubmit(false);
@@ -94,12 +95,14 @@ const ChangePhoneNumber = () => {
     setIsSubmit(true);
 
     if (!formData.phone || !/^[6-9]\d{9}$/.test(formData?.phone)) {
-      markError("phone", "Phone is required");
+      markError("phone", "Phone is required.");
+      toast.error("Phone is required");
       return setIsSubmit(false);
     }
 
     if (!formData.otp || !/^\d{0,6}$/.test(formData?.otp)) {
       markError("otp", "OTP is required");
+      toast.error("OTP is required");
       return setIsSubmit(false);
     }
 
@@ -116,7 +119,7 @@ const ChangePhoneNumber = () => {
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
 
       if (response?.data?.status === 200) {
-        setDonor((prev)=>({...prev,phone:formData?.phone}))
+        setDonor((prev) => ({ ...prev, phone: formData?.phone }));
         toast.success(response?.data?.msg, {
           autoClose: 500,
           onClose: () => window.history.back(),
@@ -146,7 +149,13 @@ const ChangePhoneNumber = () => {
       if (!/^\d{0,10}$/.test(value)) {
         return;
       }
+      if (!/^[6-9]\d{9}$/.test(value)) {
+        markError("phone", "Valid Phone Number is required");
+      } else {
+        markError("", "");
+      }
     }
+
     setFormData({ ...formData, [name]: value });
   };
 
