@@ -6,11 +6,15 @@ import { Link, useNavigate } from "react-router-dom";
 import Slider from "../../../site-components/Donor/components/Slider";
 import Footer from "../../../site-components/Donor/components/Footer";
 import userImg from "../../../site-components/common/assets/img/user.png";
-import { formatDate, goBack } from "../../../site-components/Helper/HelperFunction";
+import {
+  formatDate,
+  goBack,
+} from "../../../site-components/Helper/HelperFunction";
 import { IoChevronBackOutline } from "react-icons/io5";
-import DataNotFound from '../../../site-components/common/assets/img/data-not-found.png';
+import DataNotFound from "../../../site-components/common/assets/img/data-not-found.png";
 import { toast } from "react-toastify";
 import { BiSolidDonateBlood } from "react-icons/bi";
+import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
 const BloodDonationList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,21 +25,26 @@ const BloodDonationList = () => {
   const acceptRequest = async (id) => {
     setIsSubmit(true);
     try {
-      const bformData = new FormData();
-      bformData.append("data", "acceptDonationReq");
-      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
-      bformData.append("id", id);
+      const deleteAlert = await DeleteSweetAlert(" ");
+      if (deleteAlert) {
+        const bformData = new FormData();
+        bformData.append("data", "acceptDonationReq");
+        bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
+        bformData.append("id", id);
 
-      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      
+        const response = await axios.post(
+          `${PHP_API_URL}/doner.php`,
+          bformData
+        );
 
-      if (response?.data?.status === 200) {
-        toast.success(response?.data?.msg, {
-          autoClose: 300,
-          onClose: navigate("/blood-donation/history"),
-        });
-      } else {
-        toast.error("An error occurred. Please try again.");
+        if (response?.data?.status === 200) {
+          toast.success(response?.data?.msg, {
+            autoClose: 300,
+            onClose: navigate("/blood-donation/history"),
+          });
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
       }
     } catch (error) {
       const status = error.response?.data?.status;
@@ -86,27 +95,26 @@ const BloodDonationList = () => {
   return (
     <div>
       {/* App Header */}
-          <div className="appHeader d-flex justify-content-around align-items-center">
-                    <div className="left left-0">
-                    <a href="#" class="headerButton" onClick={goBack}>
-                    <IoChevronBackOutline />
-                        </a>
-                    </div>
-                    <div className="pageTitle w-75">Blood Donation List</div>
-                    <div className="right ">
-                    {/* <img src={userImg} alt="User" className="imaged w32" /> */}
-                      {/* <Slider/> */}
-                    </div>
-                  </div>
-      
-      
+      <div className="appHeader d-flex justify-content-around align-items-center">
+        <div className="left left-0">
+          <a href="#" className="headerButton" onClick={goBack}>
+            <IoChevronBackOutline />
+          </a>
+        </div>
+        <div className="pageTitle w-75">Blood Donation List</div>
+        <div className="right ">
+          {/* <img src={userImg} alt="User" className="imaged w32" /> */}
+          {/* <Slider/> */}
+        </div>
+      </div>
+
       {/* * App Header */}
 
       <div id="appCapsule">
         <section className="section px-2  pb-5 mb-5">
           {loading && <div className="loader-fetch">Loading...</div>}
           {!loading && donationRequestList.length === 0 && (
-            <img src={DataNotFound} alt="" className="img-fluid"/>
+            <img src={DataNotFound} alt="" className="img-fluid" />
             // <p className="text-center pt-2">No data found.</p>
           )}
 
@@ -150,7 +158,9 @@ const BloodDonationList = () => {
                     className="btn"
                     onClick={() => acceptRequest(request?.id)}
                   >
-                    <BiSolidDonateBlood  style={{color:"red", fontSize:"22px"}}/>
+                    <BiSolidDonateBlood
+                      style={{ color: "red", fontSize: "22px" }}
+                    />
                   </button>
                 </div>
               </li>

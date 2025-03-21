@@ -8,7 +8,7 @@ const TermsCondition = () => {
     <>
     <div className="appHeader d-flex justify-content-around align-items-center">
         <div className="left left-0">
-        <a href="#" class="headerButton " onClick={goBack}>
+        <a href="#" className="headerButton " onClick={goBack}>
         <IoChevronBackOutline />
             </a>
         </div>
