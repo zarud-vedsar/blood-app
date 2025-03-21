@@ -11,6 +11,7 @@ import { FaAngleRight } from "react-icons/fa6";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 
+
 const Account = () => {
   const { donor } = useDonor();
   const [loading, setLoading] = useState(false);
@@ -33,7 +34,7 @@ const Account = () => {
             <IoChevronBackOutline />
           </a>
         </div>
-        <div className="pageTitle w-75">Account</div>
+        <div className="pageTitle w-75">Settings</div>
         <div className="right ">{/* <Slider/> */}</div>
       </div>
 
@@ -70,7 +71,8 @@ const Account = () => {
                   className="id-link-item"
                 >
                   <span className="icon">
-                    <ion-icon name="megaphone-outline"></ion-icon>
+                  <i class="fa-solid fa-bullhorn id-ion-icon"></i>
+                    {/* <ion-icon name="megaphone-outline"></ion-icon> */}
                   </span>
                   <p className="link-text">Request For Blood</p>
                   <span className="arrow">
@@ -80,7 +82,7 @@ const Account = () => {
 
                 <Link to={"/blood-donation/history"} className="id-link-item">
                   <span className="icon">
-                    <ion-icon name="megaphone-outline"></ion-icon>
+                  <i class="fa-solid fa-clock-rotate-left id-ion-icon"></i> 
                   </span>
                   <p className="link-text">Donation History</p>
                   <span className="arrow">
@@ -90,7 +92,7 @@ const Account = () => {
 
                 <Link to={"/terms-condition"} className="id-link-item">
                   <span className="icon">
-                    <ion-icon name="megaphone-outline"></ion-icon>
+                  <i class="fa-solid fa-file-contract id-ion-icon"></i>
                   </span>
                   <p className="link-text">Terms & Conditions</p>
                   <span className="arrow">
@@ -100,7 +102,7 @@ const Account = () => {
               </div>
 
               <div className="d-flex align-items-center id-logout">
-                <ion-icon name="log-out-outline"></ion-icon>
+              <i class="fa-solid fa-right-from-bracket id-ion-icon"></i>
                 <button
                   className="btn id-side-logout-btn px-2"
                   onClick={logout}
@@ -131,6 +133,13 @@ const Account = () => {
          border-radius: 50%;
          color: #e20014;
          font-size: 20px;
+         }
+         .id-link-wrapper .id-link-item span .id-ion-icon{
+         padding: 10px;
+         background-color: #00000014;
+         border-radius: 50%;
+         color: #e20014;
+         font-size: 16px;
          }
          .id-link-item .arrow .icons{
          background: #ebebeb;
@@ -168,11 +177,11 @@ const Account = () => {
 }
 
 
-   .id-logout ion-icon{
+   .id-logout .id-ion-icon{
     padding: 10px;
     background: #ebebeb;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 16px;
     color: #e20014;
    }
 
