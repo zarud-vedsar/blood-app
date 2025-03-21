@@ -54,11 +54,10 @@ const ForgetPassword = () => {
 
     if (!formData.phone || !/^[6-9]\d{9}$/.test(formData?.phone)) {
       markError("phone", "Valid Phone Number is required");
+      toast.error("Valid Phone Number is required");
       return setIsSubmit(false);
     }
-
     markError("", "");
-
     try {
       const bformData = new FormData();
       bformData.append("data", "request_otp");
@@ -94,11 +93,14 @@ const ForgetPassword = () => {
 
     if (!formData.phone || !/^[6-9]\d{9}$/.test(formData?.phone)) {
       markError("phone", "Phone is required");
+      toast.error("Phone is required");
+
       return setIsSubmit(false);
     }
 
     if (!formData.otp || !/^\d{0,6}$/.test(formData?.otp)) {
       markError("otp", "OTP is required");
+      toast.error("OTP is required");
       return setIsSubmit(false);
     }
 
@@ -140,15 +142,18 @@ const ForgetPassword = () => {
 
     if (!formData.password) {
       markError("password", "Password is required.");
+      toast.error("Password is required.");
       return setIsSubmit(false);
     }
     if (!formData.cpassword) {
       markError("cpassword", "Confirm password is required.");
+      toast.error("Confirm password is required.");
       return setIsSubmit(false);
     }
 
     if (formData.password !== formData.cpassword) {
       markError("cpassword", "Confirm password must be same as password.");
+      toast.error("Confirm password must be same as password.");
       return setIsSubmit(false);
     }
 
