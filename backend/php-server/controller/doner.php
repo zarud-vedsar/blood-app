@@ -101,7 +101,7 @@ function verifyRegistrationOTP()
     if ($user) {
         if ($user[0]['otp'] == $otp && strtotime($user[0]['otp_expiry']) > time()) {
             do {
-                $uniqueId = 'BD' . time();
+                $uniqueId = 'BD'. strtoupper(substr($user[0]['name'],0,2)) . rand(100000, 999999);
                 $check = $action->db->sql("SELECT id FROM `zuraud_doner` WHERE `uniqueId`='$uniqueId'");
             } while ($check);
 
