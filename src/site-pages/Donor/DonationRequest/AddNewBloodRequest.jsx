@@ -167,54 +167,66 @@ const AddNewBloodRequest = () => {
     setIsSubmit(true);
     if (!formData.patientName) {
       markError("patientName", "Name is required");
+      toast.error("Name is required");
+
       return setIsSubmit(false);
     }
     if (!formData?.attendeePhone) {
       markError("attendeePhone", "Phone number is required");
+      toast.error("Phone number is required");
       return setIsSubmit(false);
     }
 
     if (!/^[6-9]\d{9}$/.test(formData.attendeePhone)) {
       markError("attendeePhone", "Valid phone number is required");
+      toast.error("Valid phone number is required");
       return setIsSubmit(false);
     }
 
     if (!formData.requiredDate) {
       markError("requiredDate", "Date is required");
+      toast.error("Date is required");
       return setIsSubmit(false);
     }
     if (!formData.bloodGroup) {
       markError("bloodGroup", "Blood group is required");
+      toast.error("Blood group is required");
       return setIsSubmit(false);
     }
 
     if (!formData.unit) {
       markError("unit", "Unit is required");
+      toast.error("Unit is required");
       return setIsSubmit(false);
     }
 
     if (!formData?.pincode) {
       markError("pincode", "Vaild Pin Code is required");
+      toast.error("Vaild Pin Code is required");
 
       return setIsSubmit(false);
     }
 
     if (formData?.pincode && formData?.pincode?.length < 6) {
       markError("pincode", "Pin Code must be a 6-digit number");
+      toast.error("Pin Code must be a 6-digit number");
       return setIsSubmit(false);
     }
     if (!formData?.state) {
       markError("state", "State is required");
+      toast.error("State is required");
 
       return setIsSubmit(false);
     }
     if (!formData?.city) {
       markError("city", "City is required");
+      toast.error("City is required");
 
       return setIsSubmit(false);
     }
     if (!formData?.address) {
       markError("address", "Address is required");
+      toast.error("Address is required");
 
       return setIsSubmit(false);
     }
@@ -268,6 +280,8 @@ const AddNewBloodRequest = () => {
 
     setFormData({ ...formData, [name]: value });
   };
+
+  
 
   return (
     <>
