@@ -77,7 +77,6 @@ const DonationDetailView = () => {
   }, [id]); // Only runs when `id` changes
 
   const handleSubmitRemark = async (status, historyid) => {
- 
 
     try {
       const deleteAlert = await DeleteSweetAlert();
@@ -190,10 +189,7 @@ const DonationDetailView = () => {
                   {capitalizeFirstLetter(
                     bloodDonationRequestDetail?.requestDetail?.patientName
                   )}{" "}
-                  {bloodDonationRequestDetail?.requestDetail
-                    ?.criticalStatus && (
-                    <span className="badge badge-danger mb-0">Critical</span>
-                  )}
+                 
                 </div>
               </div>
               <div className="row">
@@ -263,7 +259,7 @@ const DonationDetailView = () => {
                   )}
                 </div>
               </div>
-              <div className="row mb-1">
+              <div className="row">
                 <div className="col-5">
                   <strong className="f-17 fw-700"> Address </strong>
                 </div>
@@ -273,6 +269,15 @@ const DonationDetailView = () => {
                     bloodDonationRequestDetail?.requestDetail?.address
                   )}
                 </div>
+              </div>
+              <div className="row mb-1">
+                <div className="col-12">
+                {bloodDonationRequestDetail?.requestDetail
+                    ?.criticalStatus && (
+                    <span className="badge badge-danger mb-0">Critical</span>
+                  )}
+                </div>
+             
               </div>
               <div className="row">
                 <div className="col-12">
