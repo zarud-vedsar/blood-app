@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, lazy, useEffect } from "react";
+import React, { useState, lazy, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import {
@@ -24,6 +24,7 @@ const genderOptions = [
 
 const EditProfile = () => {
   const { donor, setDonor } = useDonor();
+  const dobInputRef = useRef();
   const [loading, setLoading] = useState();
   const loguserid = secureLocalStorage.getItem("loguserid");
   const [formData, setFormData] = useState({
@@ -335,8 +336,9 @@ const EditProfile = () => {
                     id="dob"
                     value={formData?.dob}
                     onChange={handleInputChange}
+                    ref={dobInputRef}
                   />
-                  <span style={{ marginLeft: "-20px" }}>
+                  <span style={{ marginLeft: "-20px" }} onClick={()=>dobInputRef.current?.showPicker()}>
                     {" "}
                     <FaCalendarAlt />
                   </span>

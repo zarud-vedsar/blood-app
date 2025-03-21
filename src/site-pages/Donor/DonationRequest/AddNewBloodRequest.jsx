@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import {
@@ -15,6 +15,7 @@ import { IoChevronBackOutline } from "react-icons/io5";
 
 const AddNewBloodRequest = () => {
   const { id } = useParams();
+  const dateInputRef = useRef();
   const initializeForm = {
     loguserid: secureLocalStorage.getItem("loguserid"),
     patientName: "",
@@ -352,8 +353,9 @@ const AddNewBloodRequest = () => {
                       id="requiredDate"
                       value={formData.requiredDate}
                       onChange={handleInputChange}
+                      ref={dateInputRef}
                     />
-                    <span style={{ marginLeft: "-20px" }}>
+                    <span style={{ marginLeft: "-20px" }} onClick={()=>dateInputRef.current?.showPicker()}>
                       {" "}
                       <FaCalendarAlt />
                     </span>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, lazy, useEffect } from "react";
+import React, { useState, lazy, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
@@ -31,6 +31,8 @@ const RegistrationForm = () => {
     password: "",
     cpassword: "",
   });
+  const dateInputRef = useRef(null);
+
 
   const { donor, setDonor } = useDonor();
 
@@ -259,8 +261,9 @@ const RegistrationForm = () => {
                     id="dob"
                     value={formData.dob}
                     onChange={handleInputChange}
+                    ref={dateInputRef}
                   />
-                  <span style={{ marginLeft: "-20px" }}>
+                  <span style={{ marginLeft: "-20px" }} onClick={() => dateInputRef.current?.showPicker()}>
                     {" "}
                     <FaCalendarAlt />
                   </span>
