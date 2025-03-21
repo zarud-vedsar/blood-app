@@ -149,13 +149,13 @@ const BloodRequestList = () => {
                           </p>
 
                           {request?.status === 0 && (
-                            <p className="f-16 text-warning mb-0">Pending</p>
+                            <p className="f-16 text-warning mb-0">Waiting for Donor</p>
                           )}
                           {request?.status === 1 && (
-                            <p className="f-16 text-success mb-0">Accepted</p>
+                            <p className="f-16 text-success mb-0">Donor has not donated yet</p>
                           )}
                           {request?.status === 2 && (
-                            <p className="f-16 text-info mb-0">Received</p>
+                            <p className="f-16 text-info mb-0">Donation received</p>
                           )}
                           {request?.status === 3 && (
                             <p className="f-16 text-danger mb-0">Rejected</p>
