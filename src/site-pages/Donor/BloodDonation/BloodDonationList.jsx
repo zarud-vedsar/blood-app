@@ -11,6 +11,7 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import DataNotFound from '../../../site-components/common/assets/img/data-not-found.png';
 import { toast } from "react-toastify";
 import { BiSolidDonateBlood } from "react-icons/bi";
+import { FaAngleDoubleRight } from "react-icons/fa";
 const BloodDonationList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -145,6 +146,7 @@ const BloodDonationList = () => {
                       <div></div>
                     </div>
                   </Link>
+                    <FaAngleDoubleRight style={{fontSize:"20px"}} />  
 
                   <button
                     className="btn"
