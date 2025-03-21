@@ -204,7 +204,7 @@ const ChangePhoneNumber = () => {
                               className="font-weight-semibold"
                               htmlFor="otp"
                             >
-                              Otp <span className="text-danger">*</span>
+                              OTP <span className="text-danger">*</span>
                             </label>
                             <div className="input-affix m-b-10">
                               <i className="prefix-icon anticon"></i>

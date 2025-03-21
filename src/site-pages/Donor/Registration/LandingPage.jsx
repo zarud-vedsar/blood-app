@@ -27,8 +27,8 @@ const LandingPage = () => {
               screen to encourage users to donate blood.
             </span>
           </div>
-          <div className="mb-2">
-            <Link className="btn am-ctm-btn mt-2 id-btn" to="/register">
+          <div className="">
+            <Link className="btn btn-dark btn-block btn-lg rounded-3" to="/register">
              Get Started
             </Link>
             

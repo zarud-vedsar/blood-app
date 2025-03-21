@@ -95,7 +95,6 @@ const DonationDetailView = () => {
           bformData.append("remark", deleteAlert?.remark);
         } else {
           bformData.append("data", "confirmDonation");
-
         }
 
         bformData.append("loguserid", formData?.loguserid);
@@ -187,7 +186,7 @@ const DonationDetailView = () => {
       <HeaderWithBack title={"Request Detail"} />
       <div className="am-content">
         <div className="card">
-          <div className="card-body px-0">
+          <div className="card-body p-2">
             <div className="px-3">
               <div className="row">
                 <div className="col-5">
@@ -319,7 +318,7 @@ const DonationDetailView = () => {
                   </div>
                 </div>
               )}
-             
+
               {bloodDonationRequestDetail?.requestDetail?.criticalStatus ===
                 1 && (
                 <div className="row mb-1">
@@ -343,9 +342,9 @@ const DonationDetailView = () => {
             {bloodDonationRequestDetail?.doner &&
               bloodDonationRequestDetail?.doner?.length > 0 && (
                 <>
-                  <div className="row mt-2">
-                    <div className="col-12 id-donor-heading">
-                      <strong className="f-18 fw-700 px-3">Donor </strong>
+                  <div className="mt-2">
+                    <div className=" id-donor-heading ">
+                      <strong className="f-18 fw-700 " style={{padding:"10px 10px"}}>Donor </strong>
                     </div>
                   </div>
                   {bloodDonationRequestDetail?.doner?.map((data, index) => (

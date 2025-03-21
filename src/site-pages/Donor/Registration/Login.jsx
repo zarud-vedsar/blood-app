@@ -166,7 +166,7 @@ const Login = () => {
             <div className="form-button-group transparent d-flex   flex-column justify-content-center align-items-center">
               <button
                 type="submit"
-                className="btn btn-dark btn-block btn-lg"
+                className="btn btn-dark btn-block btn-lg rounded-3"
                 disabled={isSubmit}
               >
                 Login{" "}
