@@ -23,7 +23,10 @@ const BloodDonationList = () => {
   const acceptRequest = async (id) => {
     setIsSubmit(true);
     try {
-      const deleteAlert = await DeleteSweetAlert("Are you willing to donate?"," ");
+      const deleteAlert = await DeleteSweetAlert(
+        "Are you willing to donate?",
+        " "
+      );
       if (deleteAlert) {
         const bformData = new FormData();
         bformData.append("data", "acceptDonationReq");
@@ -38,7 +41,7 @@ const BloodDonationList = () => {
         if (response?.data?.status === 200) {
           toast.success(response?.data?.msg, {
             autoClose: 500,
-            onClose:()=> window.location.reload(),
+            onClose: () => navigate("/blood-donation/history"),
           });
         } else {
           toast.error("An error occurred. Please try again.");
@@ -151,15 +154,14 @@ const BloodDonationList = () => {
                       <div></div>
                     </div>
                   </Link>
-                 
 
                   <button
-                    className="btn"
+                    className="btn d-flex align-items-end  pb-1"
+                    style={{ background: "#e20014 ", color: "white" }}
                     onClick={() => acceptRequest(request?.id)}
                   >
-                    <BiSolidDonateBlood
-                      style={{ color: "red", fontSize: "22px" }}
-                    />
+                    Donate
+                    <BiSolidDonateBlood style={{ fontSize: "22px" }} />
                   </button>
                 </div>
               </li>
