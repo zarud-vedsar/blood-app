@@ -701,7 +701,13 @@ function changePhoneOTP()
         return;
     }
     $user_id = $AuthendicteRequest['loguserid'];
-    
+    $phone = $action->db->setPostRequiredField('phone', 'Phone is required');
+    $duplicatephone= $action->db->sql("SELECT id FROM `zuraud_doner` WHERE `phone`='$phone' AND `id`!='$user_id'");
+    if($duplicatephone){
+        echo $action->db->json(400, "Phone number already registered with another user");
+        http_response_code(400);
+        return;
+    }
     
     if ($user_id) {
         //$otp = $action->custom->generateOTP(4);
