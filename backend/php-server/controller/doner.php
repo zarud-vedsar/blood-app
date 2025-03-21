@@ -530,7 +530,7 @@ function rejectDonation_requestor()
     $user_id = $AuthendicteRequest['loguserid'];
     $id = $action->db->setPostRequiredField('id', 'Request Id is required');
     $historyid= $action->db->setPostRequiredField('historyid', 'History Id is required');
-    $rejection_reason= $action->db->setPostRequiredField('remark', 'rejection Reason is required');
+    $rejection_reason= $action->db->validatePostData('remark') ?: '';
 
     $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['status' => 3]);
     if ($response) {
