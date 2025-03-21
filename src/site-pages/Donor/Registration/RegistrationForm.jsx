@@ -7,6 +7,7 @@ import IsDonorLoggedIn from "../IsDonorLoggedIn";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { FaCalendarAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -31,6 +32,8 @@ const RegistrationForm = () => {
     cpassword: "",
   });
 
+  const { donor, setDonor } = useDonor();
+
   const navigate = useNavigate();
   const [isSubmit, setIsSubmit] = useState(false);
   const [error, setError] = useState({});
@@ -48,7 +51,7 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    
+
     if (!formData.name) {
       markError("name", "Name is required.");
       return setIsSubmit(false);
@@ -66,7 +69,7 @@ const RegistrationForm = () => {
       markError("phone", "Phone Number is required.");
       return setIsSubmit(false);
     }
-    
+
     if (!/^[6-9]\d{9}$/.test(formData.phone)) {
       markError("phone", "Valid phone number is required");
       return setIsSubmit(false);
@@ -86,13 +89,11 @@ const RegistrationForm = () => {
 
       const actualAge =
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-  
-        
+
       if (actualAge < 16) {
         markError("dob", "Age is must be greater than 16.");
         return setIsSubmit(false);
-      } 
-
+      }
     }
 
     if (!formData.gender) {
@@ -120,7 +121,7 @@ const RegistrationForm = () => {
 
     if (!formData.termsAccepted) {
       markError("termsAccepted", "You must accept the terms.");
-      toast.error("You must accept the terms")
+      toast.error("You must accept the terms");
       return setIsSubmit(false);
     }
 
@@ -132,12 +133,12 @@ const RegistrationForm = () => {
       });
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
-
-         toast.success(response?.data?.msg, {
-                  autoClose: 500, 
-                  onClose: () => navigate(`/otp-verification/${response?.data?.data?.id}`), 
-                });
-        
+        setDonor({...formData});
+        toast.success(response?.data?.msg, {
+          autoClose: 500,
+          onClose: () =>
+            navigate(`/otp-verification/${response?.data?.data?.id}`),
+        });
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -173,14 +174,13 @@ const RegistrationForm = () => {
 
       const actualAge =
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-        setTimeout(() => {
-          if (actualAge < 16) {
-            markError("dob", "Age is must be greater than 16.");
-          } else {
-            markError("", "");
-          }
-        }, 1000);
-     
+      setTimeout(() => {
+        if (actualAge < 16) {
+          markError("dob", "Age is must be greater than 16.");
+        } else {
+          markError("", "");
+        }
+      }, 1000);
     }
 
     setFormData({ ...formData, [name]: value });
@@ -355,29 +355,28 @@ const RegistrationForm = () => {
               <div className="form-group basic">
                 <label className="label">
                   <div className="d-flex align-items-center">
-                  <input
-                    type="checkbox"
-                    checked={formData.termsAccepted}
-                    onChange={() =>
-                      setFormData({
-                        ...formData,
-                        termsAccepted: !formData.termsAccepted,
-                      })
-                    }
-                    style={{ marginRight: "5px" }}
-                  />
-                  <div>
-                  I agree to the{" "}
-                  <a href="/terms-condition" target="_blank" style={{color:"#0d6efd"}}>
-                    Terms and Conditions
-                  </a>
-                    
+                    <input
+                      type="checkbox"
+                      checked={formData.termsAccepted}
+                      onChange={() =>
+                        setFormData({
+                          ...formData,
+                          termsAccepted: !formData.termsAccepted,
+                        })
+                      }
+                      style={{ marginRight: "5px" }}
+                    />
+                    <div>
+                      I agree to the{" "}
+                      <a
+                        href="/terms-condition"
+                        target="_blank"
+                        style={{ color: "#0d6efd" }}
+                      >
+                        Terms and Conditions
+                      </a>
+                    </div>
                   </div>
-                   
-
-                  </div>
-                  
-                
                 </label>
                 {error.name === "termsAccepted" && (
                   <span className="text-danger">{error.msg}</span>
@@ -389,11 +388,12 @@ const RegistrationForm = () => {
                   className="btn btn-dark btn-block btn-lg"
                   disabled={isSubmit}
                 >
-                  Next {isSubmit && (
-                            <>
-                              &nbsp; <div className="loader-circle"></div>
-                            </>
-                          )}
+                  Next{" "}
+                  {isSubmit && (
+                    <>
+                      &nbsp; <div className="loader-circle"></div>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
