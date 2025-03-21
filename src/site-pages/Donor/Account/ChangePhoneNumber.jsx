@@ -4,11 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
-import { Link } from "react-router-dom";
-import IsDonorLoggedIn from "../IsDonorLoggedIn";
-import logoImg from "../../../site-components/common/assets/img/logo-donation.avif";
 import { toast } from "react-toastify";
 import HeaderWithBack from "../../../site-components/Donor/components/HeaderWithBack";
+import secureLocalStorage from "react-secure-storage";
+import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
 
 const ChangePhoneNumber = () => {
   const initializeForm = {
@@ -24,7 +23,8 @@ const ChangePhoneNumber = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [resetId, setResetId] = useState(null);
   const navigate = useNavigate();
-
+  const loguserid = secureLocalStorage.getItem("loguserid");
+  const { donor, setDonor } = useDonor();
   useEffect(() => {
     const interval = setInterval(() => {
       if (seconds > 0) {
@@ -51,12 +51,19 @@ const ChangePhoneNumber = () => {
       return setIsSubmit(false);
     }
 
+    if(formData?.phone === donor?.phone){
+      markError("phone", "Please enter new phone number.");
+      toast.error("Please enter new phone number");
+      return setIsSubmit(false);
+    }
+
     markError("", "");
 
     try {
       const bformData = new FormData();
-      bformData.append("data", "request_otp");
+      bformData.append("data", "changePhoneOTP");
       bformData.append("phone", formData?.phone);
+      bformData.append("loguserid", loguserid);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
 
@@ -100,19 +107,20 @@ const ChangePhoneNumber = () => {
 
     try {
       const bformData = new FormData();
-      bformData.append("data", "verifyResetPasswordOTP");
+      bformData.append("data", "changePhone");
       bformData.append("phone", formData?.phone);
+      bformData.append("loguserid", loguserid);
 
       bformData.append("otp", formData?.otp);
-      bformData.append("id", formData?.id);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
 
       if (response?.data?.status === 200) {
+        setDonor((prev)=>({...prev,phone:formData?.phone}))
         toast.success(response?.data?.msg, {
-            autoClose: 500, 
-            onClose: () => window.history.back(),
-          });
+          autoClose: 500,
+          onClose: () => window.history.back(),
+        });
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -156,13 +164,12 @@ const ChangePhoneNumber = () => {
               <div className="col-md-7 col-lg-5 col-sm-12 m-h-auto">
                 <div className="">
                   <div className="">
-                  
-                    
                     {
                       <div className="pt-2">
                         <div className="form-group basic">
                           <label className="label" htmlFor="phone">
-                            Enter New Phone Number <span className="text-danger">*</span>
+                            Enter New Phone Number{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <div className="input-affix">
                             <i className="prefix-icon anticon "></i>
