@@ -134,7 +134,7 @@ const RegistrationForm = () => {
       if (response?.data?.status === 200) {
 
          toast.success(response?.data?.msg, {
-                  autoClose: 300, 
+                  autoClose: 500, 
                   onClose: () => navigate(`/otp-verification/${response?.data?.data?.id}`), 
                 });
         

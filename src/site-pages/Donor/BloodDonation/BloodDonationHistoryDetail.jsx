@@ -84,7 +84,7 @@ const BloodDonationHistoryDetail = () => {
         );
         if (response?.data?.status === 201 || response?.data?.status === 200) {
           toast.success(response?.data?.msg, {
-            autoClose: 300,
+            autoClose: 500,
             onClose: window.location.reload(),
           });
         } else {

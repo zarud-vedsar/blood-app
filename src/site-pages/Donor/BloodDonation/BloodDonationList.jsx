@@ -39,7 +39,7 @@ const BloodDonationList = () => {
 
         if (response?.data?.status === 200) {
           toast.success(response?.data?.msg, {
-            autoClose: 300,
+            autoClose: 500,
             onClose: navigate("/blood-donation/history"),
           });
         } else {

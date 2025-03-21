@@ -10,12 +10,7 @@ import logoImg from "../../../site-components/common/assets/img/logo-donation.av
 import { toast } from "react-toastify";
 import HeaderWithBack from "../../../site-components/Donor/components/HeaderWithBack";
 
-const ForgetPassword = () => {
-  useEffect(() => {
-    if (IsDonorLoggedIn()) {
-      navigate("/dashboard");
-    }
-  }, []);
+const ChangePhoneNumber = () => {
   const initializeForm = {
     phone: "",
     password: "",
@@ -50,7 +45,6 @@ const ForgetPassword = () => {
   const handleSubmitOtpForm = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    
 
     if (!formData.phone || !/^[6-9]\d{9}$/.test(formData?.phone)) {
       markError("phone", "Valid Phone Number is required");
@@ -115,59 +109,10 @@ const ForgetPassword = () => {
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
 
       if (response?.data?.status === 200) {
-        setResetId(response?.data?.data?.id);
-        setStep("step3");
-        toast.success(response?.data?.msg);
-      } else {
-        toast.error("An error occurred. Please try again.");
-      }
-    } catch (error) {
-      const status = error.response?.data?.status;
-      setIsSubmit(false);
-      if (status === 400 || status === 500 || status === 401) {
-        toast.error(error.response.data.msg || "A server error occurred.");
-      } else {
-        toast.error(
-          "An error occurred. Please check your connection or try again."
-        );
-      }
-    } finally {
-      setIsSubmit(false);
-    }
-  };
-  const updatePassword = async () => {
-    setIsSubmit(true);
-
-    if (!formData.password) {
-      markError("password", "Password is required.");
-      return setIsSubmit(false);
-    }
-    if (!formData.cpassword) {
-      markError("cpassword", "Confirm password is required.");
-      return setIsSubmit(false);
-    }
-
-    if (formData.password !== formData.cpassword) {
-      markError("cpassword", "Confirm password must be same as password.");
-      return setIsSubmit(false);
-    }
-
-    markError("", "");
-
-    try {
-      const bformData = new FormData();
-      bformData.append("data", "ResetPassword");
-      bformData.append("password", formData?.password);
-      bformData.append("cpassword", formData?.cpassword);
-      bformData.append("id", resetId);
-
-      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-
-      if (response?.data?.status === 200) {
         toast.success(response?.data?.msg, {
-          autoClose: 500,
-          onClose: () => navigate("/info"),
-        });
+            autoClose: 500, 
+            onClose: () => window.history.back(),
+          });
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -199,8 +144,8 @@ const ForgetPassword = () => {
 
   return (
     <>
-          <HeaderWithBack title={"Forgot Password"} />
-    
+      <HeaderWithBack title={"Change Phone Number"} />
+
       <div className="container-fluid p-h-0 p-v-20 bg  d-flex">
         <div className="d-flex flex-column justify-content-between w-100">
           <div
@@ -218,16 +163,15 @@ const ForgetPassword = () => {
                         alt="Logo"
                         src={logoImg}
                       />
-                      <h2 className="h4_new">Change Your Password</h2>
+                      <h2 className="h4_new">Change Your Phone Number</h2>
                     </div>
                     <div className="row">
                       <div className="col-md-12 ml-2">
                         {/* <h3 className="h6_new">Welcome Back!</h3> */}
                         <p>
                           {step === "step1" &&
-                            "Enter your registered phone number"}
+                            "Enter your new phone number"}
                           {step === "step2" && "Verify OTP"}
-                          {step === "step3" && "Reset Password"}
                         </p>
                       </div>
                     </div>
@@ -254,54 +198,6 @@ const ForgetPassword = () => {
                             <span className="text-danger">{error.msg}</span>
                           )}
                         </div>
-
-                        {step === "step3" && (
-                          <>
-                            <div className="form-group basic">
-                              <label className="label" htmlFor="password">
-                                New Password{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <div className="input-affix m-b-10">
-                                <i className="prefix-icon anticon"></i>
-                                <input
-                                  type="password"
-                                  name="password"
-                                  className="form-control"
-                                  id="password"
-                                  placeholder="New Password"
-                                  value={formData?.password}
-                                  onChange={handleInputChange}
-                                />
-                              </div>
-                              {error.name === "password" && (
-                                <span className="text-danger">{error.msg}</span>
-                              )}
-                            </div>
-
-                            <div className="form-group basic">
-                              <label className="label" htmlFor="cpassword">
-                                Confirm New Password{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <div className="input-affix m-b-10">
-                                <i className="prefix-icon anticon"></i>
-                                <input
-                                  type="password"
-                                  name="cpassword"
-                                  className="form-control"
-                                  id="cpassword"
-                                  placeholder="Confirm Password"
-                                  value={formData?.cpassword}
-                                  onChange={handleInputChange}
-                                />
-                              </div>
-                              {error.name === "cpassword" && (
-                                <span className="text-danger">{error.msg}</span>
-                              )}
-                            </div>
-                          </>
-                        )}
 
                         {step === "step2" && (
                           <div className="form-group">
@@ -338,7 +234,6 @@ const ForgetPassword = () => {
                             <button
                               className="text-center text-secondary mb-1 cursor-pointer btn btn-block"
                               onClick={handleSubmitOtpForm}
-
                             >
                               Resend OTP
                             </button>
@@ -350,66 +245,42 @@ const ForgetPassword = () => {
                             style={{ marginTop: "auto" }}
                           >
                             {step === "step1" && (
-                              <button
-                                disabled={isSubmit}
-                                className="btn btn-dark btn-block btn-lg"
-                                id="signin-btn"
-                                onClick={handleSubmitOtpForm}
-                              >
-                                Request OTP{" "}
-                                {isSubmit && (
-                                  <>
-                                    &nbsp; <div className="loader-circle"></div>
-                                  </>
-                                )}
-                              </button>
+                              <div className="form-button-group transparent d-flex justify-content-center align-items-center">
+                                <button
+                                  type="submit"
+                                  className="btn btn-dark btn-block btn-lg"
+                                  disabled={isSubmit}
+                                  onClick={handleSubmitOtpForm}
+                                >
+                                  Request OTP{" "}
+                                  {isSubmit && (
+                                    <>
+                                      &nbsp;{" "}
+                                      <div className="loader-circle"></div>
+                                    </>
+                                  )}
+                                </button>
+                              </div>
                             )}
                             {step === "step2" && (
-                              <button
-                                disabled={isSubmit}
-                                className="btn btn-dark btn-block btn-lg"
-                                onClick={(event) => {
-                                  event.preventDefault();
-                                  event.stopPropagation();
-                                  verifyOTP();
-                                }}
-                              >
-                                Verify OTP{" "}
-                                {isSubmit && (
-                                  <>
-                                    &nbsp; <div className="loader-circle"></div>
-                                  </>
-                                )}
-                              </button>
-                            )}
-                            {step === "step3" && (
-                              <button
-                                disabled={isSubmit}
-                                className="btn btn-dark btn-block btn-lg"
-                                
-                                onClick={(event) => {
-                                  event.preventDefault();
-                                  event.stopPropagation();
-                                  updatePassword();
-                                }}
-                              >
-                                Reset Password{" "}
-                                {isSubmit && (
-                                  <>
-                                    &nbsp; <div className="loader-circle"></div>
-                                  </>
-                                )}
-                              </button>
+                              <div className="form-button-group transparent d-flex justify-content-center align-items-center">
+                                <button
+                                  type="submit"
+                                  className="btn btn-dark btn-block btn-lg"
+                                  disabled={isSubmit}
+                                  onClick={verifyOTP}
+                                >
+                                  Verify OTP{" "}
+                                  {isSubmit && (
+                                    <>
+                                      &nbsp;{" "}
+                                      <div className="loader-circle"></div>
+                                    </>
+                                  )}
+                                </button>
+                              </div>
                             )}
                           </div>
-                          <Link to="/login">
-                            <div
-                              className="text-center  mb-3"
-                              style={{ color: "#0d6efd" }}
-                            >
-                              Sign In
-                            </div>
-                          </Link>
                         </div>
                       </div>
                     }
@@ -424,4 +295,4 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default ChangePhoneNumber;
