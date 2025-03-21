@@ -325,7 +325,7 @@ const AddNewBloodRequest = () => {
 
                 <div className="form-group basic">
                   <label className="label" htmlFor="attendeePhone">
-                    Attendee Phone
+                    Attendee Phone <span className="text-danger">*</span>
                   </label>
                   <input
                     type="number"
