@@ -48,7 +48,9 @@ const Dashboard = () => {
           <img src={userImg} alt="User" className="imaged w32 id-header-user-img" />
           </Link>
           
-          <h4 className="text-white mb-0 fw-600">{`Welcome, ${capitalizeFirstLetter(donor?.name)}`}</h4>
+          <h4 className="text-white mb-0 fw-600">
+  {`Welcome, ${donor?.name ? capitalizeFirstLetter(donor.name) : " "}`}
+</h4>
         </div>
         <div className="right">
 
@@ -108,53 +110,54 @@ const Dashboard = () => {
           <div className="row mt-2">
             <div className="col-6">
               <div
-                className="card"
+                className="card py-2"
                 style={{ boxShadow: "rgb(0 0 0 / 6%) 0px 4px 8px, rgb(0 0 0 / 10%) 0px 4px 16px"}}
               >
                 <div className="mx-auto text-center py-1">
                   <Link to="/blood-donation-request/add-new"> 
                   <img src={ImageF} alt="" className="id-dash-b-img" />
-                  <h4 className="mt-1 fw-600">Request for Blood</h4>
+                  <h4 className="mt-1 fw-600 mb-0">Request for Blood</h4>
                   </Link>
                 </div>
               </div>
             </div>
+
             <div className="col-6">
              
               <div
-                className="card"
+                className="card py-2"
                 style={{ boxShadow: "rgb(0 0 0 / 6%) 0px 4px 8px, rgb(0 0 0 / 10%) 0px 4px 16px",}}
               >
                 <div className="mx-auto text-center py-1">
                   <Link to="/blood-donation/list"> 
                   <img src={ImageFifth} alt="" className="id-dash-b-img" />
-                  <h4 className="mt-1 fw-600">Donate</h4>
+                  <h4 className="mt-1 fw-600 mb-0">Donate</h4>
                   </Link>
                 </div>
               </div>
             </div>
             <div className="col-6 mt-2">
               <div
-                className="card"
+                className="card py-2"
                 style={{ boxShadow: "rgb(0 0 0 / 6%) 0px 4px 8px, rgb(0 0 0 / 10%) 0px 4px 16px"}}
               >
                 <div className="mx-auto text-center py-1">
                   <Link to="/blood-donation-request/request-list"> 
                   <img src={ImageT} alt="" className="id-dash-b-img" />
-                  <h4 className="mt-1 fw-600">Blood Request List</h4>
+                  <h4 className="mt-1 fw-600 mb-0">Blood Request List</h4>
                   </Link>
                 </div>
               </div>
             </div>
             <div className="col-6 mt-2">
               <div
-                className="card"
+                className="card py-2"
                 style={{ boxShadow: "rgb(0 0 0 / 6%) 0px 4px 8px, rgb(0 0 0 / 10%) 0px 4px 16px"}}
               >
                 <div className="mx-auto text-center py-1">
                   <Link to="/blood-donation/history"> 
                   <img src={ImageFourth} alt="" className="id-dash-b-img" />
-                  <h4 className="mt-1 fw-600">Donation History</h4>
+                  <h4 className="mt-1 fw-600 mb-0">Donation History</h4>
                   </Link>
                 </div>
               </div>

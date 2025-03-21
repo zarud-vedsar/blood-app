@@ -93,7 +93,7 @@ const OTPVerificationPage = () => {
       <HeaderWithBack title="OTP Verification" />
       <div className="am-content">
         <form className="otp-form " onSubmit={handleSubmit}>
-          <h3 className="otp-title">We have Sent The OTP From This Number</h3>
+          <h3 className="otp-title">We have sent an OTP to your registered phone number:{donor?.phone}</h3>
           <div className="d-flex align-items-center flex-column">
             <OtpInput
               value={otp}
