@@ -9,8 +9,9 @@ import secureLocalStorage from "react-secure-storage";
 import { Link, useNavigate } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { FaEdit } from "react-icons/fa";
 
+import { toast } from "react-toastify";
+import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
 
 const Account = () => {
   const { donor } = useDonor();
@@ -19,11 +20,17 @@ const Account = () => {
   const [activeDropdown, setActiveDropdown] = useState(null); // Track the active dropdown
   const navigate = useNavigate();
 
-  const logout = () => {
-    secureLocalStorage.clear();
-    setTimeout(() => {
-      navigate("/info");
-    }, 300);
+  const logout = async () => {
+    const deleteAlert = await DeleteSweetAlert(
+      "Are you sure to logout ?",
+      " " );
+    if (deleteAlert) {
+      secureLocalStorage.clear();
+      toast.success("Logout");
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
+    }
   };
 
   return (
@@ -54,14 +61,20 @@ const Account = () => {
                   </span>
                 </div>
                 <div className="text-center my-2">
-                <Link to={`/change-phone-number`} >
-                {donor?.phone} <i class="fa-solid fa-pen-to-square " style={{marginLeft:"5px"}}></i> 
-                </Link>
-                 
-                  
+                  <Link to={`/change-phone-number`}>
+                    {donor?.phone}{" "}
+                    <i
+                      class="fa-solid fa-pen-to-square "
+                      style={{ marginLeft: "5px" }}
+                    ></i>
+                  </Link>
                 </div>
                 <Link to={`/edit-profile`} className="btn btn-dark">
-                <i class="fa-solid fa-pen-to-square " style={{marginRight:"5px"}}></i>  Edit Profile
+                  <i
+                    class="fa-solid fa-pen-to-square "
+                    style={{ marginRight: "5px" }}
+                  ></i>{" "}
+                  Edit Profile
                 </Link>
               </div>
 
@@ -71,7 +84,7 @@ const Account = () => {
                   className="id-link-item"
                 >
                   <span className="icon">
-                  <i class="fa-solid fa-bullhorn id-ion-icon"></i>
+                    <i class="fa-solid fa-bullhorn id-ion-icon"></i>
                     {/* <ion-icon name="megaphone-outline"></ion-icon> */}
                   </span>
                   <p className="link-text">Request For Blood</p>
@@ -82,7 +95,7 @@ const Account = () => {
 
                 <Link to={"/blood-donation/history"} className="id-link-item">
                   <span className="icon">
-                  <i class="fa-solid fa-clock-rotate-left id-ion-icon"></i> 
+                    <i class="fa-solid fa-clock-rotate-left id-ion-icon"></i>
                   </span>
                   <p className="link-text">Donation History</p>
                   <span className="arrow">
@@ -92,7 +105,7 @@ const Account = () => {
 
                 <Link to={"/terms-condition"} className="id-link-item">
                   <span className="icon">
-                  <i class="fa-solid fa-file-contract id-ion-icon"></i>
+                    <i class="fa-solid fa-file-contract id-ion-icon"></i>
                   </span>
                   <p className="link-text">Terms & Conditions</p>
                   <span className="arrow">
@@ -102,7 +115,7 @@ const Account = () => {
               </div>
 
               <div className="d-flex align-items-center id-logout">
-              <i class="fa-solid fa-right-from-bracket id-ion-icon"></i>
+                <i class="fa-solid fa-right-from-bracket id-ion-icon"></i>
                 <button
                   className="btn id-side-logout-btn px-2"
                   onClick={logout}

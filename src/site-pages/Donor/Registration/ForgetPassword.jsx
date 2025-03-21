@@ -6,7 +6,6 @@ import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import { Link } from "react-router-dom";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
-import logoImg from "../../../site-components/common/assets/img/logo-donation.avif";
 import { toast } from "react-toastify";
 import HeaderWithBack from "../../../site-components/Donor/components/HeaderWithBack";
 

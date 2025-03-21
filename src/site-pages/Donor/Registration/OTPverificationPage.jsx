@@ -6,6 +6,7 @@ import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import  secureLocalStorage  from  "react-secure-storage";
 import { toast } from "react-toastify";
+import IsDonorLoggedIn from "../IsDonorLoggedIn";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -21,6 +22,11 @@ const OTPVerificationPage = () => {
   const [loading, setLoading] = useState(false);
   const { donor, setDonor } = useDonor();
 
+   useEffect(() => {
+      if (IsDonorLoggedIn()) {
+        navigate("/dashboard");
+      }
+    }, []);
 
   // Countdown Timer
   useEffect(() => {
@@ -60,7 +66,7 @@ const OTPVerificationPage = () => {
         secureLocalStorage.setItem("loguserid",response?.data?.data?.id)
          toast.success(response?.data?.msg, {
                           autoClose: 500, 
-                          onClose: () => navigate("/address"), 
+                          onClose: () => window.location.reload(), 
                         });
        
       } else {
