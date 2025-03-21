@@ -164,8 +164,7 @@ const BloodRequestList = () => {
                       </div>
                     </div>
                   </Link>
-                   <FaAngleDoubleRight style={{fontSize:"20px"}} />  
-
+                  
                   {/* Dropdown Button */}
                   {request.status === 0 ? (
                     <div className="d-flex align-items-center dropdown">
