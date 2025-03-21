@@ -433,7 +433,7 @@ function DonationList() {
                       />
                       <Column
                         body={(row) => formatDate(row.approve_date)}
-                        header="Received Date"
+                        header="Donation Date"
                         field="approve_date"
                         sortable
                       />

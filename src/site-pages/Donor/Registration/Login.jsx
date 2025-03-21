@@ -158,7 +158,7 @@ const Login = () => {
                 <div className="text-end">
                   <Link to="/forget" style={{ color: "#0d6efd" }}>
                     {" "}
-                    Forgot Your Password?
+                    Forgot Password?
                   </Link>
                 </div>
               </div>

@@ -280,7 +280,7 @@ const BloodRequestViewDetail = () => {
                                     className="fa-solid fa-calendar m-r-10 "
                                     style={{ color: "#3f87f5" }}
                                   ></i>
-                                  <span>Approved Date</span>
+                                  <span>Donation Date</span>
                                 </p>
                                 <div className="">:</div>
                                 <p className="col font-12 font-weight-semibold text-success">

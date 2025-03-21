@@ -254,7 +254,7 @@ const BloodDonationHistoryDetail = () => {
             {bloodDonationRequestDetail?.approval_date && (
               <div className="row ">
                 <div className="col-5">
-                  <strong className="f-17 fw-700"> Approved Date</strong>
+                  <strong className="f-17 fw-700"> Donation Date</strong>
                 </div>
                 <div className="col-1">:</div>
                 <div className="col-auto fw-16 fw-600 text-success">
