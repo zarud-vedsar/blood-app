@@ -149,7 +149,7 @@ const BloodDonationDetailView = () => {
             </div>
             <div className="row">
               <div className="col-5">
-                <strong className="f-17 fw-700"> PinCode </strong>
+                <strong className="f-17 fw-700"> Pin Code </strong>
               </div>
               <div className="col-1">:</div>
               <div className="col-auto fw-16 fw-600">

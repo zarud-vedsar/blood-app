@@ -24,7 +24,7 @@ function AdminRoute({ toggleExpand, toggleFolded }) {
         {isLoggedIn && (
           <Navbar toggleExpand={toggleExpand} toggleFolded={toggleFolded} />
         )}
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div></div>}>
         <ToastContainer
             autoClose={5000}
             position="top-right"

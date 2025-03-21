@@ -2,11 +2,15 @@ import axios from "axios";
 import React, { useState, lazy, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import { PHP_API_URL } from "../../../site-components/Helper/Constant";
-import IsDonorLoggedIn from "../IsDonorLoggedIn";
+import {
+  PHP_API_URL,
+  PINCODE_URL,
+} from "../../../site-components/Helper/Constant";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { FaCalendarAlt } from "react-icons/fa";
 import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
+import secureLocalStorage from "react-secure-storage";
+import { toast } from "react-toastify";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -18,13 +22,13 @@ const genderOptions = [
   { value: "other", label: "Other" },
 ];
 
-
 const EditProfile = () => {
-   const { donor } = useDonor();
+  const { donor, setDonor } = useDonor();
+  const [loading, setLoading] = useState();
+  const loguserid = secureLocalStorage.getItem("loguserid");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
     dob: "",
     gender: "",
     bloodGroup: "",
@@ -34,17 +38,27 @@ const EditProfile = () => {
     address: null,
     latitude: null,
     longitude: null,
-    
   });
-  useEffect(()=>{
-    setFormData()
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      name: donor?.name,
+      email: donor?.email,
 
-  },[])
+      dob: donor?.dob,
+      gender: donor?.gender,
+      bloodGroup: donor?.bloodGroup,
+      state: donor?.state,
+      city: donor?.city,
+      pincode: donor?.pincode,
+      address: donor?.address,
+    }));
+    getLocation();
+  }, [donor]);
 
   const searchPincode = async (e) => {
-    
     if (!/^\d{0,6}$/.test(e.target.value)) {
-      markError("pincode", "Pincode must be a 6-digit number");
+      markError("pincode", "Pin Code must be a 6-digit number");
       return;
     } else {
       setFormData({ ...formData, pincode: e.target.value });
@@ -53,9 +67,7 @@ const EditProfile = () => {
     if (e.target.value.length < 6) return;
     setLoading(true);
     try {
-      const response = await axios.get(
-        `${PINCODE_URL}/${e.target.value}`
-      );
+      const response = await axios.get(`${PINCODE_URL}/${e.target.value}`);
       if (
         response?.data[0]?.Status === "Success" &&
         response?.data[0]?.PostOffice[0]?.Country === "India"
@@ -66,10 +78,10 @@ const EditProfile = () => {
           city: response?.data[0]?.PostOffice[0]?.District,
         }));
       } else {
-        markError("pincode", "Please provide valid pincode");
+        markError("pincode", "Please provide valid pin code.");
 
         setFormData((prev) => ({ ...prev, state: "", city: "" }));
-        toast.error("An error occurred. Please try again.");
+        toast.error("Please provide valid pin code.");
       }
     } catch (error) {
       const status = error.response?.data?.status;
@@ -87,11 +99,11 @@ const EditProfile = () => {
     }
   };
 
-  const getLocation=()=>{
+  const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setFormData((prev)=>({
+          setFormData((prev) => ({
             ...prev,
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
@@ -104,7 +116,7 @@ const EditProfile = () => {
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
-  }
+  };
 
   const navigate = useNavigate();
   const [isSubmit, setIsSubmit] = useState(false);
@@ -117,7 +129,7 @@ const EditProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    
+
     if (!formData.name) {
       markError("name", "Name is required.");
       return setIsSubmit(false);
@@ -129,15 +141,6 @@ const EditProfile = () => {
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       markError("email", "Invalid email address.");
-      return setIsSubmit(false);
-    }
-    if (!formData.phone) {
-      markError("phone", "Phone Number is required.");
-      return setIsSubmit(false);
-    }
-    
-    if (!/^\d{10}$/.test(formData.phone)) {
-      markError("phone", "Phone number must be exactly 10 digits.");
       return setIsSubmit(false);
     }
 
@@ -155,10 +158,10 @@ const EditProfile = () => {
 
       const actualAge =
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-      if (actualAge <= 16) {
+      if (actualAge < 16) {
         markError("dob", "Age is must be greater than 16.");
         return setIsSubmit(false);
-      } 
+      }
     }
 
     if (!formData.gender) {
@@ -169,37 +172,56 @@ const EditProfile = () => {
       markError("bloodGroup", "Blood group is required");
       return setIsSubmit(false);
     }
-    if (!formData.password) {
-      markError("password", "Password is required.");
-      return setIsSubmit(false);
-    }
-    if (!formData.cpassword) {
-      markError("cpassword", "Confirm password is required.");
-      return setIsSubmit(false);
-    }
 
-    if (formData.password !== formData.cpassword) {
-      markError("cpassword", "Confirm password must be same as password.");
+    if (!formData?.pincode) {
+      markError("pincode", "Vaild pin code is required");
+
       return setIsSubmit(false);
     }
-    markError("", "");
+    if (formData?.pincode && formData?.pincode?.length < 6) {
+      markError("pincode", "Pin Code must be a 6-digit number");
+      return setIsSubmit(false);
+    }
+    if (!formData?.state) {
+      markError("state", "State is required");
 
-    if (!formData.termsAccepted) {
-      markError("termsAccepted", "You must accept the terms");
+      return setIsSubmit(false);
+    }
+    if (!formData?.city) {
+      markError("city", "City is required");
+
+      return setIsSubmit(false);
+    }
+    if (!formData?.address) {
+      markError("address", "Address is required");
+
       return setIsSubmit(false);
     }
 
     try {
       const bformData = new FormData();
-      bformData.append("data", "register");
+      bformData.append("data", "edit_profile");
+      bformData.append("loguserid", loguserid);
       Object.keys(formData).forEach((key) => {
         bformData.append(`${key}`, formData[key]);
       });
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
-        setTimeout(() => {
-          navigate(`/otp-verification/${response?.data?.data?.id}`);
-        }, 300);
+        toast.success(response?.data?.msg, { autoClose: 300 });
+        setDonor((prev) => ({
+          ...prev,
+          name: formData?.name,
+          email: formData?.email,
+          dob: formData?.dob,
+          gender: formData?.gender,
+          bloodGroup: formData?.bloodGroup,
+          state: formData?.state,
+          city: formData?.city,
+          pincode: formData?.pincode,
+          address: formData?.address,
+          latitude: formData?.latitude,
+          longitude: formData?.longitude,
+        }));
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -220,12 +242,6 @@ const EditProfile = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "phone") {
-      if (!/^\d{0,10}$/.test(value)) {
-        return;
-      }
-    }
-
     if (name === "dob") {
       const today = new Date();
       const selectedDate = new Date(value);
@@ -235,21 +251,21 @@ const EditProfile = () => {
 
       const actualAge =
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-      if (actualAge <= 16) {
-        markError("dob", "Age is must be greater than 16.");
-      } else {
-        markError("", "");
-      }
+      setTimeout(() => {
+        if (actualAge < 16) {
+          markError("dob", "Age is must be greater than 16.");
+        } else {
+          markError("", "");
+        }
+      }, 1000);
     }
 
     setFormData({ ...formData, [name]: value });
   };
 
-
-
   return (
     <>
-    <HeaderWithBack title={"Edit Profile"} />
+      <HeaderWithBack title={"Edit Profile"} />
       <div className="am-content">
         <form onSubmit={handleSubmit}>
           <div className="card">
@@ -264,7 +280,7 @@ const EditProfile = () => {
                   name="name"
                   id="name"
                   placeholder="Enter Name"
-                  value={formData.name}
+                  value={formData?.name}
                   onChange={handleInputChange}
                 />
                 {error.name === "name" && (
@@ -282,28 +298,10 @@ const EditProfile = () => {
                   name="email"
                   id="email"
                   placeholder="Enter Email"
-                  value={formData.email}
+                  value={formData?.email}
                   onChange={handleInputChange}
                 />
                 {error.name === "email" && (
-                  <span className="text-danger">{error.msg}</span>
-                )}
-              </div>
-
-              <div className="form-group basic">
-                <label className="label" htmlFor="phone">
-                  Phone Number<span className="text-danger">*</span>
-                </label>
-                <input
-                  type="number"
-                  className="form-control"
-                  name="phone"
-                  id="phone"
-                  placeholder="Enter Phone Number"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                />
-                {error.name === "phone" && (
                   <span className="text-danger">{error.msg}</span>
                 )}
               </div>
@@ -318,7 +316,7 @@ const EditProfile = () => {
                     className="form-control"
                     name="dob"
                     id="dob"
-                    value={formData.dob}
+                    value={formData?.dob}
                     onChange={handleInputChange}
                   />
                   <span style={{ marginLeft: "-20px" }}>
@@ -342,7 +340,7 @@ const EditProfile = () => {
                   isSearchable
                   value={
                     genderOptions.find(
-                      (gender) => gender.value === formData.gender
+                      (gender) => gender.value === formData?.gender
                     ) || null
                   }
                   onChange={(selected) =>
@@ -365,7 +363,7 @@ const EditProfile = () => {
                   isSearchable
                   value={
                     bloodGroups.find(
-                      (blood) => blood.value === formData.bloodGroup
+                      (blood) => blood.value === formData?.bloodGroup
                     ) || null
                   }
                   onChange={(selected) =>
@@ -378,15 +376,16 @@ const EditProfile = () => {
               </div>
               <div className="form-group basic">
                 <label className="label" htmlFor="pincode">
-                  PinCode <span className="text-danger">*</span>
+                  Pin Code <span className="text-danger">*</span>
                 </label>
+
                 <input
                   type="text"
                   className="form-control"
                   name="pincode"
                   id="pincode"
-                  placeholder="Enter Pincode"
-                  value={formData.pincode}
+                  placeholder="Enter Pin Code"
+                  value={formData?.pincode}
                   onChange={searchPincode}
                 />
                 {error.name === "pincode" && (
@@ -398,17 +397,24 @@ const EditProfile = () => {
                 <label className="label" htmlFor="state">
                   State <span className="text-danger">*</span>
                 </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="state"
-                  id="state"
-                  placeholder="Enter state"
-                  value={formData.state}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, state: e.target.value }))
-                  }
-                />
+                {loading ? (
+                  <div className="loader-circle"></div>
+                ) : (
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="state"
+                    id="state"
+                    placeholder="Enter state"
+                    value={formData?.state}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        state: e.target.value,
+                      }))
+                    }
+                  />
+                )}
                 {error.name === "state" && (
                   <span className="text-danger">{error.msg}</span>
                 )}
@@ -418,17 +424,21 @@ const EditProfile = () => {
                 <label className="label" htmlFor="city">
                   City <span className="text-danger">*</span>
                 </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="city"
-                  id="city"
-                  placeholder="Enter city"
-                  value={formData.city}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, city: e.target.value }))
-                  }
-                />
+                {loading ? (
+                  <div className="loader-circle"></div>
+                ) : (
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="city"
+                    id="city"
+                    placeholder="Enter city"
+                    value={formData?.city}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, city: e.target.value }))
+                    }
+                  />
+                )}
                 {error.name === "city" && (
                   <span className="text-danger">{error.msg}</span>
                 )}
@@ -444,7 +454,7 @@ const EditProfile = () => {
                   name="address"
                   id="address"
                   placeholder="Enter address"
-                  value={formData.address}
+                  value={formData?.address}
                   onChange={(e) =>
                     setFormData((prev) => ({
                       ...prev,
@@ -463,11 +473,12 @@ const EditProfile = () => {
                   className="btn btn-dark btn-block btn-lg"
                   disabled={isSubmit}
                 >
-                  Submit {isSubmit && (
-                            <>
-                              &nbsp; <div className="loader-circle"></div>
-                            </>
-                          )}
+                  Submit{" "}
+                  {isSubmit && (
+                    <>
+                      &nbsp; <div className="loader-circle"></div>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -475,7 +486,7 @@ const EditProfile = () => {
         </form>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default EditProfile
+export default EditProfile;

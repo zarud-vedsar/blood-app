@@ -19,7 +19,6 @@ const Dashboard = () => {
   const { adminDetail } = useAdminContext();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  console.log(adminDetail)
 
   const fetchDashboardData = async () => {
     setLoading(true);

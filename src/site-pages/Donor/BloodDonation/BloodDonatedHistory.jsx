@@ -8,15 +8,17 @@ import Slider from "../../../site-components/Donor/components/Slider";
 import { toast } from "react-toastify";
 import { IoChevronBackOutline } from "react-icons/io5";
 import DataNotFound from '../../../site-components/common/assets/img/data-not-found.png';
+import { FaAngleRight } from "react-icons/fa";
 const BloodDonatedHistory = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const loguserid = secureLocalStorage.getItem("loguserid");
   const fetchDonationRequestList = async () => {
     setLoading(true);
     try {
       const bformData = new FormData();
       bformData.append("data", "fetchMyDonationHistory");
-      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
+      bformData.append("loguserid", loguserid);
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
         setDonationRequestList(response.data.data || []);
@@ -27,7 +29,7 @@ const BloodDonatedHistory = () => {
       setDonationRequestList([]);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
-        toast.error(error.response.data.msg || "A server error occurred.");
+        //toast.error(error.response.data.msg || "A server error occurred.");
       } else {
         toast.error(
           "An error occurred. Please check your connection or try again."
@@ -39,7 +41,9 @@ const BloodDonatedHistory = () => {
   };
 
   useEffect(() => {
+    if(loguserid){
     fetchDonationRequestList();
+    }
   }, []); 
 
   return (
@@ -47,7 +51,7 @@ const BloodDonatedHistory = () => {
       
       <div className="appHeader d-flex justify-content-around align-items-center">
               <div className="left left-0">
-              <a href="#" class="headerButton" onClick={goBack}>
+              <a href="#" className="headerButton" onClick={goBack}>
               <IoChevronBackOutline />
                   </a>
               </div>
@@ -110,8 +114,16 @@ const BloodDonatedHistory = () => {
                           )}
                         </div>
                       </div>
-                      <div></div>
+                      <div>
+                     
+                      </div>
                     </div>
+                  </Link>
+                  <Link
+                    to={`/blood-donation/history/detail/${request.historyid}`}>
+                  <span className="arrow " style={{marginRight:"15px"}}>
+                    <FaAngleRight className="icons" />
+                  </span>
                   </Link>
                 </div>
               </li>
