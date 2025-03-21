@@ -407,7 +407,7 @@ const ForgetPassword = () => {
                               className="text-center  mb-3"
                               style={{ color: "#0d6efd" }}
                             >
-                              Sign In
+                              Back to login
                             </div>
                           </Link>
                         </div>

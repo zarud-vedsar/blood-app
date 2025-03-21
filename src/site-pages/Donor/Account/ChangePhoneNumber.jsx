@@ -156,30 +156,13 @@ const ChangePhoneNumber = () => {
               <div className="col-md-7 col-lg-5 col-sm-12 m-h-auto">
                 <div className="">
                   <div className="">
-                    <div className="d-flex align-items-center justify-content-between m-b-30">
-                      <img
-                        className="img-fluid rounded-5"
-                        style={{ maxWidth: "30%" }}
-                        alt="Logo"
-                        src={logoImg}
-                      />
-                      <h2 className="h4_new">Change Your Phone Number</h2>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-12 ml-2">
-                        {/* <h3 className="h6_new">Welcome Back!</h3> */}
-                        <p>
-                          {step === "step1" &&
-                            "Enter your new phone number"}
-                          {step === "step2" && "Verify OTP"}
-                        </p>
-                      </div>
-                    </div>
+                  
+                    
                     {
                       <div className="pt-2">
                         <div className="form-group basic">
                           <label className="label" htmlFor="phone">
-                            Phone Number <span className="text-danger">*</span>
+                            Enter New Phone Number <span className="text-danger">*</span>
                           </label>
                           <div className="input-affix">
                             <i className="prefix-icon anticon "></i>
@@ -188,7 +171,7 @@ const ChangePhoneNumber = () => {
                               name="phone"
                               className="form-control"
                               id="phone"
-                              placeholder="Enter Phone Number"
+                              placeholder="Enter New Phone Number"
                               value={formData?.phone}
                               onChange={handleInputChange}
                               readOnly={step !== "step1"}

@@ -98,7 +98,7 @@ const BloodDonatedHistory = () => {
                           <header className="f-14">{`${request.unit} Units (Blood)`}</header>
                           <footer className="f-14 ">{`${request?.city} , ${request?.state}`}</footer>
                           <p className="f-16 mb-0">
-                            {formatDate(request?.request_date)}
+                            {request?.request_date ? formatDate(request?.request_date) : "NA"}
                           </p>
 
                           {request?.status === 0 && (

@@ -145,7 +145,7 @@ const BloodRequestList = () => {
                           <header className="f-14 fw-600">{`${request.unit} Units (Blood)`}</header>
                           <footer className="f-14 id-mb">{`${request?.city} , ${request?.state}`}</footer>
                           <p className="f-16 mb-0 fw-600">
-                            {formatDate(request?.requiredDate)}
+                            {request?.requiredDate ? formatDate(request?.requiredDate) : request?.requiredDate}
                           </p>
 
                           {request?.status === 0 && (

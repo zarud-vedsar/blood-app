@@ -371,19 +371,26 @@ const AddNewBloodRequest = () => {
                     <span className="text-danger">{error.msg}</span>
                   )}
                 </div>
-
                 <div className="form-group basic">
-                  <label className="label" htmlFor="unit">
+                  <label className="label">
                     Unit <span className="text-danger">*</span>
                   </label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    name="unit"
-                    id="unit"
-                    placeholder="Enter Required Blood Unit"
-                    value={formData.unit}
-                    onChange={handleInputChange}
+                  <Select
+                    options={[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => ({
+                      label: num.toString(),
+                      value: num,
+                    }))}
+                    placeholder="Select Unit"
+                    isSearchable
+                    value={
+                      [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                        .map((num) => ({ label: num.toString(), value: num }))
+                        .find((option) => option.value === formData.unit) ||
+                      null
+                    }
+                    onChange={(selected) =>
+                      setFormData({ ...formData, unit: selected.value })
+                    }
                   />
                   {error.name === "unit" && (
                     <span className="text-danger">{error.msg}</span>

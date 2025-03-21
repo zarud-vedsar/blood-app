@@ -3,7 +3,7 @@ import React, { useState, lazy, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
-import { capitalizeFirstLetter } from "../../../site-components/Helper/HelperFunction";
+import { capitalizeFirstLetter, formatDate } from "../../../site-components/Helper/HelperFunction";
 import { toast } from "react-toastify";
 import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
 const HeaderWithBack = lazy(() =>
@@ -207,7 +207,7 @@ const DonationDetailView = () => {
                 </div>
                 <div className="col-1">:</div>
                 <div className="col-auto fw-16 fw-600">
-                  {bloodDonationRequestDetail?.requestDetail?.requiredDate}
+                  {bloodDonationRequestDetail?.requestDetail?.requiredDate ? formatDate(bloodDonationRequestDetail?.requestDetail?.requiredDate) : "NA"}
                 </div>
               </div>
               <div className="row">

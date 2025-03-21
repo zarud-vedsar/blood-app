@@ -5,6 +5,7 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { formatDate } from "../../../site-components/Helper/HelperFunction";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -126,7 +127,7 @@ const BloodDonationDetailView = () => {
               </div>
               <div className="col-1">:</div>
               <div className="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requiredDate}
+                {bloodDonationRequestDetail?.requiredDate ? formatDate(bloodDonationRequestDetail?.requiredDate) :"NA"}
               </div>
             </div>
             <div className="row">
