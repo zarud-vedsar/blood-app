@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { VscAccount } from "react-icons/vsc";
 
 const Footer = () => {
   // Use the location hook to get the current path
