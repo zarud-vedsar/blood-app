@@ -26,7 +26,7 @@ function AdminRoute({ toggleExpand, toggleFolded }) {
         )}
         <Suspense fallback={<div></div>}>
         <ToastContainer
-            autoClose={5000}
+            autoClose={1000}
             position="top-right"
             hideProgressBar={false}
             draggable

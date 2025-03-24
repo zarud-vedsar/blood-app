@@ -59,7 +59,7 @@ function DonorRoute() {
         closeOnClick
         pauseOnHover
         draggable
-        autoClose={500}
+        autoClose={1000}
         transition={Zoom} 
         toastClassName="custom-toast"
       />

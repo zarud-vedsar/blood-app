@@ -143,7 +143,7 @@ const AddressForm = () => {
       if (response?.data?.status === 200) {
         setDonor((prev) => ({ ...prev, ...formData }));
         toast.success(response?.data?.msg, {
-          autoClose: 500,
+          autoClose: 1000,
           onClose: () => navigate("/dashboard"),
         });
       } else {

@@ -65,7 +65,7 @@ const OTPVerificationPage = () => {
         setDonor(response?.data?.data)
         secureLocalStorage.setItem("loguserid",response?.data?.data?.id)
          toast.success(response?.data?.msg, {
-                          autoClose: 500, 
+                          autoClose: 1000, 
                           onClose: () => window.location.reload(), 
                         });
        

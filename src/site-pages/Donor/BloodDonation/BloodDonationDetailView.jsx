@@ -76,7 +76,7 @@ const BloodDonationDetailView = () => {
 
       if (response?.data?.status === 200) {
         toast.success(response?.data?.msg, {
-          autoClose: 500, 
+          autoClose: 1000, 
           onClose: ()=> window.history.back(), 
         });
         

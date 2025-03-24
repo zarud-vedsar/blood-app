@@ -60,7 +60,7 @@ const Login = () => {
         setDonor(response?.data?.data);
         secureLocalStorage.setItem("loguserid", response?.data?.data?.id);
         toast.success(response?.data?.msg, {
-          autoClose: 500,
+          autoClose: 1000,
           onClose: () => navigate("/dashboard"),
         });
       } else {

@@ -121,7 +121,7 @@ const ChangePhoneNumber = () => {
       if (response?.data?.status === 200) {
         setDonor((prev) => ({ ...prev, phone: formData?.phone }));
         toast.success(response?.data?.msg, {
-          autoClose: 500,
+          autoClose: 1000,
           onClose: () => window.history.back(),
         });
       } else {

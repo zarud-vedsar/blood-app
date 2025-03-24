@@ -36,16 +36,16 @@ const ContactAndSupport = () => {
 
     try {
       const bformData = new FormData();
-      bformData.append("data", "changePhoneOTP");
-      bformData.append("msg", formData?.msg);
+      bformData.append("data", "contactUs");
+      bformData.append("message", formData?.msg);
       bformData.append("loguserid", formData?.loguserid);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
 
       if (response.data?.status === 200) {
         toast.success(response?.data?.msg, {
-          autoClose: 300,
-          onClose: () => window.history.back(),
+          autoClose: 1000,
+          onClose: () => setFormData((prev)=>({...prev,msg:""})),
         });
       } else {
         toast.error("An error occurred. Please try again.");
