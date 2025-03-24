@@ -779,7 +779,9 @@ function contactUs(){
         $user_id= $AuthendicteRequest['loguserid'];
     }
     else{
-        $user_id=0;
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
     }
     
     $message= $action->db->setPostRequiredField('message','Message is required');
