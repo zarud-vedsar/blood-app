@@ -53,7 +53,7 @@ const Navbar = ({ toggleExpand, toggleFolded }) => {
       ],
     },
     {
-      title: "Donatation List",
+      title: "Donation List",
       icon: <AiOutlineBook />,
       url: "donation/list",
       dropdownMenus: [

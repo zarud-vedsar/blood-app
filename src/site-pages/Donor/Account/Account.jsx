@@ -112,6 +112,15 @@ const Account = () => {
                     <FaAngleRight className="icons" />
                   </span>
                 </Link>
+                <Link to={"/contact-and-support"} className="id-link-item">
+                  <span className="icon">
+                  <i class="fa-solid fa-circle-info id-ion-icon"></i>
+                  </span>
+                  <p className="link-text">Contact & Support</p>
+                  <span className="arrow">
+                    <FaAngleRight className="icons" />
+                  </span>
+                </Link>
               </div>
 
               <div className="d-flex align-items-center id-logout">

@@ -22,6 +22,7 @@ import Account from "../site-pages/Donor/Account/Account";
 import EditProfile from "../site-pages/Donor/Account/EditProfile";
 import TermsCondition from "../site-pages/Donor/TermsCondition";
 import ChangePhoneNumber from "../site-pages/Donor/Account/ChangePhoneNumber";
+import ContactAndSupport from "../site-pages/Donor/Account/ContactAndSupport";
 const Login = lazy(() => import("../site-pages/Donor/Registration/Login"));
 const RegistrationForm = lazy(() =>
   import("../site-pages/Donor/Registration/RegistrationForm")
@@ -122,6 +123,10 @@ function DonorRoute() {
           <Route
             path="/change-phone-number"
             element={<ProtectedRoute element={<ChangePhoneNumber/>} />}
+          />
+          <Route
+            path="/contact-and-support"
+            element={<ProtectedRoute element={<ContactAndSupport/>} />}
           />
           <Route
             path="/terms-condition"
