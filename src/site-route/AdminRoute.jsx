@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 import DonorList from "../site-pages/Admin/Donor/DonorList";
 import BloodRequestViewDetail from "../site-pages/Admin/Donation/BloodRequestViewDetail";
 import DonorDetailView from "../site-pages/Admin/Donor/DonorDetailView";
+import Contact from "../site-pages/Admin/Inquery/Contact";
 const Login = lazy(() => import("../site-pages/Admin/Registration/Login"));
 const Dashboard = lazy(() => import("../site-pages/Admin/Dashboard/Dashboard"));
 
@@ -26,7 +27,7 @@ function AdminRoute({ toggleExpand, toggleFolded }) {
         )}
         <Suspense fallback={<div></div>}>
         <ToastContainer
-            autoClose={5000}
+            autoClose={1000}
             position="top-right"
             hideProgressBar={false}
             draggable
@@ -59,6 +60,10 @@ function AdminRoute({ toggleExpand, toggleFolded }) {
             <Route
               path="/donor-detail/:id"
               element={<ProtectedRoute element={<DonorDetailView />} />}
+            />
+            <Route
+              path="/contact/list"
+              element={<ProtectedRoute element={<Contact />} />}
             />
           </Routes>
         </Suspense>

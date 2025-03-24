@@ -150,7 +150,7 @@ const RegistrationForm = () => {
       if (response?.data?.status === 200) {
         setDonor({...formData});
         toast.success(response?.data?.msg, {
-          autoClose: 500,
+          autoClose: 1000,
           onClose: () =>
             navigate(`/otp-verification/${response?.data?.data?.id}`),
         });
@@ -177,6 +177,11 @@ const RegistrationForm = () => {
     if (name === "phone") {
       if (!/^\d{0,10}$/.test(value)) {
         return;
+      }
+      if (!/^[6-9]\d{9}$/.test(value)) {
+        markError("phone", "Valid phone number is required");
+      } else {
+        markError("", "");
       }
     }
 
@@ -401,7 +406,7 @@ const RegistrationForm = () => {
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">
                 <button
                   type="submit"
-                  className="btn btn-dark btn-block btn-lg"
+                  className="btn btn-dark btn-block btn-lg rounded-3"
                   disabled={isSubmit}
                 >
                   Next{" "}

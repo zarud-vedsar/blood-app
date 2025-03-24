@@ -6,6 +6,7 @@ import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import  secureLocalStorage  from  "react-secure-storage";
 import { toast } from "react-toastify";
+import IsDonorLoggedIn from "../IsDonorLoggedIn";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -21,6 +22,11 @@ const OTPVerificationPage = () => {
   const [loading, setLoading] = useState(false);
   const { donor, setDonor } = useDonor();
 
+   useEffect(() => {
+      if (IsDonorLoggedIn()) {
+        navigate("/dashboard");
+      }
+    }, []);
 
   // Countdown Timer
   useEffect(() => {
@@ -59,8 +65,8 @@ const OTPVerificationPage = () => {
         setDonor(response?.data?.data)
         secureLocalStorage.setItem("loguserid",response?.data?.data?.id)
          toast.success(response?.data?.msg, {
-                          autoClose: 500, 
-                          onClose: () => navigate("/address"), 
+                          autoClose: 1000, 
+                          onClose: () => window.location.reload(), 
                         });
        
       } else {
@@ -126,7 +132,7 @@ const OTPVerificationPage = () => {
           <div className="form-button-group transparent d-flex justify-content-center align-items-center">
             <button
               type="submit"
-              className="btn btn-dark btn-block btn-lg"
+              className="btn btn-dark btn-block btn-lg rounded-3"
               disabled={loading}
             >
               Verify OTP {loading && (

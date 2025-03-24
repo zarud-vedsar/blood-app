@@ -60,7 +60,7 @@ const Login = () => {
         setDonor(response?.data?.data);
         secureLocalStorage.setItem("loguserid", response?.data?.data?.id);
         toast.success(response?.data?.msg, {
-          autoClose: 500,
+          autoClose: 1000,
           onClose: () => navigate("/dashboard"),
         });
       } else {
@@ -85,6 +85,11 @@ const Login = () => {
     if (name === "phone") {
       if (!/^\d{0,10}$/.test(value)) {
         return;
+      }
+      if (!/^[6-9]\d{9}$/.test(value)) {
+        markError("phone", "Valid phone number is required");
+      } else {
+        markError("", "");
       }
     }
     setFormData({ ...formData, [name]: value });
@@ -153,7 +158,7 @@ const Login = () => {
                 <div className="text-end">
                   <Link to="/forget" style={{ color: "#0d6efd" }}>
                     {" "}
-                    Forgot Your Password?
+                    Forgot Password?
                   </Link>
                 </div>
               </div>
@@ -161,7 +166,7 @@ const Login = () => {
             <div className="form-button-group transparent d-flex   flex-column justify-content-center align-items-center">
               <button
                 type="submit"
-                className="btn btn-dark btn-block btn-lg"
+                className="btn btn-dark btn-block btn-lg rounded-3"
                 disabled={isSubmit}
               >
                 Login{" "}

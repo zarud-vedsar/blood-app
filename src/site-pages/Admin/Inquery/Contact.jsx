@@ -13,13 +13,12 @@ import { Column } from "primereact/Column";
 import secureLocalStorage from "react-secure-storage";
 import { FormField } from "../../../site-components/admin/assets/FormField";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
-import { DonationStatusConstant } from "../../../site-components/Helper/DonationStatusConstant";
 import { Link } from "react-router-dom";
 import { OverlayTrigger } from "react-bootstrap";
 import Tooltip from "react-bootstrap/Tooltip";
 import { InputText } from "primereact/inputtext";
 
-function BloodRequestList() {
+function Contact() {
   const [showFilter, setShowFilter] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [donationRequestList, setDonationRequestList] = useState([]);
@@ -49,7 +48,6 @@ function BloodRequestList() {
   };
 
   const initialData = {
-    status: "",
     bloodGroup: "",
     fromDate: getFirstDayOfMonth(),
     toDate: getLastDayOfMonth(),
@@ -71,7 +69,7 @@ function BloodRequestList() {
     setIsFetching(true);
     try {
       const bformData = new FormData();
-      bformData.append("data", "load_donation_request");
+      bformData.append("data", "load_contact_us");
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
 
       Object.keys(filter).forEach((key) => {
@@ -140,17 +138,15 @@ function BloodRequestList() {
               <div className="header-sub-title">
                 <nav className="breadcrumb breadcrumb-dash">
                   <a href="./" className="breadcrumb-item">
-                    <i className="fas fa-home m-r-5" /> Donation
+                    <i className="fas fa-home m-r-5" /> Dashboard
                   </a>
-                  <span className="breadcrumb-item active">
-                    Blood Request List
-                  </span>
+                  <span className="breadcrumb-item active">Inquiry</span>
                 </nav>
               </div>
             </div>
             <div className="card bg-transparent mb-2">
               <div className="card-header d-flex justify-content-between align-items-center px-0">
-                <h5 className="card-title h6_new"> Blood Request List</h5>
+                <h5 className="card-title h6_new"> Inquiry List</h5>
                 <div className="ml-auto">
                   <button className="btn goback " onClick={() => goBack()}>
                     <i className="fas fa-arrow-left" /> Go Back
@@ -203,7 +199,8 @@ function BloodRequestList() {
                         }))
                       }
                     />
-                    <div className="col-md-3 col-lg-3 col-12 form-group">
+
+                    {/* <div className="col-md-3 col-lg-3 col-12 form-group">
                       <label className="font-weight-semibold">
                         Blood Group
                       </label>
@@ -221,31 +218,6 @@ function BloodRequestList() {
                             ...formData,
                             bloodGroup: selected.value,
                           })
-                        }
-                      />
-                    </div>
-                    <div className="col-md-3 col-lg-3 col-12 form-group">
-                      <label className="font-weight-semibold">
-                        Donation Status
-                      </label>
-
-                      <Select
-                        options={DonationStatusConstant}
-                        onChange={(selectedOption) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            status: selectedOption.value,
-                          }))
-                        }
-                        value={
-                          formData.status !== ""
-                            ? {
-                                value: formData.status,
-                                label: DonationStatusConstant.find(
-                                  (option) => option.value === formData.status
-                                )?.label,
-                              }
-                            : { value: "", label: "Select Status" }
                         }
                       />
                     </div>
@@ -321,7 +293,7 @@ function BloodRequestList() {
                             : { value: "", label: "Select City" }
                         }
                       />
-                    </div>
+                    </div> */}
 
                     <div className="col-12 d-flex  mt-2">
                       <button
@@ -353,7 +325,7 @@ function BloodRequestList() {
                 <div className="row">
                   <div className="col-md-8 col-lg-8 col-12 col-sm-8 p-input-icon-left mb-3 d-flex justify-content-start align-items-center">
                     <div className="search-icon">
-                      <i class="fa-solid fa-magnifying-glass"></i>
+                      <i class="fa-solid fa-magnifying-glass"></i>{" "}
                     </div>
                     <InputText
                       type="search"
@@ -371,7 +343,7 @@ function BloodRequestList() {
                       value={donationRequestList}
                       removableSort
                       paginator
-                      rows={50}
+                      rows={100}
                       globalFilter={globalFilter}
                       rowsPerPageOptions={[50, 100, 200]}
                       emptyMessage="No records found"
@@ -387,153 +359,77 @@ function BloodRequestList() {
 
                       <Column
                         header="User"
-                        field="req_name"
+                        field="name"
                         sortable
                         body={(row) => (
-                          <div className="p-2">
-                            <div className="d-flex ">
-                              <div className="mr-2">
-                                <i
-                                  className="fa-solid fa-user"
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                              </div>
-                              <div className="">{row.req_name}</div>
-                            </div>
-                            <div className="d-flex ">
-                              <div className="mr-2">
-                                <i
-                                  className="fa-solid fa-address-card"
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                              </div>
-                              <div className="">{row.uniqueId}</div>
-                            </div>
-
-                            <div className="d-flex ">
-                              <div className="mr-2">
-                                <i
-                                  className="fa-solid fa-mobile-screen"
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                              </div>
-                              <div className="">{row.phone}</div>
-                            </div>
-                          </div>
-                        )}
-                      />
-                      <Column
-                        header="Patient Name"
-                        field="patientName"
-                        sortable
-                        body={(row) => (
-                          <div className="">
-                            <div>
-                              {row.criticalStatus === 1 && (
-                                <span className="badge badge-danger ">
-                                  Critical
-                                </span>
-                              )}
-                            </div>
-                            <div className="ml-1 mt-1">{row.patientName}</div>
-                          </div>
-                        )}
-                      />
-
-                      <Column
-                        body={(row) => capitalizeFirstLetter(row.bloodGroup)}
-                        header="Blood Group"
-                        field="bloodGroup"
-                        sortable
-                      />
-                      <Column header="Unit" field="unit" sortable />
-                      <Column
-                        body={(row) => capitalizeFirstLetter(row.attendeePhone)}
-                        header="Attendee Phone"
-                        field="attendeePhone"
-                        sortable
-                      />
-                      <Column
-                        body={(row) => capitalizeFirstLetter(row.state)}
-                        header="State"
-                        field="state"
-                        sortable
-                      />
-                      <Column
-                        body={(row) => capitalizeFirstLetter(row.city)}
-                        header="City"
-                        field="city"
-                        sortable
-                      />
-
-                      <Column
-                        body={(row) => capitalizeFirstLetter(row.pincode)}
-                        header="Pin Code"
-                        field="pincode"
-                        sortable
-                      />
-
-                      <Column
-                        body={(row) => formatDate(row.request_date)}
-                        header="Requested Date"
-                        field="request_date"
-                        sortable
-                      />
-                      <Column
-                        body={(row) => formatDate(row.requiredDate)}
-                        header="Required Date"
-                        field="requiredDate"
-                        sortable
-                      />
-
-                      <Column
-                        header="Status"
-                        field="status"
-                        body={(row) => (
-                          <div className="d-flex">
-                            {row?.status === 0 && (
-                              <span className="f-16 badge badge-warning mb-0">
-                                Pending
-                              </span>
-                            )}
-                            {row?.status === 1 && (
-                              <span className="f-16 badge badge-success mb-0">
-                                Accepted
-                              </span>
-                            )}
-                            {row?.status === 2 && (
-                              <span className="f-16 badge badge-info mb-0">
-                                Received
-                              </span>
-                            )}
-                            {row?.status === 3 && (
-                              <span className="f-16 badge badge-danger mb-0">
-                                Rejected
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      />
-
-                      <Column
-                        header="View"
-                        body={(rowData) => (
                           <OverlayTrigger
                             placement="bottom"
                             overlay={
-                              <Tooltip id={`tooltip-${rowData.id}`}>
-                                View
+                              <Tooltip id={`tooltip-${row.user_id}`}>
+                                View Donar Detail
                               </Tooltip>
                             }
                           >
                             <Link
-                              to={`/admin/blood-request/${rowData.id}`}
-                              className="text-warning"
+                              to={`/admin/donor-detail/${row.user_id}`}
+                              className="text-dark"
                             >
-                              <i className="fa-solid fa-eye"></i>
+                              <div className="p-2">
+                                <div className="d-flex ">
+                                  <div className="mr-2">
+                                    <i
+                                      className="fa-solid fa-user"
+                                      style={{ color: "#3f87f5" }}
+                                    ></i>
+                                  </div>
+                                  <div className="">{row.name}</div>
+                                </div>
+                                <div className="d-flex ">
+                                  <div className="mr-2">
+                                    <i
+                                      className="fa-solid fa-address-card"
+                                      style={{ color: "#3f87f5" }}
+                                    ></i>
+                                  </div>
+                                  <div className="">{row.uniqueId}</div>
+                                </div>
+
+                                <div className="d-flex ">
+                                  <div className="mr-2">
+                                    <i
+                                      className="fa-solid fa-mobile-screen"
+                                      style={{ color: "#3f87f5" }}
+                                    ></i>
+                                  </div>
+                                  <div className="">{row.phone}</div>
+                                </div>
+                                <div className="d-flex ">
+                                  <div className="mr-2">
+                                    <i
+                                      className="fa-solid fa-envelope"
+                                      style={{ color: "#3f87f5" }}
+                                    ></i>
+                                  </div>
+                                  <div className="">{row.email}</div>
+                                </div>
+                              </div>
                             </Link>
                           </OverlayTrigger>
                         )}
+                      />
+
+                      <Column
+                        body={(row) => capitalizeFirstLetter(row.message)}
+                        header="Inquiry"
+                        field="message"
+                        sortable
+                      />
+
+                      <Column
+                        body={(row) => formatDate(row.date)}
+                        header="Inquiry Date"
+                        field="date"
+                        sortable
                       />
                     </DataTable>
                   ) : (
@@ -552,4 +448,5 @@ function BloodRequestList() {
     </>
   );
 }
-export default BloodRequestList;
+
+export default Contact;

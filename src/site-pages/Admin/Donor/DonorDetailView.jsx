@@ -399,7 +399,7 @@ const DonorDetailView = () => {
                                   ) : (
                                     <>
                                       <div className="col-md-12 alert alert-danger">
-                                        Data not available
+                                        Donation data not available
                                       </div>
                                     </>
                                   )}

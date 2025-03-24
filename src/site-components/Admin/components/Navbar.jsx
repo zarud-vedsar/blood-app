@@ -8,16 +8,14 @@ import {
   AiOutlineDashboard,
   AiOutlineBook,
   AiOutlineLogout,
+  
 } from "react-icons/ai";
-import {
-  FaChalkboardTeacher,
-  FaFileAlt,
-  FaClipboardList,
-  FaUserGraduate,
-} from "react-icons/fa";
-import { MdAssignment, MdQuiz, MdCardMembership } from "react-icons/md";
+import { MdOutlineSupportAgent } from "react-icons/md";
+import { PiBellRingingBold } from "react-icons/pi";
+import { LuClipboardList } from "react-icons/lu";
+import { HiUserGroup } from "react-icons/hi2";
 
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 
 const Navbar = ({ toggleExpand, toggleFolded }) => {
@@ -39,23 +37,31 @@ const Navbar = ({ toggleExpand, toggleFolded }) => {
     },
     {
       title: "Donor List",
-      icon: <AiOutlineDashboard />,
+      icon: <HiUserGroup />,
       url: "donor/list",
       dropdownMenus: [
       ],
     },
     {
       title: "Blood Request List",
-      icon: <AiOutlineBook />,
+      icon: <PiBellRingingBold />,
       url: "blood-request/list",
       dropdownMenus: [
         
       ],
     },
     {
-      title: "Donatation List",
-      icon: <AiOutlineBook />,
+      title: "Donation List",
+      icon: <LuClipboardList />,
       url: "donation/list",
+      dropdownMenus: [
+        
+      ],
+    },
+    {
+      title: "Inquiry",
+      icon: <MdOutlineSupportAgent />,
+      url: "contact/list",
       dropdownMenus: [
         
       ],

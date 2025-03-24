@@ -146,7 +146,7 @@ const Dashboard = () => {
                 <div className="col-md-12">
                   <div className="row">
                     <div className="col-md-3 col-lg-3 col-sm-6 col-12">
-                      <Link to="/admin/student-management/student-list">
+                      <Link to="/admin/donation/list">
                         <div className="card" style={{ background: "#7889DA" }}>
                           <div className="card-body">
                             <div className="d-flex justify-content-between align-items-center">
@@ -172,7 +172,7 @@ const Dashboard = () => {
                       </Link>
                     </div>
                     <div className="col-md-3 col-lg-3 col-sm-6 col-12">
-                      <Link to="/admin/course">
+                      <Link to="/admin/blood-request/list">
                         <div className="card" style={{ background:"#ffc107" }}>
                           <div className="card-body">
                             <div className="d-flex justify-content-between align-items-center">
@@ -198,7 +198,7 @@ const Dashboard = () => {
                       </Link>
                     </div>
                     <div className="col-md-3 col-lg-3 col-sm-6 col-12">
-                      <Link to="/admin/faculty-list">
+                      <Link to="/admin/blood-request/list">
                         <div className="card" style={{ background:  "#21B6C8" }}>
                           <div className="card-body">
                             <div className="d-flex justify-content-between align-items-center">
@@ -225,7 +225,7 @@ const Dashboard = () => {
                     </div>
                     
                     <div className="col-md-3 col-lg-3 col-sm-6 col-12">
-                      <Link to="/admin/faculty-list">
+                      <Link to="/admin/blood-request/list">
                         <div className="card" style={{ background: "rgb(227 72 35)" }}>
                           <div className="card-body">
                             <div className="d-flex justify-content-between align-items-center">

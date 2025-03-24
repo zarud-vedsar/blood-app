@@ -1,16 +1,16 @@
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
-export const DeleteSweetAlert = async (msg) => {
+export const DeleteSweetAlert = async (title,msg) => {
   // Use SweetAlert to show a confirmation prompt
   const result = await Swal.fire({
-    title: "Are you sure?",
-    text: msg? msg: "You won't be able to revert this!",
+    title: title ? title:"Are you sure?",
+    text: msg ? msg : "You won't be able to revert this!",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#00c9a7",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, Proceed"
+    confirmButtonText: "Yes, Proceed",
   });
 
   if (result.isConfirmed) {
@@ -20,40 +20,27 @@ export const DeleteSweetAlert = async (msg) => {
   }
 };
 
-export const CancelSweetAlert = async (msg) => {
-  // Use SweetAlert to show a confirmation prompt
-  const result = await Swal.fire({
-    title: "Are you sure?",
-    text: msg? msg: "You won't be able to revert this!",
+export const SubmitRemarkSweetAlert = async (status, msg) => {
+  const { value: remark } = await Swal.fire({
+    title: msg ? msg : "Are you sure?",
     icon: "warning",
+    input: status === 0 ? "text" : null, 
+    inputPlaceholder: "Enter rejection reason...",
     showCancelButton: true,
     confirmButtonColor: "#00c9a7",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, Proceed"
+    confirmButtonText: "Yes, Proceed",
+    inputValidator: (remark) => {
+      if (status === 0 && !remark) {
+        return "Please provide a reason for rejection!";
+      }
+    },
   });
 
-  if (result.isConfirmed) {
-    return true;
+  if (remark !== undefined) {
+    return { confirmed: true, remark };
   } else {
-    return false;
+    return { confirmed: false, remark: null };
   }
 };
 
-export const EMailSweetAlert = async (msg) => {
-  // Use SweetAlert to show a confirmation prompt
-  const result = await Swal.fire({
-    title: "Are you sure? ",
-    text: msg? msg: "You want Send Notification for Update Time Table",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#00c9a7",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, Proceed"
-  });
-
-  if (result.isConfirmed) {
-    return true;
-  } else {
-    return false;
-  }
-};

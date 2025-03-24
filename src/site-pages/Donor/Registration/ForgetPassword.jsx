@@ -6,7 +6,6 @@ import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import { Link } from "react-router-dom";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
-import logoImg from "../../../site-components/common/assets/img/logo-donation.avif";
 import { toast } from "react-toastify";
 import HeaderWithBack from "../../../site-components/Donor/components/HeaderWithBack";
 
@@ -53,8 +52,8 @@ const ForgetPassword = () => {
     
 
     if (!formData.phone || !/^[6-9]\d{9}$/.test(formData?.phone)) {
-      markError("phone", "Valid Phone Number is required");
-      toast.error("Valid Phone Number is required");
+      markError("phone", "Valid phone number is required");
+      toast.error("Valid phone number is required");
       return setIsSubmit(false);
     }
     markError("", "");
@@ -170,7 +169,7 @@ const ForgetPassword = () => {
 
       if (response?.data?.status === 200) {
         toast.success(response?.data?.msg, {
-          autoClose: 500,
+          autoClose: 1000,
           onClose: () => navigate("/info"),
         });
       } else {
@@ -198,6 +197,11 @@ const ForgetPassword = () => {
       if (!/^\d{0,10}$/.test(value)) {
         return;
       }
+      if (!/^[6-9]\d{9}$/.test(value)) {
+        markError("phone", "Valid phone number is required");
+      } else {
+        markError("", "");
+      }
     }
     setFormData({ ...formData, [name]: value });
   };
@@ -216,26 +220,8 @@ const ForgetPassword = () => {
               <div className="col-md-7 col-lg-5 col-sm-12 m-h-auto">
                 <div className="">
                   <div className="">
-                    <div className="d-flex align-items-center justify-content-between m-b-30">
-                      <img
-                        className="img-fluid rounded-5"
-                        style={{ maxWidth: "30%" }}
-                        alt="Logo"
-                        src={logoImg}
-                      />
-                      <h2 className="h4_new">Change Your Password</h2>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-12 ml-2">
-                        {/* <h3 className="h6_new">Welcome Back!</h3> */}
-                        <p>
-                          {step === "step1" &&
-                            "Enter your registered phone number"}
-                          {step === "step2" && "Verify OTP"}
-                          {step === "step3" && "Reset Password"}
-                        </p>
-                      </div>
-                    </div>
+                   
+                    
                     {
                       <div className="pt-2">
                         <div className="form-group basic">
@@ -314,7 +300,7 @@ const ForgetPassword = () => {
                               className="font-weight-semibold"
                               htmlFor="otp"
                             >
-                              Otp <span className="text-danger">*</span>
+                              OTP <span className="text-danger">*</span>
                             </label>
                             <div className="input-affix m-b-10">
                               <i className="prefix-icon anticon"></i>
@@ -357,7 +343,7 @@ const ForgetPassword = () => {
                             {step === "step1" && (
                               <button
                                 disabled={isSubmit}
-                                className="btn btn-dark btn-block btn-lg"
+                                className="btn btn-dark btn-block btn-lg rounded-3"
                                 id="signin-btn"
                                 onClick={handleSubmitOtpForm}
                               >
@@ -372,7 +358,7 @@ const ForgetPassword = () => {
                             {step === "step2" && (
                               <button
                                 disabled={isSubmit}
-                                className="btn btn-dark btn-block btn-lg"
+                                className="btn btn-dark btn-block btn-lg rounded-3"
                                 onClick={(event) => {
                                   event.preventDefault();
                                   event.stopPropagation();
@@ -390,7 +376,7 @@ const ForgetPassword = () => {
                             {step === "step3" && (
                               <button
                                 disabled={isSubmit}
-                                className="btn btn-dark btn-block btn-lg"
+                                className="btn btn-dark btn-block btn-lg rounded-3"
                                 
                                 onClick={(event) => {
                                   event.preventDefault();
@@ -412,6 +398,7 @@ const ForgetPassword = () => {
                               className="text-center  mb-3"
                               style={{ color: "#0d6efd" }}
                             >
+                              <i className="fa-solid fa-arrow-left" style={{marginRight:"5px"}} ></i>
                               Back to login
                             </div>
                           </Link>

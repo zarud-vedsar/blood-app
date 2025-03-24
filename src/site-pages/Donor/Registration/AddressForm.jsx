@@ -143,7 +143,7 @@ const AddressForm = () => {
       if (response?.data?.status === 200) {
         setDonor((prev) => ({ ...prev, ...formData }));
         toast.success(response?.data?.msg, {
-          autoClose: 500,
+          autoClose: 1000,
           onClose: () => navigate("/dashboard"),
         });
       } else {
@@ -263,7 +263,7 @@ const AddressForm = () => {
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">
                 <button
                   type="submit"
-                  className="btn btn-dark btn-block btn-lg"
+                  className="btn btn-dark btn-block btn-lg rounded-3"
                   disabled={isSubmit}
                 >
                   Submit{" "}

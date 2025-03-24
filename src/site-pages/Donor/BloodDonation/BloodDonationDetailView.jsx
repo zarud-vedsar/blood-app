@@ -6,6 +6,7 @@ import secureLocalStorage from "react-secure-storage";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { formatDate } from "../../../site-components/Helper/HelperFunction";
+import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -63,6 +64,8 @@ const BloodDonationDetailView = () => {
   const acceptRequest = async () => {
     setIsSubmit(true);
     try {
+      const deleteAlert = await DeleteSweetAlert("Are you willing to donate?"," ");
+      if (deleteAlert) {
       const bformData = new FormData();
       bformData.append("data", "acceptDonationReq");
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
@@ -73,13 +76,14 @@ const BloodDonationDetailView = () => {
 
       if (response?.data?.status === 200) {
         toast.success(response?.data?.msg, {
-          autoClose: 500, 
-          onClose: navigate("/blood-donation/history"), 
+          autoClose: 1000, 
+          onClose: ()=> window.history.back(), 
         });
         
       } else {
         toast.error("An error occurred. Please try again.");
       }
+    }
     } catch (error) {
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {

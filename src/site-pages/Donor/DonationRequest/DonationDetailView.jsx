@@ -8,7 +8,10 @@ import {
   formatDate,
 } from "../../../site-components/Helper/HelperFunction";
 import { toast } from "react-toastify";
-import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
+import {
+  DeleteSweetAlert,
+  SubmitRemarkSweetAlert,
+} from "../../../site-components/Helper/DeleteSweetAlert";
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -17,8 +20,9 @@ const DonationDetailView = () => {
   const { id } = useParams();
   const [bloodDonationRequestDetail, setBloodDonationRequestDetail] =
     useState();
+  const loguserid = secureLocalStorage.getItem("loguserid");
   const initializeForm = {
-    loguserid: secureLocalStorage.getItem("loguserid"),
+    loguserid: loguserid,
     remark: "",
   };
   const [formData, setFormData] = useState(initializeForm);
@@ -32,10 +36,7 @@ const DonationDetailView = () => {
       try {
         const bformData = new FormData();
         bformData.append("data", "view_MyDonationReqById");
-        bformData.append(
-          "loguserid",
-          secureLocalStorage.getItem("loguserid") || ""
-        );
+        bformData.append("loguserid", loguserid || "");
         bformData.append("id", id);
 
         const response = await axios.post(
@@ -81,16 +82,21 @@ const DonationDetailView = () => {
 
   const handleSubmitRemark = async (status, historyid) => {
     try {
-      const deleteAlert = await DeleteSweetAlert();
-      if (deleteAlert) {
+      const deleteAlert = await SubmitRemarkSweetAlert(
+        status,
+        status ? "Is donation received ?" : "Are you sure to cancel donation ?"
+      );
+      if (deleteAlert.confirmed) {
         setIsSubmit(true);
+
         const bformData = new FormData();
         if (status === 0) {
           bformData.append("data", "rejectDonation_requestor");
+          bformData.append("remark", deleteAlert?.remark);
         } else {
           bformData.append("data", "confirmDonation");
         }
-        bformData.append("remark", formData?.remark);
+
         bformData.append("loguserid", formData?.loguserid);
         bformData.append("id", bloodDonationRequestDetail?.requestDetail?.id);
         bformData.append("historyid", historyid);
@@ -142,7 +148,7 @@ const DonationDetailView = () => {
       if (deleteAlert) {
         const bformData = new FormData();
         bformData.append("data", "deleteDonationReq");
-        bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
+        bformData.append("loguserid", loguserid);
         bformData.append("id", id);
 
         const response = await axios.post(
@@ -180,7 +186,7 @@ const DonationDetailView = () => {
       <HeaderWithBack title={"Request Detail"} />
       <div className="am-content">
         <div className="card">
-          <div className="card-body px-0">
+          <div className="card-body p-2">
             <div className="px-3">
               <div className="row">
                 <div className="col-5">
@@ -288,6 +294,17 @@ const DonationDetailView = () => {
                   )}
                 </div>
               </div>
+              {bloodDonationRequestDetail?.requestDetail?.status === 2 && (
+                <div className="row">
+                  <div className="col-5">
+                    <strong className="f-17 fw-700"> Status </strong>
+                  </div>
+                  <div className="col-1">:</div>
+                  <div className="col-auto fw-16 fw-600 text-success">
+                    Donation received
+                  </div>
+                </div>
+              )}
               {bloodDonationRequestDetail?.requestDetail?.approve_date && (
                 <div className="row">
                   <div className="col-5">
@@ -301,7 +318,9 @@ const DonationDetailView = () => {
                   </div>
                 </div>
               )}
-              {bloodDonationRequestDetail?.requestDetail?.criticalStatus===1 && (
+
+              {bloodDonationRequestDetail?.requestDetail?.criticalStatus ===
+                1 && (
                 <div className="row mb-1">
                   <div className="col-12">
                     <span className="badge badge-danger mb-0">Critical</span>
@@ -323,9 +342,9 @@ const DonationDetailView = () => {
             {bloodDonationRequestDetail?.doner &&
               bloodDonationRequestDetail?.doner?.length > 0 && (
                 <>
-                  <div className="row mt-2">
-                    <div className="col-12 id-donor-heading">
-                      <strong className="f-18 fw-700 px-3">Donor </strong>
+                  <div className="mt-2">
+                    <div className=" id-donor-heading ">
+                      <strong className="f-18 fw-700 " style={{padding:"10px 10px"}}>Donor </strong>
                     </div>
                   </div>
                   {bloodDonationRequestDetail?.doner?.map((data, index) => (
@@ -457,7 +476,7 @@ const DonationDetailView = () => {
                             </div>
                             <div className="col-1">:</div>
                             <div className="col-auto fw-16 fw-600 text-danger">
-                              {capitalizeFirstLetter(data?.rejection_date)}
+                              {formatDate(data?.rejection_date)}
                             </div>
                           </div>
                         )}
@@ -478,7 +497,11 @@ const DonationDetailView = () => {
                               </p>
                             )}
                             {data?.status === 2 && (
-                              <p className="f-16 text-danger mb-0">Rejected</p>
+                              <p className="f-16 text-danger mb-0">
+                                Rejected By
+                                {loguserid == data?.rejected_by && " You"}
+                                {data?.id == data?.rejected_by && " Donor"}
+                              </p>
                             )}
                           </div>
                         </div>
@@ -489,7 +512,7 @@ const DonationDetailView = () => {
                               <div className="col-12">
                                 <strong className="f-17 fw-700">
                                   {" "}
-                                  Remark:{" "}
+                                  Rejection Reason:{" "}
                                 </strong>
                               </div>
                               <div className="col-12 fw-16 fw-600">
@@ -499,23 +522,7 @@ const DonationDetailView = () => {
                           </>
                         ) : (
                           <>
-                            <div className="form-group basic">
-                              <label
-                                className="label f-17 fw-700"
-                                htmlFor="remark"
-                              >
-                                Remark :
-                              </label>
-                              <textarea
-                                className="form-control"
-                                name="remark"
-                                id="remark"
-                                placeholder="Enter remark"
-                                value={formData.remark}
-                                onChange={handleInputChange}
-                              />
-                            </div>
-                            <div className="d-flex gap-2">
+                            <div className="d-flex gap-2 mt-2">
                               <button
                                 className="btn btn-danger btn-block"
                                 onClick={() =>
@@ -580,7 +587,7 @@ const DonationDetailView = () => {
                 </div>
               ) : (
                 <div className="bg-success d-block w-100 p-1 text-center rounded">
-                  Approved
+                  Donation Received
                 </div>
               )}
             </div>

@@ -277,6 +277,11 @@ const AddNewBloodRequest = () => {
       if (!/^\d{0,10}$/.test(value)) {
         return;
       }
+      if (!/^[6-9]\d{9}$/.test(value)) {
+        markError("attendeePhone", "Valid phone number is required");
+      } else {
+        markError("", "");
+      }
     }
 
     setFormData({ ...formData, [name]: value });
