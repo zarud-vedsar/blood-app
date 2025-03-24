@@ -786,7 +786,7 @@ function contactUs(){
     
     $message= $action->db->setPostRequiredField('message','Message is required');
     
-    $insert= $action->db->insert('zuraud_contact_us',['message'=>$message]);
+    $insert= $action->db->insert('zuraud_contact_us',['message'=>$message, 'user_id'=>$user_id]);
     
     if($insert){
         echo $action->db->json(200, "Your query has been submitted successfully.");
