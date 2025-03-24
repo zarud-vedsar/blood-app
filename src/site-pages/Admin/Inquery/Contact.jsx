@@ -362,84 +362,66 @@ function Contact() {
                         field="name"
                         sortable
                         body={(row) => (
-                          <div className="p-2">
-                            <div className="d-flex ">
-                              <div className="mr-2">
-                                <i
-                                  className="fa-solid fa-user"
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                              </div>
-                              <div className="">{row.name}</div>
-                            </div>
-                            <div className="d-flex ">
-                              <div className="mr-2">
-                                <i
-                                  className="fa-solid fa-address-card"
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                              </div>
-                              <div className="">{row.uniqueId}</div>
-                            </div>
+                          <OverlayTrigger
+                            placement="bottom"
+                            overlay={
+                              <Tooltip id={`tooltip-${row.user_id}`}>
+                                View Donar Detail
+                              </Tooltip>
+                            }
+                          >
+                            <Link
+                              to={`/admin/donor-detail/${row.user_id}`}
+                              className="text-dark"
+                            >
+                              <div className="p-2">
+                                <div className="d-flex ">
+                                  <div className="mr-2">
+                                    <i
+                                      className="fa-solid fa-user"
+                                      style={{ color: "#3f87f5" }}
+                                    ></i>
+                                  </div>
+                                  <div className="">{row.name}</div>
+                                </div>
+                                <div className="d-flex ">
+                                  <div className="mr-2">
+                                    <i
+                                      className="fa-solid fa-address-card"
+                                      style={{ color: "#3f87f5" }}
+                                    ></i>
+                                  </div>
+                                  <div className="">{row.uniqueId}</div>
+                                </div>
 
-                            <div className="d-flex ">
-                              <div className="mr-2">
-                                <i
-                                  className="fa-solid fa-mobile-screen"
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
+                                <div className="d-flex ">
+                                  <div className="mr-2">
+                                    <i
+                                      className="fa-solid fa-mobile-screen"
+                                      style={{ color: "#3f87f5" }}
+                                    ></i>
+                                  </div>
+                                  <div className="">{row.phone}</div>
+                                </div>
+                                <div className="d-flex ">
+                                  <div className="mr-2">
+                                    <i
+                                      className="fa-solid fa-envelope"
+                                      style={{ color: "#3f87f5" }}
+                                    ></i>
+                                  </div>
+                                  <div className="">{row.email}</div>
+                                </div>
                               </div>
-                              <div className="">{row.phone}</div>
-                            </div>
-                            <div className="d-flex ">
-                              <div className="mr-2">
-                                <i
-                                  className="fa-solid fa-envelope"
-                                  style={{ color: "#3f87f5" }}
-                                ></i>
-                              </div>
-                              <div className="">{row.email}</div>
-                            </div>
-                          </div>
+                            </Link>
+                          </OverlayTrigger>
                         )}
                       />
-                      
 
                       <Column
-                        body={(row) => capitalizeFirstLetter(row.bloodGroup)}
-                        header="Blood Group"
-                        field="bloodGroup"
-                        sortable
-                      />
-                      <Column
-                        body={(row) => formatDate(row.dob)}
-                        header="Date Of Birth"
-                        field="dob"
-                        sortable
-                      />
-                      <Column
-                        body={(row) => capitalizeFirstLetter(row.gender)}
-                        header="Gender"
-                        field="gender"
-                        sortable
-                      />
-                      <Column
-                        body={(row) => capitalizeFirstLetter(row.state)}
-                        header="State"
-                        field="state"
-                        sortable
-                      />
-                      <Column
-                        body={(row) => capitalizeFirstLetter(row.city)}
-                        header="City"
-                        field="city"
-                        sortable
-                      />
-
-                      <Column
-                        body={(row) => capitalizeFirstLetter(row.pincode)}
-                        header="Pin Code"
-                        field="pincode"
+                        body={(row) => capitalizeFirstLetter(row.message)}
+                        header="Inquiry"
+                        field="message"
                         sortable
                       />
 
@@ -448,28 +430,6 @@ function Contact() {
                         header="Inquiry Date"
                         field="date"
                         sortable
-                      />
-                      
-
-                      <Column
-                        header="View"
-                        body={(rowData) => (
-                          <OverlayTrigger
-                            placement="bottom"
-                            overlay={
-                              <Tooltip id={`tooltip-${rowData.id}`}>
-                                View
-                              </Tooltip>
-                            }
-                          >
-                            <Link
-                              to={`/admin/blood-request/${rowData.id}`}
-                              className="text-warning"
-                            >
-                              <i className="fa-solid fa-eye"></i>
-                            </Link>
-                          </OverlayTrigger>
-                        )}
                       />
                     </DataTable>
                   ) : (
