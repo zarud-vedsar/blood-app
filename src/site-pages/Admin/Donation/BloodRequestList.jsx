@@ -26,8 +26,7 @@ function BloodRequestList() {
   const [stateList, setStateList] = useState([]);
   const [pinCodeList, setPinCodeList] = useState([]);
   const [cityList, setCityList] = useState([]);
-    const [globalFilter, setGlobalFilter] = useState("");
-  
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const formatDateForMonth = (date) => {
     return new Intl.DateTimeFormat("en-CA", {
@@ -352,19 +351,19 @@ function BloodRequestList() {
               <div className="card-body">
                 {/* Search Box */}
                 <div className="row">
-                                  <div className="col-md-8 col-lg-8 col-12 col-sm-8 p-input-icon-left mb-3 d-flex justify-content-start align-items-center">
-                                    <div className="search-icon">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                    </div>
-                                    <InputText
-                                      type="search"
-                                      value={globalFilter}
-                                      onChange={(e) => setGlobalFilter(e.target.value)}
-                                      placeholder="Search"
-                                      className="form-control dtsearch-input"
-                                    />
-                                  </div>
-                                </div>
+                  <div className="col-md-8 col-lg-8 col-12 col-sm-8 p-input-icon-left mb-3 d-flex justify-content-start align-items-center">
+                    <div className="search-icon">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <InputText
+                      type="search"
+                      value={globalFilter}
+                      onChange={(e) => setGlobalFilter(e.target.value)}
+                      placeholder="Search"
+                      className="form-control dtsearch-input"
+                    />
+                  </div>
+                </div>
 
                 <div className={`table-responsive ${isFetching ? "form" : ""}`}>
                   {donationRequestList?.length > 0 ? (
@@ -394,20 +393,29 @@ function BloodRequestList() {
                           <div className="p-2">
                             <div className="d-flex ">
                               <div className="mr-2">
-                                <i className="fa-solid fa-user" style={{ color: "#3f87f5" }}></i>
+                                <i
+                                  className="fa-solid fa-user"
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
                               </div>
                               <div className="">{row.req_name}</div>
                             </div>
                             <div className="d-flex ">
                               <div className="mr-2">
-                                <i className="fa-solid fa-address-card" style={{ color: "#3f87f5" }}></i>
+                                <i
+                                  className="fa-solid fa-address-card"
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
                               </div>
                               <div className="">{row.uniqueId}</div>
                             </div>
 
                             <div className="d-flex ">
                               <div className="mr-2">
-                                <i className="fa-solid fa-mobile-screen" style={{ color: "#3f87f5" }}></i>
+                                <i
+                                  className="fa-solid fa-mobile-screen"
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
                               </div>
                               <div className="">{row.phone}</div>
                             </div>
@@ -419,15 +427,15 @@ function BloodRequestList() {
                         field="patientName"
                         sortable
                         body={(row) => (
-                          <div className="d-flex">
-                            <div>{row.patientName}</div>
+                          <div className="">
                             <div>
                               {row.criticalStatus === 1 && (
-                                <span className="badge badge-danger ml-2">
+                                <span className="badge badge-danger ">
                                   Critical
                                 </span>
                               )}
                             </div>
+                            <div className="ml-1 mt-1">{row.patientName}</div>
                           </div>
                         )}
                       />
@@ -518,7 +526,10 @@ function BloodRequestList() {
                               </Tooltip>
                             }
                           >
-                            <Link to={`/admin/blood-request/${rowData.id}`} className="text-warning">
+                            <Link
+                              to={`/admin/blood-request/${rowData.id}`}
+                              className="text-warning"
+                            >
                               <i className="fa-solid fa-eye"></i>
                             </Link>
                           </OverlayTrigger>

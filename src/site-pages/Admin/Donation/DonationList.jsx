@@ -399,15 +399,16 @@ function DonationList() {
                         field="patientName"
                         sortable
                         body={(row) => (
-                          <div className="d-flex">
-                            <div>{row.patientName}</div>
+                          <div className="">
                             <div>
+                              <p></p>
                               {row.criticalStatus === 1 && (
-                                <span className="badge badge-danger ml-2">
+                                <span className="badge badge-danger">
                                   Critical
                                 </span>
                               )}
                             </div>
+                            <div className="ml-1 mt-1">{row.patientName}</div>
                           </div>
                         )}
                       />
