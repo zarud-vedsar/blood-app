@@ -770,3 +770,33 @@ function changePhone(){
         return;
     }
 }
+
+function contactUs(){
+    global $action;
+    
+    $AuthendicteRequest= $action->db->AuthendicateRequest();
+    if($AuthendicteRequest['authenticated']){
+        $user_id= $AuthendicteRequest['loguserid'];
+    }
+    else{
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    
+    $message= $action->db->setPostRequiredField('message','Message is required');
+    
+    $insert= $action->db->insert('zuraud_contact_us',['message'=>$message]);
+    
+    if($insert){
+        echo $action->db->json(200, "Your query has been submitted successfully.");
+        http_response_code(200);
+        return;
+    
+    }
+    else{
+        echo $action->db->json(500, "Internal Server Error");
+        http_response_code(500);
+        return;
+    }
+}
