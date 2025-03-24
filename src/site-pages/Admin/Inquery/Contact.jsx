@@ -11,13 +11,14 @@ import Select from "react-select";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/Column";
 import secureLocalStorage from "react-secure-storage";
+import { FormField } from "../../../site-components/admin/assets/FormField";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { Link } from "react-router-dom";
 import { OverlayTrigger } from "react-bootstrap";
 import Tooltip from "react-bootstrap/Tooltip";
 import { InputText } from "primereact/inputtext";
 
-function DonorList() {
+function Contact() {
   const [showFilter, setShowFilter] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [donationRequestList, setDonationRequestList] = useState([]);
@@ -26,8 +27,30 @@ function DonorList() {
   const [cityList, setCityList] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
 
+  const formatDateForMonth = (date) => {
+    return new Intl.DateTimeFormat("en-CA", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(date);
+  };
+
+  const getFirstDayOfMonth = () => {
+    const now = new Date();
+    return formatDateForMonth(new Date(now.getFullYear(), now.getMonth(), 1));
+  };
+
+  const getLastDayOfMonth = () => {
+    const now = new Date();
+    return formatDateForMonth(
+      new Date(now.getFullYear(), now.getMonth() + 1, 0)
+    );
+  };
+
   const initialData = {
     bloodGroup: "",
+    fromDate: getFirstDayOfMonth(),
+    toDate: getLastDayOfMonth(),
     pincode: "",
     state: "",
     city: "",
@@ -36,14 +59,17 @@ function DonorList() {
   const [formData, setFormData] = useState(initialData);
 
   useEffect(() => {
-    fetchDonationRequestList({});
+    fetchDonationRequestList({
+      fromDate: initialData?.fromDate,
+      toDate: initialData?.toDate,
+    });
   }, []);
 
   const fetchDonationRequestList = async (filter) => {
     setIsFetching(true);
     try {
       const bformData = new FormData();
-      bformData.append("data", "load_donor_list");
+      bformData.append("data", "load_contact_us");
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
 
       Object.keys(filter).forEach((key) => {
@@ -97,7 +123,10 @@ function DonorList() {
 
   const resetFilter = () => {
     setFormData(initialData);
-    fetchDonationRequestList({});
+    fetchDonationRequestList({
+      fromDate: initialData?.fromDate,
+      toDate: initialData?.toDate,
+    });
   };
 
   return (
@@ -109,15 +138,15 @@ function DonorList() {
               <div className="header-sub-title">
                 <nav className="breadcrumb breadcrumb-dash">
                   <a href="./" className="breadcrumb-item">
-                    <i className="fas fa-home m-r-5" /> Donation
+                    <i className="fas fa-home m-r-5" /> Dashboard
                   </a>
-                  <span className="breadcrumb-item active">Donor List</span>
+                  <span className="breadcrumb-item active">Inquiry</span>
                 </nav>
               </div>
             </div>
             <div className="card bg-transparent mb-2">
               <div className="card-header d-flex justify-content-between align-items-center px-0">
-                <h5 className="card-title h6_new"> Donor List</h5>
+                <h5 className="card-title h6_new"> Inquiry List</h5>
                 <div className="ml-auto">
                   <button className="btn goback " onClick={() => goBack()}>
                     <i className="fas fa-arrow-left" /> Go Back
@@ -142,7 +171,36 @@ function DonorList() {
               <div className={`card-body px-3 ${showFilter ? "" : "d-none"}`}>
                 <form onSubmit={applyFilter}>
                   <div className="row">
-                    <div className="col-md-3 col-lg-3 col-12 form-group">
+                    <FormField
+                      label="From Date"
+                      name="fromDate"
+                      id="fromDate"
+                      type="date"
+                      value={formData.fromDate}
+                      column="col-md-3 col-lg-3"
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          fromDate: e.target.value,
+                        }))
+                      }
+                    />
+                    <FormField
+                      label="To Date"
+                      name="toDate"
+                      id="toDate"
+                      type="date"
+                      value={formData.toDate}
+                      column="col-md-3 col-lg-3"
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          toDate: e.target.value,
+                        }))
+                      }
+                    />
+
+                    {/* <div className="col-md-3 col-lg-3 col-12 form-group">
                       <label className="font-weight-semibold">
                         Blood Group
                       </label>
@@ -235,7 +293,7 @@ function DonorList() {
                             : { value: "", label: "Select City" }
                         }
                       />
-                    </div>
+                    </div> */}
 
                     <div className="col-12 d-flex  mt-2">
                       <button
@@ -285,7 +343,7 @@ function DonorList() {
                       value={donationRequestList}
                       removableSort
                       paginator
-                      rows={50}
+                      rows={100}
                       globalFilter={globalFilter}
                       rowsPerPageOptions={[50, 100, 200]}
                       emptyMessage="No records found"
@@ -308,7 +366,7 @@ function DonorList() {
                             <div className="d-flex ">
                               <div className="mr-2">
                                 <i
-                                  className="fa-solid fa-user "
+                                  className="fa-solid fa-user"
                                   style={{ color: "#3f87f5" }}
                                 ></i>
                               </div>
@@ -317,7 +375,7 @@ function DonorList() {
                             <div className="d-flex ">
                               <div className="mr-2">
                                 <i
-                                  className="fa-solid fa-address-card "
+                                  className="fa-solid fa-address-card"
                                   style={{ color: "#3f87f5" }}
                                 ></i>
                               </div>
@@ -327,15 +385,25 @@ function DonorList() {
                             <div className="d-flex ">
                               <div className="mr-2">
                                 <i
-                                  className="fa-solid fa-phone "
+                                  className="fa-solid fa-mobile-screen"
                                   style={{ color: "#3f87f5" }}
                                 ></i>
                               </div>
                               <div className="">{row.phone}</div>
                             </div>
+                            <div className="d-flex ">
+                              <div className="mr-2">
+                                <i
+                                  className="fa-solid fa-envelope"
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
+                              </div>
+                              <div className="">{row.email}</div>
+                            </div>
                           </div>
                         )}
                       />
+                      
 
                       <Column
                         body={(row) => capitalizeFirstLetter(row.bloodGroup)}
@@ -343,20 +411,18 @@ function DonorList() {
                         field="bloodGroup"
                         sortable
                       />
-
+                      <Column
+                        body={(row) => formatDate(row.dob)}
+                        header="Date Of Birth"
+                        field="dob"
+                        sortable
+                      />
                       <Column
                         body={(row) => capitalizeFirstLetter(row.gender)}
                         header="Gender"
                         field="gender"
                         sortable
                       />
-                      <Column
-                        body={(row) => formatDate(row.dob)}
-                        header="DOB"
-                        field="dob"
-                        sortable
-                      />
-
                       <Column
                         body={(row) => capitalizeFirstLetter(row.state)}
                         header="State"
@@ -376,12 +442,14 @@ function DonorList() {
                         field="pincode"
                         sortable
                       />
+
                       <Column
-                        body={(row) => row.address}
-                        header="Address"
-                        field="address"
+                        body={(row) => formatDate(row.date)}
+                        header="Inquiry Date"
+                        field="date"
                         sortable
                       />
+                      
 
                       <Column
                         header="View"
@@ -395,7 +463,7 @@ function DonorList() {
                             }
                           >
                             <Link
-                              to={`/admin/donor-detail/${rowData.id}`}
+                              to={`/admin/blood-request/${rowData.id}`}
                               className="text-warning"
                             >
                               <i className="fa-solid fa-eye"></i>
@@ -420,4 +488,5 @@ function DonorList() {
     </>
   );
 }
-export default DonorList;
+
+export default Contact;
