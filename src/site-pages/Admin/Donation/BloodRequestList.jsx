@@ -17,6 +17,7 @@ import { DonationStatusConstant } from "../../../site-components/Helper/Donation
 import { Link } from "react-router-dom";
 import { OverlayTrigger } from "react-bootstrap";
 import Tooltip from "react-bootstrap/Tooltip";
+import { InputText } from "primereact/inputtext";
 
 function BloodRequestList() {
   const [showFilter, setShowFilter] = useState(false);
@@ -25,6 +26,8 @@ function BloodRequestList() {
   const [stateList, setStateList] = useState([]);
   const [pinCodeList, setPinCodeList] = useState([]);
   const [cityList, setCityList] = useState([]);
+    const [globalFilter, setGlobalFilter] = useState("");
+  
 
   const formatDateForMonth = (date) => {
     return new Intl.DateTimeFormat("en-CA", {
@@ -348,6 +351,20 @@ function BloodRequestList() {
             <div className="card">
               <div className="card-body">
                 {/* Search Box */}
+                <div className="row">
+                                  <div className="col-md-8 col-lg-8 col-12 col-sm-8 p-input-icon-left mb-3 d-flex justify-content-start align-items-center">
+                                    <div className="search-icon">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    </div>
+                                    <InputText
+                                      type="search"
+                                      value={globalFilter}
+                                      onChange={(e) => setGlobalFilter(e.target.value)}
+                                      placeholder="Search"
+                                      className="form-control dtsearch-input"
+                                    />
+                                  </div>
+                                </div>
 
                 <div className={`table-responsive ${isFetching ? "form" : ""}`}>
                   {donationRequestList?.length > 0 ? (
@@ -356,6 +373,7 @@ function BloodRequestList() {
                       removableSort
                       paginator
                       rows={50}
+                      globalFilter={globalFilter}
                       rowsPerPageOptions={[50, 100, 200]}
                       emptyMessage="No records found"
                       className="p-datatable-custom"
@@ -376,20 +394,20 @@ function BloodRequestList() {
                           <div className="p-2">
                             <div className="d-flex ">
                               <div className="mr-2">
-                                <i className="fa-regular fa-user"></i>
+                                <i className="fa-solid fa-user" style={{ color: "#3f87f5" }}></i>
                               </div>
                               <div className="">{row.req_name}</div>
                             </div>
                             <div className="d-flex ">
                               <div className="mr-2">
-                                <i className="fa-regular fa-address-card"></i>
+                                <i className="fa-solid fa-address-card" style={{ color: "#3f87f5" }}></i>
                               </div>
                               <div className="">{row.uniqueId}</div>
                             </div>
 
                             <div className="d-flex ">
                               <div className="mr-2">
-                                <i className="fa-solid fa-mobile-screen"></i>
+                                <i className="fa-solid fa-mobile-screen" style={{ color: "#3f87f5" }}></i>
                               </div>
                               <div className="">{row.phone}</div>
                             </div>
