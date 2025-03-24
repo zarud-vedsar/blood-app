@@ -315,12 +315,12 @@ function load_contact_us()
     $fromDate = $action->db->validatePostData('fromDate') ?: '';
     $toDate = $action->db->validatePostData('toDate') ?: '';
 
-    $sql = "SELECT * FROM `zuraud_contact_us` WHERE 1";
+    $sql = "SELECT cm.*, d.uniqueId, d.name, d.email, d.phone,d.bloodGroup,d.dob, d.gender, d.address, d.pincode, d.state, d.city FROM `zuraud_contact_us` cm JOIN zuraud_doner d WHERE 1";
     if (!empty($fromDate)) {
-        $sql .= " AND `date`>='$fromDate'";
+        $sql .= " AND cm.`date`>='$fromDate'";
     }
     if (!empty($toDate)) {
-        $sql .= " AND `date`<='$toDate'";
+        $sql .= " AND cm.`date`<='$toDate'";
     }
 
     $contact = $action->db->sql($sql);
