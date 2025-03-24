@@ -302,4 +302,37 @@ function view_donation()
     }
 }
 
+function load_contact_us()
+{
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+
+    $fromDate = $action->db->validatePostData('fromDate') ?: '';
+    $toDate = $action->db->validatePostData('toDate') ?: '';
+
+    $sql = "SELECT * FROM `zuraud_contact_us` WHERE 1";
+    if (!empty($fromDate)) {
+        $sql .= " AND `date`>='$fromDate'";
+    }
+    if (!empty($toDate)) {
+        $sql .= " AND `date`<='$toDate'";
+    }
+
+    $contact = $action->db->sql($sql);
+    if ($contact) {
+        echo $action->db->json(200, "Contact messages loaded", '', $contact);
+        http_response_code(200);
+        return;
+    } else {
+        echo $action->db->json(400, "Something went wrong");
+        http_response_code(400);
+        return;
+    }
+}
+
 
