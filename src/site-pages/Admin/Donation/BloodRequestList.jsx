@@ -17,6 +17,7 @@ import { DonationStatusConstant } from "../../../site-components/Helper/Donation
 import { Link } from "react-router-dom";
 import { OverlayTrigger } from "react-bootstrap";
 import Tooltip from "react-bootstrap/Tooltip";
+import { InputText } from "primereact/inputtext";
 
 function BloodRequestList() {
   const [showFilter, setShowFilter] = useState(false);
@@ -25,6 +26,7 @@ function BloodRequestList() {
   const [stateList, setStateList] = useState([]);
   const [pinCodeList, setPinCodeList] = useState([]);
   const [cityList, setCityList] = useState([]);
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const formatDateForMonth = (date) => {
     return new Intl.DateTimeFormat("en-CA", {
@@ -75,7 +77,6 @@ function BloodRequestList() {
       Object.keys(filter).forEach((key) => {
         bformData.append(`${key}`, filter[key]);
       });
-
 
       const response = await axios.post(`${PHP_API_URL}/admin.php`, bformData);
 
@@ -174,6 +175,34 @@ function BloodRequestList() {
               <div className={`card-body px-3 ${showFilter ? "" : "d-none"}`}>
                 <form onSubmit={applyFilter}>
                   <div className="row">
+                    <FormField
+                      label="From Date"
+                      name="fromDate"
+                      id="fromDate"
+                      type="date"
+                      value={formData.fromDate}
+                      column="col-md-3 col-lg-3"
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          fromDate: e.target.value,
+                        }))
+                      }
+                    />
+                    <FormField
+                      label="To Date"
+                      name="toDate"
+                      id="toDate"
+                      type="date"
+                      value={formData.toDate}
+                      column="col-md-3 col-lg-3"
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          toDate: e.target.value,
+                        }))
+                      }
+                    />
                     <div className="col-md-3 col-lg-3 col-12 form-group">
                       <label className="font-weight-semibold">
                         Blood Group
@@ -221,35 +250,6 @@ function BloodRequestList() {
                       />
                     </div>
 
-                    <FormField
-                      label="From Date"
-                      name="fromDate"
-                      id="fromDate"
-                      type="date"
-                      value={formData.fromDate}
-                      column="col-md-3 col-lg-3"
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          fromDate: e.target.value,
-                        }))
-                      }
-                    />
-                    <FormField
-                      label="To Date"
-                      name="toDate"
-                      id="toDate"
-                      type="date"
-                      value={formData.toDate}
-                      column="col-md-3 col-lg-3"
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          toDate: e.target.value,
-                        }))
-                      }
-                    />
-
                     <div className="col-md-3 col-lg-3 col-12 form-group">
                       <label className="font-weight-semibold">Pin Code</label>
 
@@ -270,7 +270,7 @@ function BloodRequestList() {
                                 value: formData.pincode,
                                 label: formData.pincode,
                               }
-                            : { value: "", label: "Select Pincode" }
+                            : { value: "", label: "Select Pin Code" }
                         }
                       />
                     </div>
@@ -350,6 +350,20 @@ function BloodRequestList() {
             <div className="card">
               <div className="card-body">
                 {/* Search Box */}
+                <div className="row">
+                  <div className="col-md-8 col-lg-8 col-12 col-sm-8 p-input-icon-left mb-3 d-flex justify-content-start align-items-center">
+                    <div className="search-icon">
+                      <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <InputText
+                      type="search"
+                      value={globalFilter}
+                      onChange={(e) => setGlobalFilter(e.target.value)}
+                      placeholder="Search"
+                      className="form-control dtsearch-input"
+                    />
+                  </div>
+                </div>
 
                 <div className={`table-responsive ${isFetching ? "form" : ""}`}>
                   {donationRequestList?.length > 0 ? (
@@ -358,6 +372,7 @@ function BloodRequestList() {
                       removableSort
                       paginator
                       rows={50}
+                      globalFilter={globalFilter}
                       rowsPerPageOptions={[50, 100, 200]}
                       emptyMessage="No records found"
                       className="p-datatable-custom"
@@ -378,20 +393,29 @@ function BloodRequestList() {
                           <div className="p-2">
                             <div className="d-flex ">
                               <div className="mr-2">
-                                <i className="fa-regular fa-user"></i>
+                                <i
+                                  className="fa-solid fa-user"
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
                               </div>
                               <div className="">{row.req_name}</div>
                             </div>
                             <div className="d-flex ">
                               <div className="mr-2">
-                                <i className="fa-regular fa-address-card"></i>
+                                <i
+                                  className="fa-solid fa-address-card"
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
                               </div>
                               <div className="">{row.uniqueId}</div>
                             </div>
 
                             <div className="d-flex ">
                               <div className="mr-2">
-                                <i className="fa-solid fa-mobile-screen"></i>
+                                <i
+                                  className="fa-solid fa-mobile-screen"
+                                  style={{ color: "#3f87f5" }}
+                                ></i>
                               </div>
                               <div className="">{row.phone}</div>
                             </div>
@@ -403,15 +427,15 @@ function BloodRequestList() {
                         field="patientName"
                         sortable
                         body={(row) => (
-                          <div className="d-flex">
-                            <div>{row.patientName}</div>
+                          <div className="">
                             <div>
                               {row.criticalStatus === 1 && (
-                                <span className="badge badge-danger ml-2">
+                                <span className="badge badge-danger ">
                                   Critical
                                 </span>
                               )}
                             </div>
+                            <div className="ml-1 mt-1">{row.patientName}</div>
                           </div>
                         )}
                       />
@@ -444,7 +468,7 @@ function BloodRequestList() {
 
                       <Column
                         body={(row) => capitalizeFirstLetter(row.pincode)}
-                        header="PinCode"
+                        header="Pin Code"
                         field="pincode"
                         sortable
                       />
@@ -502,8 +526,11 @@ function BloodRequestList() {
                               </Tooltip>
                             }
                           >
-                            <Link to="#" className="text-warning">
-                              <i className="fa-regular fa-eye"></i>
+                            <Link
+                              to={`/admin/blood-request/${rowData.id}`}
+                              className="text-warning"
+                            >
+                              <i className="fa-solid fa-eye"></i>
                             </Link>
                           </OverlayTrigger>
                         )}

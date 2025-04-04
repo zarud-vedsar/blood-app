@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import  secureLocalStorage  from  "react-secure-storage";
+import { toast } from "react-toastify";
+import IsDonorLoggedIn from "../IsDonorLoggedIn";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -20,6 +22,11 @@ const OTPVerificationPage = () => {
   const [loading, setLoading] = useState(false);
   const { donor, setDonor } = useDonor();
 
+   useEffect(() => {
+      if (IsDonorLoggedIn()) {
+        navigate("/dashboard");
+      }
+    }, []);
 
   // Countdown Timer
   useEffect(() => {
@@ -57,9 +64,11 @@ const OTPVerificationPage = () => {
       if (response?.data?.status === 200) {
         setDonor(response?.data?.data)
         secureLocalStorage.setItem("loguserid",response?.data?.data?.id)
-        setTimeout(() => {
-          navigate("/address");
-        }, 300);
+         toast.success(response?.data?.msg, {
+                          autoClose: 1000, 
+                          onClose: () => window.location.reload(), 
+                        });
+       
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -90,8 +99,8 @@ const OTPVerificationPage = () => {
       <HeaderWithBack title="OTP Verification" />
       <div className="am-content">
         <form className="otp-form " onSubmit={handleSubmit}>
-          <h3 className="otp-title">Enter OTP</h3>
-          <div className="d-flex justify-content-center">
+          <h3 className="otp-title">We have sent an OTP to your registered phone number:{donor?.phone}</h3>
+          <div className="d-flex align-items-center flex-column">
             <OtpInput
               value={otp}
               onChange={handleOtpChange}
@@ -104,7 +113,7 @@ const OTPVerificationPage = () => {
                 <input {...props} className="otp-input" />
               )}
             />
-            {error && <span className="text-danger">{error}</span>}
+            {error && <span className="text-danger ">{error}</span>}
           </div>
           <div className="timer-container">
             {isResendDisabled ? (
@@ -123,7 +132,7 @@ const OTPVerificationPage = () => {
           <div className="form-button-group transparent d-flex justify-content-center align-items-center">
             <button
               type="submit"
-              className="btn btn-dark btn-block btn-lg"
+              className="btn btn-dark btn-block btn-lg rounded-3"
               disabled={loading}
             >
               Verify OTP {loading && (

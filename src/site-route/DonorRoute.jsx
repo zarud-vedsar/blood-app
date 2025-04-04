@@ -17,7 +17,12 @@ import BloodDonatedHistory from "../site-pages/Donor/BloodDonation/BloodDonatedH
 import BloodDonationDetailView from "../site-pages/Donor/BloodDonation/BloodDonationDetailView";
 import BloodDonationHistoryDetail from "../site-pages/Donor/BloodDonation/BloodDonationHistoryDetail";
 import PageLoader from "../site-components/Donor/components/PageLoader";
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer, Zoom } from "react-toastify";
+import Account from "../site-pages/Donor/Account/Account";
+import EditProfile from "../site-pages/Donor/Account/EditProfile";
+import TermsCondition from "../site-pages/Donor/TermsCondition";
+import ChangePhoneNumber from "../site-pages/Donor/Account/ChangePhoneNumber";
+import ContactAndSupport from "../site-pages/Donor/Account/ContactAndSupport";
 const Login = lazy(() => import("../site-pages/Donor/Registration/Login"));
 const RegistrationForm = lazy(() =>
   import("../site-pages/Donor/Registration/RegistrationForm")
@@ -48,7 +53,16 @@ function DonorRoute() {
         <div>Loading...</div>
         }
       >
-        
+        <ToastContainer
+        position="top-center"
+        hideProgressBar
+        closeOnClick
+        pauseOnHover
+        draggable
+        autoClose={1000}
+        transition={Zoom} 
+        toastClassName="custom-toast"
+      />
         <Routes>
           <Route path="/" element={<Navigate to="info" />} />
           <Route path="/info" element={<LandingPage />} />
@@ -97,6 +111,26 @@ function DonorRoute() {
           <Route
             path="/blood-donation/detail-view/:id"
             element={<ProtectedRoute element={<BloodDonationDetailView />} />}
+          />
+          <Route
+            path="/account"
+            element={<ProtectedRoute element={<Account/>} />}
+          />
+          <Route
+            path="/edit-profile"
+            element={<ProtectedRoute element={<EditProfile/>} />}
+          />
+          <Route
+            path="/change-phone-number"
+            element={<ProtectedRoute element={<ChangePhoneNumber/>} />}
+          />
+          <Route
+            path="/contact-and-support"
+            element={<ProtectedRoute element={<ContactAndSupport/>} />}
+          />
+          <Route
+            path="/terms-condition"
+              element={<TermsCondition/>} 
           />
         </Routes>
       </Suspense>

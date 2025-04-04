@@ -5,20 +5,21 @@ import secureLocalStorage from "react-secure-storage";
 import { Link } from "react-router-dom";
 import { formatDate, goBack } from "../../../site-components/Helper/HelperFunction";
 import Slider from "../../../site-components/Donor/components/Slider";
-import Footer from "../../../site-components/Donor/components/Footer";
+import { toast } from "react-toastify";
+import { IoChevronBackOutline } from "react-icons/io5";
+import DataNotFound from '../../../site-components/common/assets/img/data-not-found.png';
+import { FaAngleRight } from "react-icons/fa";
 const BloodDonatedHistory = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const loguserid = secureLocalStorage.getItem("loguserid");
   const fetchDonationRequestList = async () => {
     setLoading(true);
     try {
       const bformData = new FormData();
       bformData.append("data", "fetchMyDonationHistory");
-      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
-
+      bformData.append("loguserid", loguserid);
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
-
       if (response?.data?.status === 200) {
         setDonationRequestList(response.data.data || []);
       } else {
@@ -28,7 +29,7 @@ const BloodDonatedHistory = () => {
       setDonationRequestList([]);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
-        toast.error(error.response.data.msg || "A server error occurred.");
+        //toast.error(error.response.data.msg || "A server error occurred.");
       } else {
         toast.error(
           "An error occurred. Please check your connection or try again."
@@ -40,7 +41,9 @@ const BloodDonatedHistory = () => {
   };
 
   useEffect(() => {
+    if(loguserid){
     fetchDonationRequestList();
+    }
   }, []); 
 
   return (
@@ -48,14 +51,13 @@ const BloodDonatedHistory = () => {
       
       <div className="appHeader d-flex justify-content-around align-items-center">
               <div className="left left-0">
-              <a href="#" class="headerButton " onClick={goBack}>
-                      <ion-icon name="arrow-back-outline" role="img" class="md hydrated"
-                          aria-label="arrow back outline"></ion-icon>
+              <a href="#" className="headerButton" onClick={goBack}>
+              <IoChevronBackOutline />
                   </a>
               </div>
               <div className="pageTitle w-75">Donation History</div>
               <div className="right ">
-                <Slider/>
+                {/* <Slider/> */}
               </div>
             </div>
 
@@ -65,9 +67,9 @@ const BloodDonatedHistory = () => {
         <section className="section px-2  pb-5 mb-5">
           {loading && <div className="loader-fetch">Loading...</div>}
           {!loading && donationRequestList.length === 0 && (
-            <p className="text-center pt-2">No data found.</p>
-          )}
+            <img src={DataNotFound} alt="" className="img-fluid" />
 
+          )}
           <ul className="listview image-listview" id="set_fecthed_data">
             {donationRequestList.map((request, index) => (
               <li key={index}>
@@ -96,24 +98,37 @@ const BloodDonatedHistory = () => {
                           <header className="f-14">{`${request.unit} Units (Blood)`}</header>
                           <footer className="f-14 ">{`${request?.city} , ${request?.state}`}</footer>
                           <p className="f-16 mb-0">
-                            {formatDate(request?.request_date)}
+                            {request?.request_date ? formatDate(request?.request_date) : "NA"}
                           </p>
 
                           {request?.status === 0 && (
-                            <p className="f-16 text-warning mb-0">Pending</p>
-                          )}
-                          {request?.status === 1 && (
-                            <p className="f-16 text-success mb-0">
-                              Donated Successfully
-                            </p>
-                          )}
-                          {request?.status === 2 && (
-                            <p className="f-16 text-danger mb-0">Rejectd</p>
-                          )}
+                              <p className="f-16 text-warning mb-0">
+                                Not donated yet.
+                              </p>
+                            )}
+                            {request?.status === 1 && (
+                              <p className="f-16 text-success mb-0">
+                                Donation received
+                              </p>
+                            )}
+                            {request?.status === 2 && (
+                              <p className="f-16 text-danger mb-0">
+                                Rejected 
+                              
+                              </p>
+                            )}
                         </div>
                       </div>
-                      <div></div>
+                      <div>
+                     
+                      </div>
                     </div>
+                  </Link>
+                  <Link
+                    to={`/blood-donation/history/detail/${request.historyid}`}>
+                  <span className="arrow " style={{marginRight:"15px"}}>
+                    <FaAngleRight className="icons" />
+                  </span>
                   </Link>
                 </div>
               </li>

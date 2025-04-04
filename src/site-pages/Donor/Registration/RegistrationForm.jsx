@@ -1,11 +1,13 @@
 import axios from "axios";
-import React, { useState, lazy, useEffect } from "react";
+import React, { useState, lazy, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { FaCalendarAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { useDonor } from "../../../site-components/Donor/ContextApi/DonorContext";
 
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
@@ -29,6 +31,10 @@ const RegistrationForm = () => {
     password: "",
     cpassword: "",
   });
+  const dateInputRef = useRef(null);
+
+
+  const { donor, setDonor } = useDonor();
 
   const navigate = useNavigate();
   const [isSubmit, setIsSubmit] = useState(false);
@@ -47,32 +53,38 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmit(true);
-    
+
     if (!formData.name) {
       markError("name", "Name is required.");
+      toast.error("Name is required.");
       return setIsSubmit(false);
     }
 
     if (!formData.email) {
       markError("email", "Email is required.");
+      toast.error("Email is required.");
       return setIsSubmit(false);
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       markError("email", "Invalid email address.");
+      toast.error("Invalid email address.");
       return setIsSubmit(false);
     }
     if (!formData.phone) {
       markError("phone", "Phone Number is required.");
+      toast.error("Phone Number is required.");
       return setIsSubmit(false);
     }
-    
-    if (!/^\d{10}$/.test(formData.phone)) {
-      markError("phone", "Phone number must be exactly 10 digits.");
+
+    if (!/^[6-9]\d{9}$/.test(formData.phone)) {
+      markError("phone", "Valid phone number is required");
+      toast.error("Valid phone number is required");
       return setIsSubmit(false);
     }
 
     if (!formData.dob) {
       markError("dob", "Date of Birth is required.");
+      toast.error("Date of Birth is required.");
       return setIsSubmit(false);
     }
 
@@ -85,37 +97,46 @@ const RegistrationForm = () => {
 
       const actualAge =
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-      if (actualAge <= 16) {
+
+      if (actualAge < 16) {
         markError("dob", "Age is must be greater than 16.");
+        toast.error("Age is must be greater than 16.");
         return setIsSubmit(false);
-      } 
+      }
     }
 
     if (!formData.gender) {
       markError("gender", "Gender is required");
+      toast.error("Gender is required");
+
       return setIsSubmit(false);
     }
     if (!formData.bloodGroup) {
       markError("bloodGroup", "Blood group is required");
+      toast.error("Blood group is required");
       return setIsSubmit(false);
     }
     if (!formData.password) {
       markError("password", "Password is required.");
+      toast.error("Password is required.");
       return setIsSubmit(false);
     }
     if (!formData.cpassword) {
       markError("cpassword", "Confirm password is required.");
+      toast.error("Confirm password is required.");
       return setIsSubmit(false);
     }
 
     if (formData.password !== formData.cpassword) {
       markError("cpassword", "Confirm password must be same as password.");
+      toast.error("Confirm password must be same as password.");
       return setIsSubmit(false);
     }
     markError("", "");
 
     if (!formData.termsAccepted) {
-      markError("termsAccepted", "You must accept the terms");
+      markError("termsAccepted", "You must accept the terms.");
+      toast.error("You must accept the terms");
       return setIsSubmit(false);
     }
 
@@ -127,9 +148,12 @@ const RegistrationForm = () => {
       });
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
       if (response?.data?.status === 200) {
-        setTimeout(() => {
-          navigate(`/otp-verification/${response?.data?.data?.id}`);
-        }, 300);
+        setDonor({...formData});
+        toast.success(response?.data?.msg, {
+          autoClose: 1000,
+          onClose: () =>
+            navigate(`/otp-verification/${response?.data?.data?.id}`),
+        });
       } else {
         toast.error("An error occurred. Please try again.");
       }
@@ -154,6 +178,11 @@ const RegistrationForm = () => {
       if (!/^\d{0,10}$/.test(value)) {
         return;
       }
+      if (!/^[6-9]\d{9}$/.test(value)) {
+        markError("phone", "Valid phone number is required");
+      } else {
+        markError("", "");
+      }
     }
 
     if (name === "dob") {
@@ -165,11 +194,13 @@ const RegistrationForm = () => {
 
       const actualAge =
         monthDiff > 0 || (monthDiff === 0 && dayDiff >= 0) ? age : age - 1;
-      if (actualAge <= 16) {
-        markError("dob", "Age is must be greater than 16.");
-      } else {
-        markError("", "");
-      }
+      setTimeout(() => {
+        if (actualAge < 16) {
+          markError("dob", "Age is must be greater than 16.");
+        } else {
+          markError("", "");
+        }
+      }, 1000);
     }
 
     setFormData({ ...formData, [name]: value });
@@ -248,8 +279,9 @@ const RegistrationForm = () => {
                     id="dob"
                     value={formData.dob}
                     onChange={handleInputChange}
+                    ref={dateInputRef}
                   />
-                  <span style={{ marginLeft: "-20px" }}>
+                  <span style={{ marginLeft: "-20px" }} onClick={() => dateInputRef.current?.showPicker()}>
                     {" "}
                     <FaCalendarAlt />
                   </span>
@@ -344,29 +376,28 @@ const RegistrationForm = () => {
               <div className="form-group basic">
                 <label className="label">
                   <div className="d-flex align-items-center">
-                  <input
-                    type="checkbox"
-                    checked={formData.termsAccepted}
-                    onChange={() =>
-                      setFormData({
-                        ...formData,
-                        termsAccepted: !formData.termsAccepted,
-                      })
-                    }
-                    style={{ marginRight: "5px" }}
-                  />
-                  <div>
-                  I agree to the{" "}
-                  <a href="/terms" target="_blank" style={{color:"#0d6efd"}}>
-                    Terms and Conditions
-                  </a>
-                    
+                    <input
+                      type="checkbox"
+                      checked={formData.termsAccepted}
+                      onChange={() =>
+                        setFormData({
+                          ...formData,
+                          termsAccepted: !formData.termsAccepted,
+                        })
+                      }
+                      style={{ marginRight: "5px" }}
+                    />
+                    <div>
+                      I agree to the{" "}
+                      <a
+                        href="/terms-condition"
+                        target="_blank"
+                        style={{ color: "#0d6efd" }}
+                      >
+                        Terms and Conditions
+                      </a>
+                    </div>
                   </div>
-                   
-
-                  </div>
-                  
-                
                 </label>
                 {error.name === "termsAccepted" && (
                   <span className="text-danger">{error.msg}</span>
@@ -375,14 +406,15 @@ const RegistrationForm = () => {
               <div className="form-button-group transparent d-flex justify-content-center align-items-center">
                 <button
                   type="submit"
-                  className="btn btn-dark btn-block btn-lg"
+                  className="btn btn-dark btn-block btn-lg rounded-3"
                   disabled={isSubmit}
                 >
-                  Next {isSubmit && (
-                            <>
-                              &nbsp; <div className="loader-circle"></div>
-                            </>
-                          )}
+                  Next{" "}
+                  {isSubmit && (
+                    <>
+                      &nbsp; <div className="loader-circle"></div>
+                    </>
+                  )}
                 </button>
               </div>
             </div>

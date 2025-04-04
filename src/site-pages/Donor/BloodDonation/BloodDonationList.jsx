@@ -3,34 +3,49 @@ import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
 import { Link, useNavigate } from "react-router-dom";
-import { formatDate } from "../../../site-components/Helper/HelperFunction";
-import Slider from "../../../site-components/Donor/components/Slider";
 import Footer from "../../../site-components/Donor/components/Footer";
-import userImg from "../../../site-components/common/assets/img/user.png";
-
+import {
+  formatDate,
+  goBack,
+} from "../../../site-components/Helper/HelperFunction";
+import { IoChevronBackOutline } from "react-icons/io5";
+import DataNotFound from "../../../site-components/common/assets/img/data-not-found.png";
+import { toast } from "react-toastify";
+import { BiSolidDonateBlood } from "react-icons/bi";
+import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
 const BloodDonationList = () => {
   const [donationRequestList, setDonationRequestList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const loguserid = secureLocalStorage.getItem("loguserid");
   const navigate = useNavigate();
 
   const acceptRequest = async (id) => {
     setIsSubmit(true);
     try {
-      const bformData = new FormData();
-      bformData.append("data", "acceptDonationReq");
-      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
-      bformData.append("id", id);
+      const deleteAlert = await DeleteSweetAlert(
+        "Are you willing to donate?",
+        " "
+      );
+      if (deleteAlert) {
+        const bformData = new FormData();
+        bformData.append("data", "acceptDonationReq");
+        bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
+        bformData.append("id", id);
 
-      const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
+        const response = await axios.post(
+          `${PHP_API_URL}/doner.php`,
+          bformData
+        );
 
-      if (response?.data?.status === 200) {
-        setTimeout(() => {
-          navigate("/blood-donation/history");
-        }, 300);
-      } else {
-        toast.error("An error occurred. Please try again.");
+        if (response?.data?.status === 200) {
+          toast.success(response?.data?.msg, {
+            autoClose: 1000,
+            onClose: () => navigate("/blood-donation/history"),
+          });
+        } else {
+          toast.error("An error occurred. Please try again.");
+        }
       }
     } catch (error) {
       const status = error.response?.data?.status;
@@ -50,7 +65,7 @@ const BloodDonationList = () => {
     try {
       const bformData = new FormData();
       bformData.append("data", "fetchDonationReqforMe");
-      bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
+      bformData.append("loguserid", loguserid);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
 
@@ -63,7 +78,7 @@ const BloodDonationList = () => {
       setDonationRequestList([]);
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
-        toast.error(error.response.data.msg || "A server error occurred.");
+        //toast.error(error.response.data.msg || "A server error occurred.");
       } else {
         toast.error(
           "An error occurred. Please check your connection or try again."
@@ -76,26 +91,32 @@ const BloodDonationList = () => {
 
   useEffect(() => {
     fetchDonationRequestList();
-  }, []); // ✅ Fixed useEffect dependency
+  }, [loguserid]);
 
   return (
     <div>
       {/* App Header */}
-      <div className="appHeader border-0">
-        <div className="left">
-          <img src={userImg} alt="User" className="imaged w32" />
+      <div className="appHeader d-flex justify-content-around align-items-center">
+        <div className="left left-0">
+          <a href="#" className="headerButton" onClick={goBack}>
+            <IoChevronBackOutline />
+          </a>
         </div>
-        <div className="right">
-          <Slider />{" "}
+        <div className="pageTitle w-75">Blood Donation List</div>
+        <div className="right ">
+          {/* <img src={userImg} alt="User" className="imaged w32" /> */}
+          {/* <Slider/> */}
         </div>
       </div>
+
       {/* * App Header */}
 
       <div id="appCapsule">
         <section className="section px-2  pb-5 mb-5">
           {loading && <div className="loader-fetch">Loading...</div>}
           {!loading && donationRequestList.length === 0 && (
-            <p className="text-center pt-2">No data found.</p>
+            <img src={DataNotFound} alt="" className="img-fluid" />
+            // <p className="text-center pt-2">No data found.</p>
           )}
 
           <ul className="listview image-listview" id="set_fecthed_data">
@@ -135,10 +156,12 @@ const BloodDonationList = () => {
                   </Link>
 
                   <button
-                    className="btn"
+                    className="btn d-flex align-items-end  pb-1"
+                    style={{ background: "#e20014 ", color: "white" }}
                     onClick={() => acceptRequest(request?.id)}
                   >
-                    <ion-icon name="heart" color="danger"></ion-icon>
+                    Donate
+                    <BiSolidDonateBlood style={{ fontSize: "22px" }} />
                   </button>
                 </div>
               </li>

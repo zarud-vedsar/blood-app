@@ -5,7 +5,7 @@ import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import { useAdminContext } from "../../../site-components/Admin/ContextApi/AdminContext";
 import secureLocalStorage from "react-secure-storage";
-import logo from "../../../site-components/common/assets/img/logo-donation.avif";
+import logo from "../../../site-components/common/assets/img/logo-with-content.png";
 import { MdMailOutline } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
 import { toast } from "react-toastify";
@@ -51,13 +51,13 @@ const Login = () => {
       bformData.append("password", formData?.password);
 
       const response = await axios.post(`${PHP_API_URL}/admin.php`, bformData);
-      console.log(response)
+      
       if (response?.data?.status === 200) {
         setAdminDetail(response?.data?.data);
         secureLocalStorage.setItem("loguserid", response?.data?.data?.id);
-
+        toast.success(response?.data?.msg);
         setTimeout(() => {
-          navigate(`/admin/dashboard`);
+          window.location.reload();
         }, 300);
       } else {
         toast.error("An error occurred. Please try again.");
@@ -95,7 +95,7 @@ const Login = () => {
                       <img
                         className="img-fluid rounded-5"
                         style={{ maxWidth: "30%" }}
-                        alt="NLU Logo"
+                        alt="Logo"
                         src={logo}
                       />
                       <h2 className="h4_new">Sign In</h2>

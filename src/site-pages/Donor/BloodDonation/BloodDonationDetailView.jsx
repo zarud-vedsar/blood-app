@@ -4,6 +4,10 @@ import {  useParams } from "react-router-dom";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import secureLocalStorage from "react-secure-storage";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { formatDate } from "../../../site-components/Helper/HelperFunction";
+import { DeleteSweetAlert } from "../../../site-components/Helper/DeleteSweetAlert";
+
 const HeaderWithBack = lazy(() =>
   import("../../../site-components/Donor/components/HeaderWithBack")
 );
@@ -37,7 +41,7 @@ const BloodDonationDetailView = () => {
         if (response?.data?.status === 200) {
           setBloodDonationRequestDetail(response?.data?.data[0]);
 
-          toast.error("An error occurred. Please try again.");
+          
         }
       } catch (error) {
         const status = error.response?.data?.status;
@@ -53,28 +57,33 @@ const BloodDonationDetailView = () => {
       }
     };
 
-    fetchData(); // Call the async function
-  }, [id]); // Only runs when `id` changes
+    fetchData(); 
+  }, [id]); 
 
  
   const acceptRequest = async () => {
     setIsSubmit(true);
     try {
+      const deleteAlert = await DeleteSweetAlert("Are you willing to donate?"," ");
+      if (deleteAlert) {
       const bformData = new FormData();
       bformData.append("data", "acceptDonationReq");
       bformData.append("loguserid", secureLocalStorage.getItem("loguserid"));
       bformData.append("id", id);
 
       const response = await axios.post(`${PHP_API_URL}/doner.php`, bformData);
-      console.log(response);
+      
 
       if (response?.data?.status === 200) {
-        setTimeout(() => {
-            navigate("/blood-donation/history")
-        }, 300);
+        toast.success(response?.data?.msg, {
+          autoClose: 1000, 
+          onClose: ()=> window.history.back(), 
+        });
+        
       } else {
         toast.error("An error occurred. Please try again.");
       }
+    }
     } catch (error) {
       const status = error.response?.data?.status;
       if (status === 400 || status === 500 || status === 401) {
@@ -122,7 +131,7 @@ const BloodDonationDetailView = () => {
               </div>
               <div className="col-1">:</div>
               <div className="col-auto fw-16 fw-600">
-                {bloodDonationRequestDetail?.requiredDate}
+                {bloodDonationRequestDetail?.requiredDate ? formatDate(bloodDonationRequestDetail?.requiredDate) :"NA"}
               </div>
             </div>
             <div className="row">
@@ -145,7 +154,7 @@ const BloodDonationDetailView = () => {
             </div>
             <div className="row">
               <div className="col-5">
-                <strong className="f-17 fw-700"> PinCode </strong>
+                <strong className="f-17 fw-700"> Pin Code </strong>
               </div>
               <div className="col-1">:</div>
               <div className="col-auto fw-16 fw-600">

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { VscAccount } from "react-icons/vsc";
 
 const Footer = () => {
   // Use the location hook to get the current path
@@ -35,6 +36,16 @@ const Footer = () => {
         <div className="col">
           <ion-icon name="megaphone-outline"></ion-icon>
           <strong className="mt-1">Request for blood</strong>
+        </div>
+      </Link>
+
+      <Link
+        to="/account"
+        className={`item ${location.pathname === "/blood-donation-request/request-list" ? "active" : ""}`}
+      >
+        <div className="col">
+        <ion-icon name="person"></ion-icon>
+          <strong className="mt-1">Settings</strong>
         </div>
       </Link>
 

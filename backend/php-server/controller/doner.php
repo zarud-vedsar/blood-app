@@ -56,7 +56,8 @@ function register()
         return;
     }
 
-    $otp = $action->custom->generateOTP(4);
+   // $otp = $action->custom->generateOTP(4);
+  $otp = 1234;
 
 
     $user = $action->db->sql("SELECT id,`reg_status` FROM `zuraud_doner` WHERE `phone`='$phone' OR `email`='$email'");
@@ -100,11 +101,11 @@ function verifyRegistrationOTP()
     if ($user) {
         if ($user[0]['otp'] == $otp && strtotime($user[0]['otp_expiry']) > time()) {
             do {
-                $uniqueId = 'BD' . time();
+                $uniqueId = 'BD'. strtoupper(substr($user[0]['name'],0,2)) . rand(100000, 999999);
                 $check = $action->db->sql("SELECT id FROM `zuraud_doner` WHERE `uniqueId`='$uniqueId'");
             } while ($check);
 
-            $response = $action->db->update('zuraud_doner', " id=" . $user[0]['id'], ['reg_status' => 1, 'otp' => null, 'otp_expiry' => null, 'uniqueId' => $uniqueId]);
+          $response = $action->db->update('zuraud_doner', " id={$user[0]['id']}", ['reg_status' => 1, 'otp' => '', 'otp_expiry'=> NULL,  'uniqueId' => $uniqueId]);
             if ($response) {
                 echo $action->db->json(200, "OTP verified successfully Login to Continue", '', $user[0]);
                 http_response_code(200);
@@ -131,7 +132,7 @@ function login()
     global $action;
     $phone = $action->db->setPostRequiredField('phone', 'Phone is required');
     $password = $action->db->setPostRequiredField('password', 'Password is required');
-    $user = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE (`phone`='$phone' OR `email`= '$phone' OR  `uniqueId`='$phone') AND `password`='" . sha1($password) . "' AND `reg_status`=1");
+    $user = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE (`phone`='$phone' OR `email`= '$phone' OR  `uniqueId`='$phone') AND `password`='" . sha1($password) . "' AND `reg_status`=1");
     if ($user) {
         echo $action->db->json(200, "Login successfully", '', $user[0]);
         http_response_code(200);
@@ -145,7 +146,7 @@ function login()
 
 function setlocation()
 {
-    // address,latitude,longitude,pincode,state,city
+    
 
     global $action;
 
@@ -157,14 +158,12 @@ function setlocation()
     }
 
     $address = $action->db->validatePostData('address') ?: '';
-    $latitude = $action->db->validatePostData('latitude') ?: '';
-    $longitude = $action->db->validatePostData('longitude') ?: '';
     $pincode = $action->db->setPostRequiredField('pincode', 'Pincode is required');
     $state = $action->db->validatePostData('state') ?: '';
     $city = $action->db->validatePostData('city') ?: '';
     $id = $AuthendicteRequest['loguserid'];
 
-    $update = $action->db->update('zuraud_doner', " id=" . $id, ['address' => $address, 'latitude' => $latitude, 'longitude' => $longitude, 'pincode' => $pincode, 'state' => $state, 'city' => $city]);
+    $update = $action->db->update('zuraud_doner', " id=" . $id, ['address' => $address,  'pincode' => $pincode, 'state' => $state, 'city' => $city]);
     if ($update) {
         echo $action->db->json(200, "Location updated successfully");
         http_response_code(200);
@@ -182,7 +181,7 @@ function fetchuserbyid()
 {
     global $action;
     $id = $action->db->setPostRequiredField('loguserid', 'Id is required');
-    $user = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$id' AND `reg_status`=1");
+    $user = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$id' AND `reg_status`=1");
     if ($user) {
         echo $action->db->json(200, "User fetched successfully", '', $user[0]);
         http_response_code(200);
@@ -194,21 +193,16 @@ function fetchuserbyid()
     }
 }
 
-function reset_password()
+function request_otp()
 {   
     
     global $action;
     $phone = $action->db->setPostRequiredField('phone', 'Phone is required');
-    // $password = $action->db->setPostRequiredField('password', 'Password is required');
-    // $cpassword = $action->db->setPostRequiredField('cpassword', 'Confirm Password is required');
-    // if ($password != $cpassword) {
-    //     echo $action->db->json(400, "Password and Confirm Password does not match", 'cpassword');
-    //     http_response_code(400);
-    //     return;
-    // }
+    
     $user = $action->db->sql("SELECT `id` FROM `zuraud_doner` WHERE `phone`='$phone' AND `reg_status`=1");
     if ($user) {
-        $otp = $action->custom->generateOTP(4);
+        //$otp = $action->custom->generateOTP(4);
+      $otp=1234;
 
         $response = $action->db->update('zuraud_doner', " id=" . $user[0]['id'], ['otp' => $otp, 'otp_expiry' => date('Y-m-d H:i:s', strtotime('+5 minutes'))]);
         if ($response) {
@@ -227,11 +221,39 @@ function reset_password()
     }
 }
 
+
+
 function verifyResetPasswordOTP()
 {
     global $action;
     $id = $action->db->setPostRequiredField('id', 'Id is required');
     $otp = $action->db->setPostRequiredField('otp', 'OTP is required');
+  
+    $user = $action->db->sql("SELECT `id`,`otp`,`otp_expiry` FROM `zuraud_doner` WHERE `id`='$id'");
+    if ($user) {
+        if ($user[0]['otp'] == $otp && strtotime($user[0]['otp_expiry']) > time()) {
+            
+                echo $action->db->json(200, 'OTP Verified', '', $user[0]);
+                http_response_code(200);
+                return;
+            
+        } else {
+            echo $action->db->json(400, "Invalid OTP OR OTP Expired");
+            http_response_code(400);
+            return;
+        }
+    } else {
+        echo $action->db->json(400, "Invalid User");
+        http_response_code(400);
+        return;
+    }
+}
+
+function ResetPassword()
+{
+    global $action;
+    $id = $action->db->setPostRequiredField('id', 'Id is required');
+    
     $password = $action->db->setPostRequiredField('password', 'Password is required');
     $cpassword = $action->db->setPostRequiredField('cpassword', 'Confirm Password is required');
     if ($password != $cpassword) {
@@ -239,24 +261,20 @@ function verifyResetPasswordOTP()
         http_response_code(400);
         return;
     }
-    $user = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`otp`,`otp_expiry` FROM `zuraud_doner` WHERE `id`='$id'");
+    $user = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup` FROM `zuraud_doner` WHERE `id`='$id'");
     if ($user) {
-        if ($user[0]['otp'] == $otp && strtotime($user[0]['otp_expiry']) > time()) {
-            $response = $action->db->update('zuraud_doner', " id=" . $user[0]['id'], ['password' => sha1($password), 'otp' => null, 'otp_expiry' => null]);
-            if ($response) {
-                echo $action->db->json(200, "Password updated successfully Login to Continue", '', $user[0]);
-                http_response_code(200);
-                return;
-            } else {
-                echo $action->db->json(500, "Internal Server Error");
-                http_response_code(500);
-                return;
-            }
+        
+        $response = $action->db->update('zuraud_doner', " id=" . $user[0]['id'], ['password' => sha1($password), 'otp' => null, 'otp_expiry' => null]);
+        if ($response) {
+            echo $action->db->json(200, "Password updated successfully Login to Continue", '', $user[0]);
+            http_response_code(200);
+            return;
         } else {
-            echo $action->db->json(400, "Invalid OTP");
-            http_response_code(400);
+            echo $action->db->json(500, "Internal Server Error");
+            http_response_code(500);
             return;
         }
+        
     } else {
         echo $action->db->json(400, "Invalid User");
         http_response_code(400);
@@ -283,8 +301,6 @@ function newDonationReq()
     $criticalStatus = $action->db->setPostRequiredField('criticalStatus', 'Critical Status is required');
     $criticalStatus = $criticalStatus == "true" ? 1 : 0;
     $address = $action->db->setPostRequiredField('address', 'Address is required');
-    $latitude = $action->db->setPostRequiredField('latitude', 'Latitude is required');
-    $longitude = $action->db->setPostRequiredField('longitude', 'Longitude is required');
     $pincode = $action->db->setPostRequiredField('pincode', 'Pincode is required');
     $state = $action->db->setPostRequiredField('state', 'State is required');
     $city = $action->db->setPostRequiredField('city', 'City is required');
@@ -297,7 +313,7 @@ function newDonationReq()
     }
 
     if (empty($id)) {
-        $response = $action->db->insert('zuraud_donation_request', ['user_id' => $user_id, 'bloodGroup' => $bloodGroup, 'patientName' => $patientName, 'attendeePhone' => $attendeePhone, 'unit' => $unit, 'requiredDate' => $requiredDate, 'additionalNote' => $additionalNote, 'criticalStatus' => $criticalStatus, 'address' => $address, 'latitude' => $latitude, 'longitude' => $longitude, 'pincode' => $pincode, 'state' => $state, 'city' => $city]);
+        $response = $action->db->insert('zuraud_donation_request', ['user_id' => $user_id, 'bloodGroup' => $bloodGroup, 'patientName' => $patientName, 'attendeePhone' => $attendeePhone, 'unit' => $unit, 'requiredDate' => $requiredDate, 'additionalNote' => $additionalNote, 'criticalStatus' => $criticalStatus, 'address' => $address, 'pincode' => $pincode, 'state' => $state, 'city' => $city]);
         if ($response) {
             echo $action->db->json(201, "Donation Request added successfully");
             http_response_code(201);
@@ -308,7 +324,7 @@ function newDonationReq()
             return;
         }
     } else {
-        $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['bloodGroup' => $bloodGroup, 'patientName' => $patientName, 'attendeePhone' => $attendeePhone, 'unit' => $unit, 'requiredDate' => $requiredDate, 'additionalNote' => $additionalNote, 'criticalStatus' => $criticalStatus, 'address' => $address, 'latitude' => $latitude, 'longitude' => $longitude, 'pincode' => $pincode, 'state' => $state, 'city' => $city]);
+        $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['bloodGroup' => $bloodGroup, 'patientName' => $patientName, 'attendeePhone' => $attendeePhone, 'unit' => $unit, 'requiredDate' => $requiredDate, 'additionalNote' => $additionalNote, 'criticalStatus' => $criticalStatus, 'address' => $address,  'pincode' => $pincode, 'state' => $state, 'city' => $city]);
         if ($response) {
             echo $action->db->json(200, "Donation Request updated successfully");
             http_response_code(200);
@@ -331,7 +347,7 @@ function fetchMyDonationReq()
         return;
     }
     $user_id = $AuthendicteRequest['loguserid'];
-    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city`,`status` FROM `zuraud_donation_request` WHERE `user_id`='$user_id'");
+    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`pincode`,`state`,`city`,`status`  FROM `zuraud_donation_request` WHERE `user_id`='$user_id'");
     if ($donationReq) {
         echo $action->db->json(200, "Donation Request fetched successfully", '', $donationReq);
         http_response_code(200);
@@ -354,9 +370,9 @@ function fetchDonationReqforMe()
     }
     $user_id = $AuthendicteRequest['loguserid'];
 
-    $user = $action->db->sql("SELECT `id`,`bloodGroup`,`latitude`,`longitude`, `pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$user_id' AND `reg_status`=1");
+    $user = $action->db->sql("SELECT `id`,`bloodGroup`, `pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$user_id' AND `reg_status`=1");
 
-    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_donation_request` WHERE `bloodGroup`='" . $user[0]['bloodGroup'] . "' AND (`state`='" . $user[0]['state'] . "' OR `city`='" . $user[0]['city'] . "' OR `pincode`='" . $user[0]['pincode'] . "') AND `user_id`!='$user_id' AND `status` IN (0, 3) AND `requiredDate` > '" . date('Y-m-d H:i:s', strtotime('-7 days')) . "'");
+    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`pincode`,`state`,`city` FROM `zuraud_donation_request` WHERE `bloodGroup`='" . $user[0]['bloodGroup'] . "' AND (`state`='" . $user[0]['state'] . "' OR `city`='" . $user[0]['city'] . "' OR `pincode`='" . $user[0]['pincode'] . "') AND `user_id`!='$user_id' AND `status` IN (0, 3) AND `requiredDate` > '" . date('Y-m-d H:i:s', strtotime('-7 days')) . "'");
 
     if ($donationReq) {
         echo $action->db->json(200, "Donation Request fetched successfully", '', $donationReq);
@@ -380,12 +396,11 @@ function view_MyDonationReqById()
     }
     $user_id = $AuthendicteRequest['loguserid'];
     $id = $action->db->setPostRequiredField('id', 'Request Id is required');
-    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city`,`status`,`doner`,`request_date`,`approve_date` FROM `zuraud_donation_request` WHERE `user_id`='$user_id' AND `id`='$id'");
+    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`pincode`,`state`,`city`,`status`,`doner`,`request_date`,`approve_date` FROM `zuraud_donation_request` WHERE `user_id`='$user_id' AND `id`='$id'");
     
     if ($donationReq) {
-        // $potentialdoner = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `bloodGroup`='" . $donationReq[0]['bloodGroup'] . "' AND (`state`='" . $donationReq[0]['state'] . "' OR `city`='" . $donationReq[0]['city'] . "' OR `pincode`='" . $donationReq[0]['pincode'] . "') AND `id`!='$user_id' AND `reg_status`=1") ?: [];
-        
-        $doner = $action->db->sql("SELECT d.`id`,d.`uniqueId`,d.`name`,d.`email`,d.`phone`,d.`dob`,d.`gender`,d.`bloodGroup`,d.`address`,d.`latitude`,d.`longitude`,d.`pincode`,d.`state`,d.`city`,ad.id AS historyid,ad.status,ad.rejection_reason FROM `zuraud_doner` d JOIN `approved_donations` ad ON ad.user_id = '{$donationReq[0]['doner']}' AND ad.req_id= $id  WHERE d.`id`='" . $donationReq[0]['doner'] . "' AND d.`reg_status`=1 ORDER BY ad.id desc") ?: [];
+         
+        $doner = $action->db->sql("SELECT d.`id`,d.`uniqueId`,d.`name`,d.`email`,d.`phone`,d.`dob`,d.`gender`,d.`bloodGroup`,d.`address`,d.`pincode`,d.`state`,d.`city`,d.bloodGroup,ad.id AS historyid,ad.status,ad.acceptance_date, ad.rejection_reason,ad.rejection_date,ad.approval_date,ad.rejected_by FROM `zuraud_doner` d JOIN `approved_donations` ad ON ad.user_id = '{$donationReq[0]['doner']}' AND ad.req_id= $id  WHERE d.`id`='" . $donationReq[0]['doner'] . "' AND d.`reg_status`=1 ORDER BY ad.id desc") ?: [];
         echo $action->db->json(200, "Donation Request fetched successfully", '', ['requestDetail' => $donationReq[0],  'doner' => $doner]);
         http_response_code(200);
         return;
@@ -407,9 +422,9 @@ function acceptDonationReq()
     }
     $user_id = $AuthendicteRequest['loguserid'];
     $id = $action->db->setPostRequiredField('id', 'Request Id is required');
-    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city`,`status`,`doner`,`request_date`,`approve_date` FROM `zuraud_donation_request` WHERE `user_id`!='$user_id' AND `id`='$id'");
+    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`pincode`,`state`,`city`,`status`,`doner`,`request_date`,`approve_date` FROM `zuraud_donation_request` WHERE `user_id`!='$user_id' AND `id`='$id'");
     if ($donationReq) {
-        $doner = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$user_id' AND `reg_status`=1") ?: [];
+        $doner = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$user_id' AND `reg_status`=1") ?: [];
         if (!$doner) {
             echo $action->db->json(400, "Invalid User");
             http_response_code(400);
@@ -515,7 +530,7 @@ function rejectDonation_requestor()
     $user_id = $AuthendicteRequest['loguserid'];
     $id = $action->db->setPostRequiredField('id', 'Request Id is required');
     $historyid= $action->db->setPostRequiredField('historyid', 'History Id is required');
-    $rejection_reason= $action->db->setPostRequiredField('remark', 'rejection Reason is required');
+    $rejection_reason= $action->db->validatePostData('remark') ?: '';
 
     $response = $action->db->update('zuraud_donation_request', " id=" . $id, ['status' => 3]);
     if ($response) {
@@ -592,7 +607,7 @@ function view_donation_req()
     }
     $user_id = $AuthendicteRequest['loguserid'];
     $id = $action->db->setPostRequiredField('id', 'Request Id is required');
-    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`latitude`,`longitude`,`pincode`,`state`,`city`,`status`,`doner`,`request_date`,`approve_date` FROM `zuraud_donation_request` WHERE  `id`='$id'");
+    $donationReq = $action->db->sql("SELECT `id`,`bloodGroup`,`patientName`,`attendeePhone`,`unit`,`requiredDate`,`additionalNote`,`criticalStatus`,`address`,`pincode`,`state`,`city`,`status`,`doner`,`request_date`,`approve_date` FROM `zuraud_donation_request` WHERE  `id`='$id'");
     
     if ($donationReq) {
         
@@ -628,6 +643,160 @@ function view_donation_history()
     } else {
         echo $action->db->json(400, "No Donation Request found");
         http_response_code(400);
+        return;
+    }
+}
+
+function edit_profile(){
+    global $action;
+    
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $user_id = $AuthendicteRequest['loguserid'];
+    
+    $name= $action->db->setPostRequiredField('name','Name is required');
+    $email= $action->db->setPostRequiredField('email','Email is required');
+    $duplicateemail= $action->db->sql("SELECT id FROM `zuraud_doner` WHERE `email`='$email' AND `id`!='$user_id'");
+    if($duplicateemail){
+        echo $action->db->json(400, "Email already registered with another user");
+        http_response_code(400);
+        return;
+    }
+    $dob= $action->db->setPostRequiredField('dob','Date of Birth  is required');
+    $gender= $action->db->setPostRequiredField('gender','Gender is required');
+    $bloodGroup= $action->db->setPostRequiredField('bloodGroup','Blood Group is required');
+    $state= $action->db->setPostRequiredField('state','State is required');
+    $city= $action->db->setPostRequiredField('city','City is required');
+    $pincode= $action->db->setPostRequiredField('pincode','Pincode is required');
+    $address= $action->db->setPostRequiredField('address','Address is required');
+    
+    $update= $action->db->update('zuraud_doner'," id= $user_id ",['name'=>$name,'email'=>$email,'dob'=>$dob,'gender'=>$gender,'bloodGroup'=>$bloodGroup,'state'=>$state,'city'=>$city,'pincode'=>$pincode,'address'=>$address]);
+    
+    if($update){
+        echo $action->db->json(200, "Profile updated successfully");
+        http_response_code(200);
+        return;
+    
+    }
+    else{
+        echo $action->db->json(500, "Internal Server Error");
+        http_response_code(500);
+        return;
+    }
+}
+
+
+function changePhoneOTP()
+{   
+    
+    global $action;
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $user_id = $AuthendicteRequest['loguserid'];
+    $phone = $action->db->setPostRequiredField('phone', 'Phone is required');
+    $duplicatephone= $action->db->sql("SELECT id FROM `zuraud_doner` WHERE `phone`='$phone' AND `id`!='$user_id'");
+    if($duplicatephone){
+        echo $action->db->json(400, "Phone number already registered with another user");
+        http_response_code(400);
+        return;
+    }
+    
+    if ($user_id) {
+        //$otp = $action->custom->generateOTP(4);
+      $otp=1234;
+
+        $response = $action->db->update('zuraud_doner', " id=" . $user_id, ['otp' => $otp, 'otp_expiry' => date('Y-m-d H:i:s', strtotime('+5 minutes'))]);
+        if ($response) {
+            echo $action->db->json(200, "OTP sent successfully to change phone number", '', ['id' => $user_id]);
+            http_response_code(200);
+            return;
+        } else {
+            echo $action->db->json(500, "Internal Server Error");
+            http_response_code(500);
+            return;
+        }
+    } else {
+        echo $action->db->json(400, "Invalid User");
+        http_response_code(400);
+        return;
+    }
+}
+
+function changePhone(){
+    global $action;
+    
+    $AuthendicteRequest = $action->db->AuthendicateRequest();
+    if (!$AuthendicteRequest['authenticated']) {
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    $user_id = $AuthendicteRequest['loguserid'];
+    
+    $phone= $action->db->setPostRequiredField('phone','Phone is required');
+    $otp= $action->db->setPostRequiredField('otp','OTP is required');
+    $duplicatephone= $action->db->sql("SELECT id FROM `zuraud_doner` WHERE `phone`='$phone' AND `id`!='$user_id'");
+    if($duplicatephone){
+        echo $action->db->json(400, "Phone number already registered with another user");
+        http_response_code(400);
+        return;
+    }
+    $user = $action->db->sql("SELECT `id`,`uniqueId`,`name`,`email`,`phone`,`dob`,`gender`,`bloodGroup`,`address`,`pincode`,`state`,`city` FROM `zuraud_doner` WHERE `id`='$user_id' AND `otp`=$otp AND `otp_expiry` > '".date('Y-m-d H:i:s')."'");
+    if($user){
+        $update= $action->db->update('zuraud_doner'," id= $user_id ",['phone'=>$phone,'otp'=>null,'otp_expiry'=>null]);
+        if($update){
+            echo $action->db->json(200, "Phone number updated successfully");
+            http_response_code(200);
+            return;
+        
+        }
+        else{
+            echo $action->db->json(500, "Internal Server Error");
+            http_response_code(500);
+            return;
+        }
+    }
+    else{
+        echo $action->db->json(400, "Invalid OTP");
+        http_response_code(400);
+        return;
+    }
+}
+
+function contactUs(){
+    global $action;
+    
+    $AuthendicteRequest= $action->db->AuthendicateRequest();
+    if($AuthendicteRequest['authenticated']){
+        $user_id= $AuthendicteRequest['loguserid'];
+    }
+    else{
+        echo $action->db->json(401, "Unauthorized access.");
+        http_response_code(401);
+        return;
+    }
+    
+    $message= $action->db->setPostRequiredField('message','Message is required');
+    
+    $insert= $action->db->insert('zuraud_contact_us',['message'=>$message, 'user_id'=>$user_id]);
+    
+    if($insert){
+        echo $action->db->json(200, "Your query has been submitted successfully.");
+        http_response_code(200);
+        return;
+    
+    }
+    else{
+        echo $action->db->json(500, "Internal Server Error");
+        http_response_code(500);
         return;
     }
 }
