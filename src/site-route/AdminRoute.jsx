@@ -4,15 +4,15 @@ import { AdminProvider } from "../site-components/Admin/ContextApi/AdminContext"
 import ProtectedRoute from "../site-pages/Admin/ProtectedRoute";
 import "../site-components/Admin/assets/css/custom.css";
 import "../site-components/Admin/assets/css/App.min.css";
-import Navbar from "../site-components/Admin/components/Navbar";
+const Navbar=lazy(()=>import("../site-components/Admin/components/Navbar"));
 import IsAdminLoggedIn from "../site-pages/Admin/IsAdminLoggedIn";
-import BloodRequestList from "../site-pages/Admin/Donation/BloodRequestList";
-import DonationList from "../site-pages/Admin/Donation/DonationList";
+const BloodRequestList=lazy(()=>import("../site-pages/Admin/Donation/BloodRequestList"));
+const DonationList=lazy(()=>import("../site-pages/Admin/Donation/DonationList"));
 import { ToastContainer } from "react-toastify";
-import DonorList from "../site-pages/Admin/Donor/DonorList";
-import BloodRequestViewDetail from "../site-pages/Admin/Donation/BloodRequestViewDetail";
-import DonorDetailView from "../site-pages/Admin/Donor/DonorDetailView";
-import Contact from "../site-pages/Admin/Inquery/Contact";
+const DonorList=lazy(()=>import("../site-pages/Admin/Donor/DonorList"));
+const BloodRequestViewDetail=lazy(()=>import("../site-pages/Admin/Donation/BloodRequestViewDetail"));
+const DonorDetailView=lazy(()=>import("../site-pages/Admin/Donor/DonorDetailView"));
+const Contact=lazy(()=>import("../site-pages/Admin/Inquery/Contact"));
 const Login = lazy(() => import("../site-pages/Admin/Registration/Login"));
 const Dashboard = lazy(() => import("../site-pages/Admin/Dashboard/Dashboard"));
 

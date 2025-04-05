@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import Select from "react-select";
 import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/Column";
+import { Column } from "primereact/column";
 import secureLocalStorage from "react-secure-storage";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { Link } from "react-router-dom";
