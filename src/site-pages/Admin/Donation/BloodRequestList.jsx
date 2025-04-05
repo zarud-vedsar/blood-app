@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import Select from "react-select";
 import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/Column";
+import { Column } from 'primereact/column'; // ✅ lowercase
 import secureLocalStorage from "react-secure-storage";
 import { FormField } from "../../../site-components/admin/assets/FormField";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
@@ -240,11 +240,11 @@ function BloodRequestList() {
                         value={
                           formData.status !== ""
                             ? {
-                                value: formData.status,
-                                label: DonationStatusConstant.find(
-                                  (option) => option.value === formData.status
-                                )?.label,
-                              }
+                              value: formData.status,
+                              label: DonationStatusConstant.find(
+                                (option) => option.value === formData.status
+                              )?.label,
+                            }
                             : { value: "", label: "Select Status" }
                         }
                       />
@@ -267,9 +267,9 @@ function BloodRequestList() {
                         value={
                           formData.pincode
                             ? {
-                                value: formData.pincode,
-                                label: formData.pincode,
-                              }
+                              value: formData.pincode,
+                              label: formData.pincode,
+                            }
                             : { value: "", label: "Select Pin Code" }
                         }
                       />
@@ -291,9 +291,9 @@ function BloodRequestList() {
                         value={
                           formData.state
                             ? {
-                                value: formData.state,
-                                label: formData.state,
-                              }
+                              value: formData.state,
+                              label: formData.state,
+                            }
                             : { value: "", label: "Select State" }
                         }
                       />
@@ -315,9 +315,9 @@ function BloodRequestList() {
                         value={
                           formData.city
                             ? {
-                                value: formData.city,
-                                label: formData.city,
-                              }
+                              value: formData.city,
+                              label: formData.city,
+                            }
                             : { value: "", label: "Select City" }
                         }
                       />
