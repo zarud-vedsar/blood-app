@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
@@ -8,6 +7,7 @@ import { Link } from "react-router-dom";
 import IsDonorLoggedIn from "../IsDonorLoggedIn";
 import { toast } from "react-toastify";
 import HeaderWithBack from "../../../site-components/Donor/components/HeaderWithBack";
+import { IoArrowBack } from "react-icons/io5";
 
 const ForgetPassword = () => {
   useEffect(() => {
@@ -398,7 +398,8 @@ const ForgetPassword = () => {
                               className="text-center  mb-3"
                               style={{ color: "#0d6efd" }}
                             >
-                              <i className="fa-solid fa-arrow-left" style={{marginRight:"5px"}} ></i>
+                              <IoArrowBack  style={{marginRight:"5px"}} />
+
                               Back to login
                             </div>
                           </Link>
