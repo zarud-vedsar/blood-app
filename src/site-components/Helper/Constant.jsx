@@ -1,7 +1,7 @@
 
 
 
-export const PHP_API_URL = "http://localhost/blood-app/backend/php-server/controller";
+export const PHP_API_URL = "https://bloodtriptimas.space/backend/php-server/controller";
 
 // export const PHP_API_URL = "https://capitalxbharat.com/php-server/controller";
 

@@ -8,7 +8,7 @@ import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { capitalizeFirstLetter, formatDate } from "../../../site-components/Helper/HelperFunction";
 import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
+import { Column } from 'primereact/column'; // ✅ lowercase
 import { OverlayTrigger } from "react-bootstrap";
 import Tooltip from "react-bootstrap/Tooltip";
 
@@ -111,7 +111,7 @@ const DonorDetailView = () => {
 
                               <p className="col font-12 font-weight-semibold">
                                 {data?.doner?.name || "N/A"}
-                                
+
                               </p>
                             </li>
                             <li className="row">
@@ -153,7 +153,7 @@ const DonorDetailView = () => {
                                 {data?.doner?.phone || "N/A"}
                               </p>
                             </li>
-                            
+
                           </ul>
                         </div>
                         <div className="col-md-4">
@@ -168,7 +168,7 @@ const DonorDetailView = () => {
                               </p>
                               <div className="">:</div>
                               <p className="col font-12 font-weight-semibold ">
-                                {data?.doner?.email || "N/A"} 
+                                {data?.doner?.email || "N/A"}
                               </p>
                             </li>
                             <li className="row">
@@ -195,11 +195,11 @@ const DonorDetailView = () => {
                               </p>
                               <div className="">:</div>
                               <p className="col font-12 font-weight-semibold">
-                                {capitalizeFirstLetter(data?.doner?.gender )||
+                                {capitalizeFirstLetter(data?.doner?.gender) ||
                                   "N/A"}
                               </p>
                             </li>
-                           
+
                             <li className="row">
                               <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
                                 <i
@@ -243,7 +243,7 @@ const DonorDetailView = () => {
                                 {data?.doner?.city || "N/A"}
                               </p>
                             </li>
-                            
+
                             <li className="row">
                               <p className="col-sm-6 px-0 font-13 col-6 font-weight-semibold text-dark m-b-5">
                                 <i
@@ -259,7 +259,7 @@ const DonorDetailView = () => {
                             </li>
                           </ul>
                         </div>
-                       
+
                       </div>
                     </div>
                   </div>
@@ -270,142 +270,142 @@ const DonorDetailView = () => {
                 )}
               </div>
             </div>
-                
-                 <div className="card">
-                              <div className="card-body">
-                                {/* Search Box */}
-                
-                                <div className={`table-responsive ${loading ? "form" : ""}`}>
-                                  {data?.donation_request?.length > 0 ? (
-                                    <DataTable
-                                      value={data?.donation_request}
-                                      removableSort
-                                      paginator
-                                      rows={50}
-                                      rowsPerPageOptions={[50, 100, 200]}
-                                      emptyMessage="No records found"
-                                      className="p-datatable-custom"
-                                      tableStyle={{ minWidth: "50rem" }}
-                                      sortMode="multiple"
-                                    >
-                                      <Column
-                                        body={(row, { rowIndex }) => rowIndex + 1}
-                                        header="#"
-                                        sortable
-                                      />
-                
-                                      
-                                      <Column
-                                        header="Patient Name"
-                                        field="patientName"
-                                        sortable
-                                        body={(row) => (
-                                          <div className="d-flex">
-                                            <div>{row.patientName}</div>
-                                            <div>
-                                              {row.criticalStatus === 1 && (
-                                                <span className="badge badge-danger ml-2">
-                                                  Critical
-                                                </span>
-                                              )}
-                                            </div>
-                                          </div>
-                                        )}
-                                      />
-                
-                                     
-                                      <Column header="Unit" field="unit" sortable />
-                                      <Column
-                                        body={(row) => capitalizeFirstLetter(row.attendeePhone)}
-                                        header="Attendee Phone"
-                                        field="attendeePhone"
-                                        sortable
-                                      />
-                                     
-                                      <Column
-                                        body={(row) => formatDate(row.request_date)}
-                                        header="Requested Date"
-                                        field="request_date"
-                                        sortable
-                                      />
-                                      <Column
-                                        body={(row) => formatDate(row.requiredDate)}
-                                        header="Required Date"
-                                        field="requiredDate"
-                                        sortable
-                                      />
-                                      <Column
-                                        body={(row) => formatDate(row.acceptance_date)}
-                                        header="Accepted Date"
-                                        field="acceptance_date"
-                                        sortable
-                                      />
-                                      <Column
-                                        body={(row) => row.approval_date?formatDate(row.approval_date ):""}
-                                        header="Approval Date"
-                                        field="approval_date"
-                                        sortable
-                                      />
-                                      <Column
-                                        body={(row) => row.rejection_date?formatDate(row.rejection_date ):""}
-                                        header="Rejection Date"
-                                        field="rejection_date"
-                                        sortable
-                                      />
-                
-                                      <Column
-                                        header="Status"
-                                        field="status"
-                                        body={(row) => (
-                                          <div className="d-flex">
-                                            {row?.status === 0 && (
-                                              <span className="f-16 badge badge-warning mb-0">
-                                                Pending
-                                              </span>
-                                            )}
-                                            {row?.status === 1 && (
-                                              <span className="f-16 badge badge-success mb-0">
-                                                Received
-                                              </span>
-                                            )}
-                                            {row?.status === 2 && (
-                                              <span className="f-16 badge badge-danger mb-0">
-                                                Rejected
-                                              </span>
-                                            )}
-                                            
-                                          </div>
-                                        )}
-                                      />
-                
-                                      <Column
-                                        header="View"
-                                        body={(rowData) => (
-                                          <OverlayTrigger
-                                            placement="bottom"
-                                            overlay={
-                                              <Tooltip id={`tooltip-${rowData.id}`}>
-                                                View
-                                              </Tooltip>
-                                            }
-                                          >
-                                            <Link to={`/admin/blood-request/${rowData.donationid}`} className="text-warning">
-                                              <i className="fa-solid fa-eye"></i>
-                                            </Link>
-                                          </OverlayTrigger>
-                                        )}
-                                      />
-                                    </DataTable>
-                                  ) : (
-                                    <>
-                                      <div className="col-md-12 alert alert-danger">
-                                        Donation data not available
-                                      </div>
-                                    </>
-                                  )}
-                                </div>
-                              </div>
+
+            <div className="card">
+              <div className="card-body">
+                {/* Search Box */}
+
+                <div className={`table-responsive ${loading ? "form" : ""}`}>
+                  {data?.donation_request?.length > 0 ? (
+                    <DataTable
+                      value={data?.donation_request}
+                      removableSort
+                      paginator
+                      rows={50}
+                      rowsPerPageOptions={[50, 100, 200]}
+                      emptyMessage="No records found"
+                      className="p-datatable-custom"
+                      tableStyle={{ minWidth: "50rem" }}
+                      sortMode="multiple"
+                    >
+                      <Column
+                        body={(row, { rowIndex }) => rowIndex + 1}
+                        header="#"
+                        sortable
+                      />
+
+
+                      <Column
+                        header="Patient Name"
+                        field="patientName"
+                        sortable
+                        body={(row) => (
+                          <div className="d-flex">
+                            <div>{row.patientName}</div>
+                            <div>
+                              {row.criticalStatus === 1 && (
+                                <span className="badge badge-danger ml-2">
+                                  Critical
+                                </span>
+                              )}
                             </div>
+                          </div>
+                        )}
+                      />
+
+
+                      <Column header="Unit" field="unit" sortable />
+                      <Column
+                        body={(row) => capitalizeFirstLetter(row.attendeePhone)}
+                        header="Attendee Phone"
+                        field="attendeePhone"
+                        sortable
+                      />
+
+                      <Column
+                        body={(row) => formatDate(row.request_date)}
+                        header="Requested Date"
+                        field="request_date"
+                        sortable
+                      />
+                      <Column
+                        body={(row) => formatDate(row.requiredDate)}
+                        header="Required Date"
+                        field="requiredDate"
+                        sortable
+                      />
+                      <Column
+                        body={(row) => formatDate(row.acceptance_date)}
+                        header="Accepted Date"
+                        field="acceptance_date"
+                        sortable
+                      />
+                      <Column
+                        body={(row) => row.approval_date ? formatDate(row.approval_date) : ""}
+                        header="Approval Date"
+                        field="approval_date"
+                        sortable
+                      />
+                      <Column
+                        body={(row) => row.rejection_date ? formatDate(row.rejection_date) : ""}
+                        header="Rejection Date"
+                        field="rejection_date"
+                        sortable
+                      />
+
+                      <Column
+                        header="Status"
+                        field="status"
+                        body={(row) => (
+                          <div className="d-flex">
+                            {row?.status === 0 && (
+                              <span className="f-16 badge badge-warning mb-0">
+                                Pending
+                              </span>
+                            )}
+                            {row?.status === 1 && (
+                              <span className="f-16 badge badge-success mb-0">
+                                Received
+                              </span>
+                            )}
+                            {row?.status === 2 && (
+                              <span className="f-16 badge badge-danger mb-0">
+                                Rejected
+                              </span>
+                            )}
+
+                          </div>
+                        )}
+                      />
+
+                      <Column
+                        header="View"
+                        body={(rowData) => (
+                          <OverlayTrigger
+                            placement="bottom"
+                            overlay={
+                              <Tooltip id={`tooltip-${rowData.id}`}>
+                                View
+                              </Tooltip>
+                            }
+                          >
+                            <Link to={`/admin/blood-request/${rowData.donationid}`} className="text-warning">
+                              <i className="fa-solid fa-eye"></i>
+                            </Link>
+                          </OverlayTrigger>
+                        )}
+                      />
+                    </DataTable>
+                  ) : (
+                    <>
+                      <div className="col-md-12 alert alert-danger">
+                        Donation data not available
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
 
           </div>
         </div>

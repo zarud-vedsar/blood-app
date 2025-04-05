@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import Select from "react-select";
 import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
+import { Column } from 'primereact/column'; // ✅ lowercase
 import secureLocalStorage from "react-secure-storage";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
 import { Link } from "react-router-dom";
@@ -181,9 +181,9 @@ function DonorList() {
                         value={
                           formData.pincode
                             ? {
-                                value: formData.pincode,
-                                label: formData.pincode,
-                              }
+                              value: formData.pincode,
+                              label: formData.pincode,
+                            }
                             : { value: "", label: "Select Pin Code" }
                         }
                       />
@@ -205,9 +205,9 @@ function DonorList() {
                         value={
                           formData.state
                             ? {
-                                value: formData.state,
-                                label: formData.state,
-                              }
+                              value: formData.state,
+                              label: formData.state,
+                            }
                             : { value: "", label: "Select State" }
                         }
                       />
@@ -229,9 +229,9 @@ function DonorList() {
                         value={
                           formData.city
                             ? {
-                                value: formData.city,
-                                label: formData.city,
-                              }
+                              value: formData.city,
+                              label: formData.city,
+                            }
                             : { value: "", label: "Select City" }
                         }
                       />

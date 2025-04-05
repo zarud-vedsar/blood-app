@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import Select from "react-select";
 import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
+import { Column } from 'primereact/column'; // ✅ lowercase
 import secureLocalStorage from "react-secure-storage";
 import { FormField } from "../../../site-components/admin/assets/FormField";
 import { bloodGroups } from "../../../site-components/Helper/BloodGroupConstant";
@@ -239,9 +239,9 @@ function DonationList() {
                         value={
                           formData.pincode
                             ? {
-                                value: formData.pincode,
-                                label: formData.pincode,
-                              }
+                              value: formData.pincode,
+                              label: formData.pincode,
+                            }
                             : { value: "", label: "Select Pin Code" }
                         }
                       />
@@ -263,9 +263,9 @@ function DonationList() {
                         value={
                           formData.state
                             ? {
-                                value: formData.state,
-                                label: formData.state,
-                              }
+                              value: formData.state,
+                              label: formData.state,
+                            }
                             : { value: "", label: "Select State" }
                         }
                       />
@@ -287,9 +287,9 @@ function DonationList() {
                         value={
                           formData.city
                             ? {
-                                value: formData.city,
-                                label: formData.city,
-                              }
+                              value: formData.city,
+                              label: formData.city,
+                            }
                             : { value: "", label: "Select City" }
                         }
                       />
