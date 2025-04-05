@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState, memo } from "react";
 import { RiMenuFold3Fill, RiMenuFold4Fill } from "react-icons/ri";
-import logo from "../../../site-components/common/assets/img/logo-donation.avif";
+import logo from "../../../site-components/common/assets/img/logo-with-content.png";
 import userImg from "../../../site-components/common/assets/img/user.png";
 import { useAdminContext } from "../../../site-components/Admin/ContextApi/AdminContext"
 import {

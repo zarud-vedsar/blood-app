@@ -5,7 +5,7 @@ import axios from "axios";
 import { PHP_API_URL } from "../../../site-components/Helper/Constant";
 import { useAdminContext } from "../../../site-components/Admin/ContextApi/AdminContext";
 import secureLocalStorage from "react-secure-storage";
-import logo from "../../../site-components/common/assets/img/logo-donation.avif";
+import logo from "../../../site-components/common/assets/img/logo-with-content.png";
 import { MdMailOutline } from "react-icons/md";
 import { AiOutlineLock } from "react-icons/ai";
 import { toast } from "react-toastify";
@@ -95,7 +95,7 @@ const Login = () => {
                       <img
                         className="img-fluid rounded-5"
                         style={{ maxWidth: "30%" }}
-                        alt="NLU Logo"
+                        alt="Logo"
                         src={logo}
                       />
                       <h2 className="h4_new">Sign In</h2>
